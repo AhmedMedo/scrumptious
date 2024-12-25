@@ -1,0 +1,1965 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Scrumptious API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/auth/change-mobile-by-email": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "b30628dcaa54cd19c44f1653dfe21d74",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ChangeMobileByEmailRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email has been resend",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/verify-email": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "527677d847cdc1198a5407af781b4b0d",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/EmailVerificationRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email has been verified",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/forget-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "cc04b29effe265183bf715cbaa3a95de",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ForgetPasswordRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Forget Password code sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/forget-password-verification": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "560a40ac4617ac0b43485b46d46d267a",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserVerificationRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login-as-guest": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "527264bd86b9e69346e9d00af52b5aba",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/GuestLoginRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string"
+                                                },
+                                                "meta": {
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string"
+                                                        },
+                                                        "token_type": {
+                                                            "type": "string"
+                                                        },
+                                                        "expires_at": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "cart": {
+                                                    "properties": {
+                                                        "count": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "daacfb71f3984b84e0336881cc0ecbc7",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/logout": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "logout",
+                "description": "logout user",
+                "operationId": "76f377271c9ce8067c2423a795cc551b",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": null,
+                        "description": "Bearer Token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logout success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/profile": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "85fda39186fcf4fd3a9d49d67efed1cf",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "7ee576ecc97fa3c78224fab899014e37",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/RegisterRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/resend-email-verification": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "286eadfb996a0d4d13529fa5d0073939",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ResendEmailVerificationRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Email has been resend",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/resend-otp": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "1714d7d462b6b632c2b299d1989a4301",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ResendOtpRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "OTP has been sent successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/reset-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "5592c7b52372c5b9aa63aaaa4e5b12b9",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ResetPasswordRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password has been reset successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/verification": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "74caec9675372ba86dc9d3beb9d303a8",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UserVerificationRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "uuid": {
+                                                    "type": "string"
+                                                },
+                                                "first_name": {
+                                                    "type": "string"
+                                                },
+                                                "last_name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "phone_number": {
+                                                    "type": "string"
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean"
+                                                },
+                                                "created_at": {
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string"
+                                                },
+                                                "meta": {
+                                                    "properties": {
+                                                        "token": {
+                                                            "type": "string"
+                                                        },
+                                                        "token_type": {
+                                                            "type": "string"
+                                                        },
+                                                        "expires_at": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "cart": {
+                                                    "properties": {
+                                                        "count": {
+                                                            "type": "integer"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/notifications": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get notifications",
+                "description": "Get notifications",
+                "operationId": "1efbab925e5f0dc8e6fb01c24fedce0a",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": null,
+                        "description": "Bearer Token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/change-phone": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "8ab9dc66bc79d03d675534dd2d819e95",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ChangePhoneRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/change-email": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "0e17fe76aec5d01b7f45fd6193b8378b",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ChangeEmailRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/change-password": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "60be20ce78994444b115537c0d6a60c0",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ChangePasswordRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/delete-account": {
+            "delete": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "48f23225f0812500dc733d033e159200",
+                "responses": {
+                    "200": {
+                        "description": "Account Deleted Successfully ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Account Deleted Successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/update-profile": {
+            "patch": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "ff1029a30d43b9ad010f873131e36d50",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateProfileRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/brands": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get Brands",
+                "description": "Get Brands",
+                "operationId": "f9e69ce247fbcddbf38d4d218af3343f",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/config": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get config",
+                "description": "Get config",
+                "operationId": "cd94ecfd1231b5f434a3015e491838de",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "contents": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string",
+                                                                    "enum": [
+                                                                        "privacy",
+                                                                        "terms",
+                                                                        "about_us"
+                                                                    ]
+                                                                },
+                                                                "pdf": {
+                                                                    "type": "string"
+                                                                },
+                                                                "html": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "basic_data": {
+                                                        "properties": {
+                                                            "categories": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "uuid": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "occasions": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "uuid": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "image": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "templates": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "uuid": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "image": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "contracted_avenues": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "uuid": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "location_address": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "location_url": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "countries": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "uuid": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "code": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "created_at": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "vendors": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        },
+                                                                        "slug": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/countries": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get countries",
+                "description": "Get countries",
+                "operationId": "0d4d3e64cc32a7934b88fd099fb53019",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "flag": {
+                                                        "type": "string"
+                                                    },
+                                                    "iso_code": {
+                                                        "type": "string"
+                                                    },
+                                                    "iso3_code": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/customer-support": {
+            "post": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "customer-support",
+                "description": "customer-support",
+                "operationId": "5fe2ebd7a6c1a7aca01487f582af862d",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CustomerSupportRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/faq": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Get faq",
+                "description": "Get faq",
+                "operationId": "f5896f647bb6d55c293d1abe5a4f5f39",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Faq Filter",
+                        "required": false,
+                        "example": "general"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "question": {
+                                                        "type": "string"
+                                                    },
+                                                    "answer": {
+                                                        "type": "string"
+                                                    },
+                                                    "type": {
+                                                        "type": "string"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/newsletter": {
+            "post": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "newsletters",
+                "description": "newsletters",
+                "operationId": "3d8cb004c858bfb7eb4ab1a596217246",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewsletterRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/partners": {
+            "post": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Partners",
+                "description": "Partners",
+                "operationId": "3aff8d5d77973e03258a1fef925a5c90",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/PartnersRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/upload-media": {
+            "post": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Upload Media",
+                "description": "Upload Media",
+                "operationId": "8f0073461c25f9c64baa930a2c74922f",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UploadMediaRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "file_path": {
+                                                        "type": "string",
+                                                        "example": "files/temp/1.jpg"
+                                                    },
+                                                    "file_url": {
+                                                        "type": "string",
+                                                        "example": "http://localhost:8000/storage/files/temp/1.jpg"
+                                                    },
+                                                    "file_name": {
+                                                        "type": "string",
+                                                        "example": "1.jpg"
+                                                    },
+                                                    "mime_type": {
+                                                        "type": "string",
+                                                        "example": "image/jpeg"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserViewModel": {
+                "title": "UserViewModel",
+                "description": "User View Model",
+                "required": [
+                    "uuid",
+                    "email",
+                    "first_name",
+                    "last_name",
+                    "phone_number",
+                    "is_active",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "type": "string"
+                    },
+                    "phone_number": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "properties": {
+                            "uuid": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "iso2_code": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "postal_code": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "is_active": {
+                        "type": "boolean"
+                    },
+                    "is_email_verified": {
+                        "type": "boolean"
+                    },
+                    "is_phone_verified": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Meta": {
+                "properties": {
+                    "total": {
+                        "type": "integer"
+                    },
+                    "per_page": {
+                        "type": "integer"
+                    },
+                    "current_page": {
+                        "type": "integer"
+                    },
+                    "last_page": {
+                        "type": "integer"
+                    },
+                    "from": {
+                        "type": "integer"
+                    },
+                    "to": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "DataTable": {
+                "properties": {
+                    "draw": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "recordsTotal": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "recordsFiltered": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    },
+                    "input": {
+                        "properties": {
+                            "columns": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "column_name"
+                                        },
+                                        "searchable": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "orderable": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "search": {
+                                            "properties": {
+                                                "value": {
+                                                    "type": "string",
+                                                    "example": "column value"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object",
+                        "additionalProperties": {
+                            "description": "Whatever you pass to request body will be present here under the same key, with the same value.",
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "ChangeEmailRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "description": "email",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ChangeMobileByEmailRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "country_code",
+                                "phone_number"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "country_code": {
+                                    "type": "string"
+                                },
+                                "phone_number": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ChangePasswordRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "old_password",
+                                "new_password"
+                            ],
+                            "properties": {
+                                "old_password": {
+                                    "description": "Old Password",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "description": "New Password",
+                                    "type": "string"
+                                },
+                                "password_confirmation": {
+                                    "description": "Confirm Password",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ChangePhoneRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "country_code",
+                                "phone_number"
+                            ],
+                            "properties": {
+                                "country_code": {
+                                    "type": "string"
+                                },
+                                "phone_number": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "EmailVerificationRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "verification_token"
+                            ],
+                            "properties": {
+                                "verification_token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ForgetPasswordRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "description": "Email or phone",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "GuestLoginRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "name",
+                                "email"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "description": "name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "LoginRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "username",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "description": "email or phone number",
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "RegisterRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "password",
+                                "first_name",
+                                "last_name",
+                                "phone_number"
+                            ],
+                            "properties": {
+                                "first_name": {
+                                    "type": "string"
+                                },
+                                "last_name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "password_confirmation": {
+                                    "type": "string"
+                                },
+                                "country": {
+                                    "type": "string"
+                                },
+                                "country_code": {
+                                    "type": "string"
+                                },
+                                "phone_number": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResendEmailVerificationRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResendOtpRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "token",
+                                "type"
+                            ],
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResetPasswordRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "forget_password_token",
+                                "password",
+                                "password_confirmation"
+                            ],
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "password_confirmation": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateProfileRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "first_name",
+                                "last_name"
+                            ],
+                            "properties": {
+                                "first_name": {
+                                    "description": "First Name",
+                                    "type": "string"
+                                },
+                                "last_name": {
+                                    "description": "Last Name",
+                                    "type": "string"
+                                },
+                                "address": {
+                                    "description": "Address",
+                                    "type": "string"
+                                },
+                                "postal_code": {
+                                    "description": "Postal Code",
+                                    "type": "string"
+                                },
+                                "country_uuid": {
+                                    "description": "Country Uuid",
+                                    "type": "string"
+                                },
+                                "image": {
+                                    "description": "User Image",
+                                    "properties": {
+                                        "file_path": {
+                                            "type": "string"
+                                        },
+                                        "file_url": {
+                                            "type": "string"
+                                        },
+                                        "file_name": {
+                                            "type": "string"
+                                        },
+                                        "mime_type": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UserVerificationRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "token",
+                                "otp"
+                            ],
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                },
+                                "otp": {
+                                    "type": "string"
+                                },
+                                "is_change_mobile": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "CustomerSupportRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "full_name",
+                                "email",
+                                "message"
+                            ],
+                            "properties": {
+                                "full_name": {
+                                    "description": "name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "email",
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "description": "message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "NewsletterRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "description": "email",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "PartnersRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "full_name",
+                                "email",
+                                "message"
+                            ],
+                            "properties": {
+                                "full_name": {
+                                    "description": "name",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "email",
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "description": "message",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UploadMediaRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "files"
+                            ],
+                            "properties": {
+                                "files": {
+                                    "description": "File",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "example": "files/temp/1.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "headers": {
+            "Authorization": {
+                "description": "Bearer Token",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Content",
+            "description": "Content"
+        }
+    ]
+}
