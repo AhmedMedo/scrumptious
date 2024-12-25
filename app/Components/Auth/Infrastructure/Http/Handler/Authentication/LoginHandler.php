@@ -1,0 +1,78 @@
+<?php
+
+namespace App\Components\Auth\Infrastructure\Http\Handler\Authentication;
+
+use App\Components\Auth\Application\Service\UserServiceInterface;
+use App\Components\Auth\Domain\Exception\AccountInactiveException;
+use App\Components\Auth\Domain\Exception\UserNotFoundException;
+use App\Components\Auth\Domain\Exception\WrongCredentialsException;
+use App\Components\Auth\Infrastructure\Http\Request\LoginRequest;
+use App\Helpers\TelegramLogger;
+use App\Libraries\Base\Http\Handler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
+use OpenApi\Attributes as OA;
+
+#[OA\Post(
+    path: '/api/v1/auth/login',
+    requestBody: new OA\RequestBody('#/components/requestBodies/LoginRequest'),
+    tags: ['Auth'],
+    responses: [
+        new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(
+            properties: [
+                new OA\Property(property: 'status', type: 'string'),
+                new OA\Property(property: 'message', type: 'string'),
+                new OA\Property(property: 'data', properties: [
+                    new OA\Property(property: 'token', type: 'string'),
+                ]),
+            ],
+            type: 'object'
+        )),
+    ]
+)]
+class LoginHandler extends Handler
+{
+    public function __construct(
+        private readonly UserServiceInterface $userService,
+        private readonly TelegramLogger $telegramLogger
+    ) {
+    }
+
+
+    /**
+     * @param LoginRequest $request
+     *
+     * @return JsonResponse
+     *
+     * @throws ValidationException
+     */
+    public function __invoke(LoginRequest $request)
+    {
+        try {
+            $userVerificationDto = $this->userService->login($request->toArray());
+        } catch (WrongCredentialsException $exception) {
+            $this->telegramLogger->log([
+                'message' => $exception->getMessage(),
+                'username' => $request->username,
+                'password' => $request->password
+            ]);
+            throw ValidationException::withMessages([
+                'password' => [$exception->getMessage()],
+            ]);
+        } catch (AccountInactiveException | UserNotFoundException $exception) {
+            $this->telegramLogger->log([
+                'message' => $exception->getMessage(),
+                'username' => $request->username,
+                'password' => $request->password
+            ]);
+            throw ValidationException::withMessages([
+                'email' => [$exception->getMessage()],
+            ]);
+        }
+
+        return $this->successResponseWithData([
+            'token' => $userVerificationDto->token(),
+            'phone_number' => $userVerificationDto->phoneNumber(),
+        ]);
+    }
+}
