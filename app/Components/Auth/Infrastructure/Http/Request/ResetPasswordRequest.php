@@ -35,7 +35,6 @@ class ResetPasswordRequest extends FormRequest
                 'string',
                 'min:8',
                 'confirmed',
-                new OldPasswordRule()
             ],
         ];
     }

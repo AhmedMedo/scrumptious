@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use League\Fractal;
 use OpenApi\Attributes as OA;
 
-#[OA\Info(title: "Giftit API Documentation", version: "1.0.0")]
+#[OA\Info(version: "1.0.0", title: "Scrumptious API Documentation")]
 #[OA\Schema(
     schema: 'Meta',
     properties: [

@@ -24,7 +24,6 @@ class UserDto
         public readonly ?string $countryIsoCode = null,
         public readonly bool $isEmailVerified = false,
         public readonly bool $isPhoneVerified = false,
-        public readonly bool $isSandbox = false,
         public readonly ?string $countryCode = null,
     ) {
     }
@@ -112,11 +111,6 @@ class UserDto
     public function IsPhoneVerified(): bool
     {
         return $this->isPhoneVerified;
-    }
-
-    public function IsSandbox(): bool
-    {
-        return $this->isSandbox;
     }
 
     public function CountryCode(): ?string

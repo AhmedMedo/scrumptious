@@ -21,7 +21,7 @@ class UserVerificationRepository implements UserVerificationRepositoryInterface
                 'type'       => $typeEnum->value,
                 'token'      => Str::random(32),
 //                'otp'        => \App::environment('local', 'development') ? config('giftit.default_otp') : rand(1000, 9999),
-                'otp'        => $isSandbox ? config('giftit.default_otp') : rand(1000, 9999),
+                'otp'        => config('app.default_otp')
 
             ]
         );

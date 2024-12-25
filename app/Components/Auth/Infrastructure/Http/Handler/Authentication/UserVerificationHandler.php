@@ -89,9 +89,6 @@ class UserVerificationHandler extends Handler
                         'expires_at' => $accessToken->token->expires_at->toDateTimeString(),
                         'is_guest' => $userEntity->hasRole(RoleEnum::GUEST->value) ? 1 : 0,
                     ],
-                    'cart' => [
-                        'count' => $userEntity->activeCart()?->giftCardOrders->count() ?? 0,
-                    ]
                 ]
             )
         );

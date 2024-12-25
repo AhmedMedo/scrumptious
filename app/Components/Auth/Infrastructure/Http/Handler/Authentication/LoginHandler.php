@@ -34,7 +34,6 @@ class LoginHandler extends Handler
 {
     public function __construct(
         private readonly UserServiceInterface $userService,
-        private readonly TelegramLogger $telegramLogger
     ) {
     }
 
@@ -51,20 +50,11 @@ class LoginHandler extends Handler
         try {
             $userVerificationDto = $this->userService->login($request->toArray());
         } catch (WrongCredentialsException $exception) {
-            $this->telegramLogger->log([
-                'message' => $exception->getMessage(),
-                'username' => $request->username,
-                'password' => $request->password
-            ]);
+
             throw ValidationException::withMessages([
                 'password' => [$exception->getMessage()],
             ]);
         } catch (AccountInactiveException | UserNotFoundException $exception) {
-            $this->telegramLogger->log([
-                'message' => $exception->getMessage(),
-                'username' => $request->username,
-                'password' => $request->password
-            ]);
             throw ValidationException::withMessages([
                 'email' => [$exception->getMessage()],
             ]);

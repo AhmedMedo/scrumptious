@@ -42,7 +42,6 @@ class RegisterRequest extends FormRequest
             'country_code' => 'nullable|string',
             'phone_number' => [
                 'nullable',
-                new UserPhoneCountRule()
             ],
             'address' => 'nullable|string',
         ];

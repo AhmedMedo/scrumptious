@@ -51,7 +51,6 @@ class UserViewModel
         private readonly ?string $countryIsoCode = null,
         private readonly bool $isEmailVerified = false,
         private readonly bool $isPhoneVerified = false,
-        private readonly bool $isSandbox = false,
         private readonly ?string $countryCode = null,
     ) {
     }
@@ -80,7 +79,6 @@ class UserViewModel
             'is_active' => $this->isActive,
             'is_email_verified' => $this->isEmailVerified,
             'is_phone_verified' => $this->isPhoneVerified,
-            'is_sandbox' => $this->isSandbox,
             'force_logout' => !$this->isEmailVerified || !$this->isPhoneVerified,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,

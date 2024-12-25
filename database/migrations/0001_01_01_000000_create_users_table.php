@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('country_code')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('status')->default(\App\Components\Auth\Domain\Enum\UserStatusEnum::ACTIVE->value);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

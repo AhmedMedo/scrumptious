@@ -2,7 +2,6 @@
 
 namespace App\Components\Content\Data\Entity;
 
-use App\Components\GiftCards\Data\Entity\GiftCardEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
