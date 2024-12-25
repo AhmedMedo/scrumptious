@@ -214,4 +214,8 @@ return [
 
     'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
 
+    'columns' => [
+        'user_id' => 'user_uuid', // Map 'user_id' to 'user_uuid'
+    ],
+
 ];

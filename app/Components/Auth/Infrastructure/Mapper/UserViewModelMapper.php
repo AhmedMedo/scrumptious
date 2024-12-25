@@ -27,7 +27,6 @@ class UserViewModelMapper implements UserViewModelMapperInterface
             countryIsoCode: $userDto->countryIsoCode(),
             isEmailVerified: $userDto->isEmailVerified(),
             isPhoneVerified: $userDto->isPhoneVerified(),
-            isSandbox: $userDto->isSandbox(),
             countryCode: $userDto->CountryCode()
         );
     }

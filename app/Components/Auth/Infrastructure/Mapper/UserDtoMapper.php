@@ -26,7 +26,6 @@ class UserDtoMapper implements UserDtoMapperInterface
             countryIsoCode: $user->country?->iso_code,
             isEmailVerified: $user->email_verified_at !== null,
             isPhoneVerified: $user->phone_verified_at !== null,
-            isSandbox: $user->is_sandbox
         );
     }
 }

@@ -4,11 +4,6 @@ namespace App\Components\Auth\Data\Entity;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Components\Content\Data\Entity\CountryEntity;
-use App\Components\GiftCards\Data\Entity\CartEntity;
-use App\Components\GiftCards\Data\Entity\GiftCardOrderEntity;
-use App\Components\GiftCards\Data\Entity\TransactionEntity;
-use App\Components\GiftCards\Data\Entity\Wallet\UserWalletEntity;
-use App\Components\GiftCards\Domain\Enum\CartStatusEnum;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -78,38 +73,7 @@ class UserEntity extends Authenticatable implements HasMedia
         'updated_at' => 'datetime',
     ];
 
-    public function notifications(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(NotificationEntity::class, 'user_uuid', 'uuid');
-    }
 
-    public function country(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(CountryEntity::class, 'country_uuid', 'uuid');
-    }
-
-
-    public function activeCart(): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\HasOne|CartEntity|null
-    {
-        return $this->hasOne(CartEntity::class, 'user_uuid', 'uuid')
-            ->where('status', CartStatusEnum::CREATED->value)->first();
-    }
-
-    public function orders(): HasMany
-    {
-        return $this->hasMany(GiftCardOrderEntity::class, 'user_uuid', 'uuid');
-
-    }
-
-    public function wallets(): HasMany
-    {
-        return  $this->hasMany(UserWalletEntity::class,'user_uuid','uuid');
-    }
-
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(TransactionEntity::class, 'user_uuid', 'uuid');
-    }
 
     public function getFullNameAttribute(): string
     {

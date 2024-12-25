@@ -32,25 +32,23 @@ class UserVerificationService implements UserVerificationServiceInterface
     {
         $user = $this->userQuery->findByUuid($userUuid);
 
-        $userVerificationDto = $this->userVerificationFactory->createFromEntity(
-            $this->userVerificationRepository->create($userUuid, $typeEnum,$user->isSandbox)
+        //        if ($sendSms)
+//        {
+//            try {
+//                if (!$user->isSandbox)
+//                {
+//                    $this->smsNotificationService->sendVerificationMessage($user->phoneNumber, $userVerificationDto->otp());
+//                }
+//
+//            }catch (\Exception $exception){
+//                Log::error('[UserVerificationService][addVerificationOtp] '.$exception->getMessage());
+//            }
+//        }
+
+
+        return $this->userVerificationFactory->createFromEntity(
+            $this->userVerificationRepository->create($userUuid, $typeEnum)
         );
-
-        if ($sendSms)
-        {
-            try {
-                if (!$user->isSandbox)
-                {
-                    $this->smsNotificationService->sendVerificationMessage($user->phoneNumber, $userVerificationDto->otp());
-                }
-
-            }catch (\Exception $exception){
-                Log::error('[UserVerificationService][addVerificationOtp] '.$exception->getMessage());
-            }
-        }
-
-
-        return $userVerificationDto;
     }
 
     public function verifyOtp(string $token, string $otp): UserEntity
@@ -131,10 +129,6 @@ class UserVerificationService implements UserVerificationServiceInterface
         $userEntity = $this->userQuery->findUserByEmail($email);
         $userEntity->verification_code = Str::random(32);
         $userEntity->save();
-        try {
-            Mail::to($userEntity->email)->send(new \App\Mail\SendEmailVerificationLink($userEntity->verification_code, $userEntity->full_name));
-        } catch (\Exception $exception) {
-            throw new \Exception('Email not sent');
-        }
+
     }
 }

@@ -14,14 +14,11 @@ use App\Components\Auth\Data\Enums\RoleEnum;
 use App\Components\Auth\Data\Enums\UserVerificationTypeEnum;
 use App\Components\Auth\Domain\DTO\UserDto;
 use App\Components\Auth\Domain\DTO\UserVerificationDto;
+use App\Components\Auth\Domain\Enum\UserStatusEnum;
 use App\Components\Auth\Domain\Exception\AccountInactiveException;
 use App\Components\Auth\Domain\Exception\UserNotFoundException;
 use App\Components\Auth\Domain\Exception\WrongCredentialsException;
 use App\Components\Auth\Domain\Exception\WrongVerificationCodeException;
-use App\Components\GiftCards\Domain\DTO\Mail\User\ResetPasswordRequestDto;
-use App\Components\GiftCards\Domain\DTO\Mail\User\VerifyEmailDto;
-use App\Components\GiftCards\Integrations\Mail\Sendgrid\SendGridClient;
-use App\Jobs\ProcessMailJob;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -37,7 +34,6 @@ class UserService implements UserServiceInterface
         private readonly UserVerificationQueryInterface $userVerificationQuery,
         private readonly UserVerificationRepositoryInterface $userVerificationRepository,
         private readonly UserOldPasswordRepositoryInterface $userOldPasswordRepository,
-        private readonly SendGridClient $sendGridClient
     ) {
     }
 
@@ -56,41 +52,14 @@ class UserService implements UserServiceInterface
         } else {
             $user = $this->userQuery->findUserByPhone($userName);
         }
-        if (!is_null($user->old_password) && !password_verify($credentials['password'], $user->old_password)) {
-            throw new WrongCredentialsException();
 
-        }
 
-        if (is_null($user->old_password) && !Hash::check($credentials['password'], $user->password)) {
+        if (!Hash::check($credentials['password'], $user->password)) {
             throw new WrongCredentialsException();
         }
-        if (!$user->is_active) {
-            throw new AccountInactiveException();
-        }
-        if ($isEmailLogin && !$user->email_verified_at) {
-            $user->verification_code = Str::random(32);
-            $user->save();
-
-            ProcessMailJob::dispatch(
-                $this->sendGridClient,
-                $user->email,
-                new VerifyEmailDto(
-                    firstName: $user->first_name,
-                    verificationLink: sprintf(
-                        '%s/auth/email/%s/verification',
-                        config('giftit.frontend_url'),
-                        $user->verification_code
-                    )
-                ),
-                config('giftit.sendgrid_templates.please_verify_email')
-            );
-//            try {
-//                    Mail::to($user->email)->send(new \App\Mail\SendEmailVerificationLink($user->verification_code, $user->full_name));
-//            } catch (\Exception $e) {
-//                throw new \Exception($e->getMessage());
-//            }
-            throw new AccountInactiveException('Email is not verified, please verify your email');
-        }
+//        if (!$user->status !== UserStatusEnum::ACTIVE->value) {
+//            throw new AccountInactiveException();
+//        }
 
         //        try {
 //            Mail::to($user->email)->send(new \App\Mail\SendVerificationEmail($userVerificationDto->otp(), $user->full_name));
@@ -117,22 +86,8 @@ class UserService implements UserServiceInterface
 //        } catch (\Exception $e) {
 //            throw new \Exception($e->getMessage());
 //        }
-        ProcessMailJob::dispatch(
-            $this->sendGridClient,
-            $user->email,
-            new VerifyEmailDto(
-                firstName: $user->first_name,
-                verificationLink: sprintf(
-                    '%s/auth/email/%s/verification',
-                    config('giftit.frontend_url'),
-                    $user->verification_code
-                )
-            ),
-            config('giftit.sendgrid_templates.please_verify_email')
-        );
 
         //Add password history
-        $this->userOldPasswordRepository->create($user->getKey(), $data['password']);
         return $this->userVerificationService->addVerificationOtp($user->getKey(), UserVerificationTypeEnum::REGISTERATION_OTP);
     }
 
@@ -158,19 +113,7 @@ class UserService implements UserServiceInterface
             $user = $this->userQuery->findUserByPhone($username);
         }
 
-        $userVerificationDto =  $this->userVerificationService->addVerificationOtp($user->getKey(), UserVerificationTypeEnum::FORGOT_PASSWORD_OTP);
-
-        ProcessMailJob::dispatch(
-            $this->sendGridClient,
-            $user->email,
-            new ResetPasswordRequestDto(
-                firstName: $user->first_name,
-                resetCode: $userVerificationDto->otp()
-            ),
-            config('giftit.sendgrid_templates.reset_password_request')
-        );
-
-        return $userVerificationDto;
+        return $this->userVerificationService->addVerificationOtp($user->getKey(), UserVerificationTypeEnum::FORGOT_PASSWORD_OTP);
     }
 
     public function resetPassword(string $token, string $password): bool
@@ -181,8 +124,6 @@ class UserService implements UserServiceInterface
         $this->userOldPasswordRepository->create($user->getKey(), $password);
         return $this->userRepository->update($user->getKey(), [
             'password' => Hash::make($password),
-            'forget_password_token' => null,
-            'old_password' => null,
         ]);
     }
 
@@ -278,19 +219,7 @@ class UserService implements UserServiceInterface
         ]);
 
         $user = $this->userQuery->findUserEntityByUuid($userUuid);
-        ProcessMailJob::dispatch(
-            $this->sendGridClient,
-            $email,
-            new VerifyEmailDto(
-                firstName: $user->first_name,
-                verificationLink: sprintf(
-                    '%s/auth/email/%s/verification',
-                    config('giftit.frontend_url'),
-                    $user->verification_code
-                )
-            ),
-            config('giftit.sendgrid_templates.please_verify_email')
-        );
+
     }
 
     public function changePhone(string $userUuid, string $countryCode, string $phoneNumber): UserVerificationDto

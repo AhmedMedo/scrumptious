@@ -27,7 +27,6 @@ class UserFactory implements UserFactoryInterface
             countryIsoCode: $userEntity->country?->iso_code,
             isEmailVerified: $userEntity->email_verified_at !== null,
             isPhoneVerified: $userEntity->phone_verified_at !== null,
-            isSandbox: $userEntity->is_sandbox,
             countryCode: $userEntity->country_code,
         );
     }
