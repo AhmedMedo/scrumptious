@@ -5,21 +5,18 @@ namespace App\Components\Content\Data\Entity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Brand extends Model implements HasMedia
+class CategoryEntity extends Model
 {
     use HasFactory;
     use HasUuidTrait;
-    use InteractsWithMedia;
 
 
     /** @var bool */
     public $incrementing = false;
 
     /** @var string */
-    protected $table = 'brands';
+    protected $table = 'category';
 
     /** @var string */
     protected $primaryKey = 'uuid';
@@ -28,8 +25,5 @@ class Brand extends Model implements HasMedia
     protected $keyType = 'string';
 
     protected $guarded = [];
-
-    /** @var array */
-    public array $translatable = ['name'];
 
 }

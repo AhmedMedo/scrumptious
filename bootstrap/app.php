@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ])
                 ->group(function ($router) {
                     require app_path('Components/Auth/Resource/routes.php');
+                    require app_path('Components/Content/Resource/routes.php');
                     require base_path('routes/api.php');
                 });
         }

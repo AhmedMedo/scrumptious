@@ -808,14 +808,14 @@
                 }
             }
         },
-        "/api/v1/content/brands": {
+        "/api/v1/content/categories": {
             "get": {
                 "tags": [
                     "Content"
                 ],
-                "summary": "Get Brands",
-                "description": "Get Brands",
-                "operationId": "f9e69ce247fbcddbf38d4d218af3343f",
+                "summary": "Get countries",
+                "description": "Get countries",
+                "operationId": "80c4b5b7e0db7357eaea29727e8dba09",
                 "responses": {
                     "200": {
                         "description": "success ",
@@ -839,7 +839,7 @@
                                                     "name": {
                                                         "type": "string"
                                                     },
-                                                    "image": {
+                                                    "created_at": {
                                                         "type": "string"
                                                     }
                                                 },
@@ -1195,39 +1195,6 @@
                 "operationId": "3d8cb004c858bfb7eb4ab1a596217246",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/NewsletterRequest"
-                },
-                "responses": {
-                    "200": {
-                        "description": "success ",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/partners": {
-            "post": {
-                "tags": [
-                    "Content"
-                ],
-                "summary": "Partners",
-                "description": "Partners",
-                "operationId": "3aff8d5d77973e03258a1fef925a5c90",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/PartnersRequest"
                 },
                 "responses": {
                     "200": {
