@@ -2,7 +2,9 @@
 
 namespace App\Components\Content\Infrastructure\Http\Handler;
 
+use App\Components\Content\Application\Query\CategoryQueryInterface;
 use App\Components\Content\Data\Entity\CategoryEntity;
+use App\Components\Content\Infrastructure\Query\CategoryQuery;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -20,6 +22,7 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: 'data', type: 'array', items: new OA\Items(properties: [
                     new OA\Property(property: 'uuid', type: 'string'),
                     new OA\Property(property: 'name', type: 'string'),
+                    new OA\Property(property: 'image', type: 'string'),
                     new OA\Property(property: 'created_at', type: 'string'),
                 ])),
             ],
@@ -31,14 +34,16 @@ use OpenApi\Attributes as OA;
 class CategoryHandler extends Handler
 {
 
+    public function __construct(
+        private readonly CategoryQueryInterface $categoryQuery,
+    )
+    {
+    }
+
     public function __invoke(): JsonResponse
     {
         return $this->successResponseWithData(
-            CategoryEntity::query()->get()->map(fn (CategoryEntity $category) => [
-                'uuid' => $category->uuid,
-                'name' => $category->name,
-                'created_at' => $category->created_at->toDateTimeString(),
-            ])->toArray()
+            $this->categoryQuery->all()
         );
     }
 }

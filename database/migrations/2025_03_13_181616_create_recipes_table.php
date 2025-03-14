@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->string('name');
-            $table->integer('cooking_minutes');
-            $table->float('total_carbs');
-            $table->float('total_proteins');
-            $table->float('total_fats');
-            $table->float('total_calories');
+            $table->string('title');
+            $table->integer('cooking_minutes')->nullable();
+            $table->float('total_carbs')->nullable();
+            $table->float('total_proteins')->nullable();
+            $table->float('total_fats')->nullable();
+            $table->float('total_calories')->nullable();
             $table->string('youtube_video')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);

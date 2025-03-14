@@ -10,28 +10,45 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        CategoryEntity::firstOrCreate([
+        $cat1 = CategoryEntity::firstOrCreate([
             'name' => 'Small Plate',
         ]);
+        $cat1->clearMediaCollection();
+        $cat1->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
 
-        CategoryEntity::firstOrCreate([
+        $cat2 = CategoryEntity::firstOrCreate([
             'name' => 'Large Plate',
         ]);
+        $cat2->clearMediaCollection();
+        $cat2->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
 
-        CategoryEntity::firstOrCreate([
+        $cat3 =  CategoryEntity::firstOrCreate([
             'name' => 'Dessert',
         ]);
+        $cat3->clearMediaCollection();
+        $cat3->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
 
-        CategoryEntity::firstOrCreate([
+
+        $cat4 = CategoryEntity::firstOrCreate([
             'name' => 'Salad',
         ]);
+        $cat4->clearMediaCollection();
+        $cat4->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
 
-        CategoryEntity::firstOrCreate([
+
+        $cat5= CategoryEntity::firstOrCreate([
             'name' => 'Soup',
         ]);
+        $cat5->clearMediaCollection();
+        $cat5->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
 
-        CategoryEntity::firstOrCreate([
+
+        $cat6= CategoryEntity::firstOrCreate([
             'name' => 'Sides',
         ]);
+
+        $cat6->clearMediaCollection();
+        $cat6->addMediaFromUrl('https://picsum.photos/300/300')->toMediaCollection('image');
+
     }
 }
