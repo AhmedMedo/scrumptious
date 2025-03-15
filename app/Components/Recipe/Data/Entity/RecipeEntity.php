@@ -8,6 +8,7 @@ use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -16,6 +17,7 @@ class RecipeEntity extends Model implements HasMedia
     use HasFactory;
     use HasUuidTrait;
     use InteractsWithMedia;
+    use SoftDeletes;
 
     /** @var bool */
     public $incrementing = false;
@@ -33,12 +35,12 @@ class RecipeEntity extends Model implements HasMedia
 
     public function ingredients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(RecipeIngredientEntity::class, 'recipe_id', 'uuid');
+        return $this->hasMany(RecipeIngredientEntity::class, 'recipe_uuid', 'uuid');
     }
 
     public function instructions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(InstructionEntity::class, 'recipe_id', 'uuid');
+        return $this->hasMany(InstructionEntity::class, 'recipe_uuid', 'uuid');
     }
 
     public function categories(): BelongsToMany

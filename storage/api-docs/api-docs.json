@@ -839,6 +839,9 @@
                                                     "name": {
                                                         "type": "string"
                                                     },
+                                                    "image": {
+                                                        "type": "string"
+                                                    },
                                                     "created_at": {
                                                         "type": "string"
                                                     }
@@ -1265,6 +1268,118 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recipe": {
+            "post": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "Create new recipe",
+                "description": "Create new recipe",
+                "operationId": "f44600a55f8b18ad2caa264bf1970dab",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateRecipeRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recipe/{uuid}/delete": {
+            "delete": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "delete recipe",
+                "description": "delete recipe",
+                "operationId": "b81ac3585b0d48694cae1d32fca4b39e",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Recipe  UUID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recipe/{uuid}/update": {
+            "patch": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "update recipe",
+                "description": "update recipe",
+                "operationId": "44a1056837386f802d76594a00079265",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Recipe  UUID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateRecipeRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -1907,6 +2022,98 @@
                         }
                     }
                 }
+            },
+            "CreateRecipeRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "title"
+                            ],
+                            "properties": {
+                                "title": {
+                                    "description": "The title of the recipe.",
+                                    "type": "string",
+                                    "example": "Spaghetti Carbonara"
+                                },
+                                "cooking_minutes": {
+                                    "description": "The cooking time in minutes.",
+                                    "type": "integer",
+                                    "example": 30
+                                },
+                                "total_carbs": {
+                                    "description": "Total carbohydrates in the recipe.",
+                                    "type": "integer",
+                                    "example": 50
+                                },
+                                "total_proteins": {
+                                    "description": "Total proteins in the recipe.",
+                                    "type": "integer",
+                                    "example": 20
+                                },
+                                "total_fats": {
+                                    "description": "Total fats in the recipe.",
+                                    "type": "integer",
+                                    "example": 15
+                                },
+                                "total_calories": {
+                                    "description": "Total calories in the recipe.",
+                                    "type": "integer",
+                                    "example": 400
+                                },
+                                "youtube_video": {
+                                    "description": "Link to a YouTube video related to the recipe.",
+                                    "type": "string",
+                                    "example": "https://www.youtube.com/watch?v=12345"
+                                },
+                                "ingredients": {
+                                    "description": "List of ingredients required for the recipe.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "name": {
+                                                "description": "Name of the ingredient.",
+                                                "type": "string",
+                                                "example": "Pasta"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "instructions": {
+                                    "description": "List of instructions to prepare the recipe.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "name": {
+                                                "description": "Step-by-step instruction.",
+                                                "type": "string",
+                                                "example": "Boil water"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "categories": {
+                                    "description": "List of categories the recipe belongs to.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "uuid": {
+                                                "description": "UUID of the category.",
+                                                "type": "integer",
+                                                "example": 1
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         },
         "headers": {
@@ -1927,6 +2134,10 @@
         {
             "name": "Content",
             "description": "Content"
+        },
+        {
+            "name": "Recipe",
+            "description": "Recipe"
         }
     ]
 }

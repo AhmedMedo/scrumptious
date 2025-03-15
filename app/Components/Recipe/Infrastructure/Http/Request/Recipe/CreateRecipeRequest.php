@@ -78,16 +78,16 @@ class CreateRecipeRequest extends FormRequest
             'total_calories' => 'nullable|integer',
             'youtube_video' => 'nullable|string',
             'ingredients' => 'nullable|array',
-            'ingredients.*.name' => 'required|string',
+            'ingredients.*.content' => 'required|string',
             'instructions' => 'nullable|array',
-            'instructions.*.name' => 'required|string',
+            'instructions.*.content' => 'required|string',
             'categories' => 'nullable|array',
             'categories.*.uuid' => 'required|integer|exists:categories,uuid',
             'image'             => 'nullable|array',
             'image.file_url'    => 'nullable|string',
             'image.file_name'   => 'nullable|string',
-            'image.file_path'   => 'nullable|integer',
-            'image.mime_type'   => 'nullable|integer',
+            'image.file_path'   => 'nullable|string',
+            'image.mime_type'   => 'nullable|string',
         ];
     }
 }

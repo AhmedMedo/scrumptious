@@ -20,23 +20,28 @@ class RecipeService implements RecipeServiceInterface
         // TODO: Implement collection() method.
     }
 
-    public function store(array $data)
+    public function store(array $data): \App\Components\Recipe\Data\Entity\RecipeEntity
     {
-        // TODO: Implement store() method.
+        return $this->recipeRepository->create($data);
     }
 
-    public function update(string $uuid, array $data)
+    public function update(string $uuid, array $data):void
     {
-        // TODO: Implement update() method.
+        $this->recipeRepository->update($uuid, $data);
     }
 
-    public function delete(string $uuid)
+    public function delete(string $uuid): void
     {
-        // TODO: Implement delete() method.
+        $this->recipeRepository->delete($uuid);
     }
 
     public function findByUuid(string $uuid)
     {
         // TODO: Implement findByUuid() method.
+    }
+
+    public function paginated()
+    {
+        // TODO: Implement paginated() method.
     }
 }

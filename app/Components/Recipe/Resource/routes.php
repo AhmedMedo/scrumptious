@@ -1,17 +1,18 @@
 <?php
 
-use App\Components\Content\Infrastructure\Http\Handler\CategoryHandler;
-use App\Components\Content\Infrastructure\Http\Handler\ConfigHandler;
-use App\Components\Content\Infrastructure\Http\Handler\CountryHandler;
-use App\Components\Content\Infrastructure\Http\Handler\CustomerSupportHandler;
-use App\Components\Content\Infrastructure\Http\Handler\FaqHandler;
-use App\Components\Content\Infrastructure\Http\Handler\NewsletterHandler;
-use App\Components\Content\Infrastructure\Http\Handler\UploadMediaHandler;
+use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeCreateHandler;
+use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeDeleteHandler;
+use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeUpdateHandler;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'recipe',
 ], function () {
+
+    Route::post('/', RecipeCreateHandler::class);
+    Route::patch('/{uuid}/update', RecipeUpdateHandler::class);
+    Route::delete('/{uuid}/delete', RecipeDeleteHandler::class);
+
 });
 
 

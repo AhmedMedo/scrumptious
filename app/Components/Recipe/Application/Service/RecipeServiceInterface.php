@@ -2,12 +2,16 @@
 
 namespace App\Components\Recipe\Application\Service;
 
+use App\Components\Recipe\Data\Entity\RecipeEntity;
+
 interface RecipeServiceInterface
 {
 
+    public function paginated();
+
     public function all();
 
-    public function store(array $data);
+    public function store(array $data): RecipeEntity;
 
     public function update(string $uuid, array $data);
 
