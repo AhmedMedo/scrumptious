@@ -55,6 +55,17 @@ use OpenApi\Attributes as OA;
                     ]
                 )
             ),
+            new OA\Property(
+                property: 'image',
+                description: 'Image of the recipe.',
+                properties: [
+                    new OA\Property(property: 'file_url', description: 'URL of the image.', type: 'string', example: 'https://example.com/image.jpg'),
+                    new OA\Property(property: 'file_name', description: 'Name of the image.', type: 'string', example: 'image.jpg'),
+                    new OA\Property(property: 'file_path', description: 'Path of the image.', type: 'string', example: 'images/recipe/1/image.jpg'),
+                    new OA\Property(property: 'mime_type', description: 'Mime type of the image.', type: 'string', example: 'image/jpeg'),
+                ],
+                type: 'object'
+            ),
 
 
         ],
