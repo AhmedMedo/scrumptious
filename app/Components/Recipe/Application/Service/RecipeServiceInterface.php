@@ -3,11 +3,12 @@
 namespace App\Components\Recipe\Application\Service;
 
 use App\Components\Recipe\Data\Entity\RecipeEntity;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface RecipeServiceInterface
 {
 
-    public function paginated();
+    public function paginated(): LengthAwarePaginator;
 
     public function all();
 

@@ -3,12 +3,33 @@
 namespace App\Components\Recipe\Application\Mapper\Recipe;
 
 use App\Components\Recipe\Data\Entity\RecipeEntity;
+use App\Components\Recipe\InstructionEntity;
 use App\Components\Recipe\Presentation\ViewModel\RecipeViewModel;
 
 class RecipeViewModelMapper
 {
     public function fromEntity(RecipeEntity $recipeEntity): RecipeViewModel
     {
-
+        return new RecipeViewModel(
+            uuid: $recipeEntity->getKey(),
+            title: $recipeEntity->title,
+            cookingMinutes: $recipeEntity->cooking_minutes,
+            totalCarbs: $recipeEntity->total_carbs,
+            totalProteins: $recipeEntity->total_proteins,
+            totalFats: $recipeEntity->total_fats,
+            totalCalories: $recipeEntity->total_calories,
+            youTubeVideo: $recipeEntity->youtube_video,
+            image: $recipeEntity?->getFirstMediaUrl('image'),
+            description: $recipeEntity->description,
+            instructions: $recipeEntity?->instructions->map(fn(InstructionEntity $instruction) => [
+                'uuid' => $instruction->getKey(),
+                'content' => $instruction->content
+            ])?->toArray(),
+            ingredients: $recipeEntity?->ingredients?->map(fn(RecipeEntity $ingredient) => [
+                'uuid' => $ingredient->getKey(),
+                'content' => $ingredient->content
+            ])->toArray(),
+            categories: $recipeEntity?->categories?->toArray()
+        );
     }
 }

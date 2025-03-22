@@ -5,6 +5,7 @@ namespace App\Components\Recipe\Infrastructure\Service;
 use App\Components\Recipe\Application\Query\RecipeQueryInterface;
 use App\Components\Recipe\Application\Repository\RecipeRepositoryInterface;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class RecipeService implements RecipeServiceInterface
 {
@@ -40,8 +41,8 @@ class RecipeService implements RecipeServiceInterface
         // TODO: Implement findByUuid() method.
     }
 
-    public function paginated()
+    public function paginated(): LengthAwarePaginator
     {
-        // TODO: Implement paginated() method.
+        return  $this->recipeQuery->paginated();
     }
 }
