@@ -3,24 +3,74 @@
 namespace App\Components\Recipe\Presentation\ViewModel;
 
 use phpseclib3\Math\PrimeField\Integer;
+use OpenApi\Attributes as OA;
 
+#[OA\Schema(
+    schema: 'RecipeViewModel',
+    properties: [
+        new OA\Property(property: 'uuid', type: 'string'),
+        new OA\Property(property: 'title', type: 'string'),
+        new OA\Property(property: 'cooking_minutes', type: 'integer'),
+        new OA\Property(property: 'total_carbs', type: 'integer'),
+        new OA\Property(property: 'total_proteins', type: 'integer'),
+        new OA\Property(property: 'total_fats', type: 'integer'),
+        new OA\Property(property: 'total_calories', type: 'integer'),
+        new OA\Property(property: 'youtube_video', type: 'string'),
+        new OA\Property(property: 'image', type: 'string'),
+        new OA\Property(property: 'description', type: 'string'),
+        new OA\Property(
+            property: 'instructions',
+            type: 'array',
+            items: new OA\Items(
+                properties: [
+                    new OA\Property(property: 'uuid', type: 'string'),
+                    new OA\Property(property: 'content', type: 'string'),
+                ],
+                type: 'object'
+            )
+        ),
+        new OA\Property(
+            property: 'ingredients',
+            type: 'array',
+            items: new OA\Items(
+                properties: [
+                    new OA\Property(property: 'uuid', type: 'string'),
+                    new OA\Property(property: 'content', type: 'string'),
+                ],
+                type: 'object'
+            )
+        ),
+        new OA\Property(
+            property: 'categories',
+            type: 'array',
+            items: new OA\Items(
+                properties: [
+                    new OA\Property(property: 'uuid', type: 'string'),
+                    new OA\Property(property: 'name', type: 'string'),
+                ],
+                type: 'object'
+            )
+        ),
+    ],
+    type: 'object'
+)]
 class RecipeViewModel
 {
 
     public function __construct(
-        public readonly string $uuid,
-        public readonly string $title,
+        public readonly string   $uuid,
+        public readonly string   $title,
         public readonly ?integer $cookingMinutes = null,
         public readonly ?integer $totalCarbs = null,
         public readonly ?integer $totalProteins = null,
         public readonly ?integer $totalFats = null,
         public readonly ?Integer $totalCalories = null,
-        public readonly ?string $youTubeVideo = null,
-        public readonly ?string $image = null,
-        public readonly ?string $description = null,
-        public readonly ?array $instructions = [],
-        public readonly ?array $ingredients = [],
-        public readonly ?array $categories = [],
+        public readonly ?string  $youTubeVideo = null,
+        public readonly ?string  $image = null,
+        public readonly ?string  $description = null,
+        public readonly ?array   $instructions = [],
+        public readonly ?array   $ingredients = [],
+        public readonly ?array   $categories = [],
 
     )
     {

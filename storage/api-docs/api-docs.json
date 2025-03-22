@@ -1278,6 +1278,195 @@
                 }
             }
         },
+        "/api/v1/target": {
+            "post": {
+                "tags": [
+                    "Target"
+                ],
+                "summary": "Create new Target",
+                "description": "Create new Target",
+                "operationId": "12923c1421eb930009bdc7397b251a9d",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateTargetRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/target/{uuid}/delete": {
+            "delete": {
+                "tags": [
+                    "Target"
+                ],
+                "summary": "delete target",
+                "description": "delete target",
+                "operationId": "1d0b468f604b2c7d5ccf15e05a6b5628",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Target  UUID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/target/list": {
+            "get": {
+                "tags": [
+                    "Target"
+                ],
+                "summary": "List of targets",
+                "operationId": "91792c95e545ac2c34580842a03b723d",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TargetViewModel"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/target/{uuid}/show": {
+            "get": {
+                "tags": [
+                    "Target"
+                ],
+                "summary": "Show Target",
+                "operationId": "41b0b2d22c4f2e4de3fd642215fa1b00",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TargetViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/target/{uuid}/update": {
+            "patch": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "update target",
+                "description": "update target",
+                "operationId": "c8913ee5c9a00a228dc51b474c30e8b4",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Recipe  UUID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateTargetRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/recipe": {
             "post": {
                 "tags": [
@@ -1536,6 +1725,37 @@
                     },
                     "updated_at": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "TargetViewModel": {
+                "required": [
+                    "uuid",
+                    "start_date",
+                    "end_date",
+                    "timeframe"
+                ],
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "uuid"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "example": "2022-01-01"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "example": "2022-01-01"
+                    },
+                    "timeframe": {
+                        "type": "string",
+                        "example": "week"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "description"
                     }
                 },
                 "type": "object"
@@ -2177,6 +2397,39 @@
                     }
                 }
             },
+            "CreateTargetRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "start_date",
+                                "timeframe"
+                            ],
+                            "properties": {
+                                "start_date": {
+                                    "description": "The start date for the target.",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-01"
+                                },
+                                "timeframe": {
+                                    "description": "The timeframe for the target (e.g., \"monthly\", \"quarterly\").",
+                                    "type": "string",
+                                    "example": "monthly"
+                                },
+                                "description": {
+                                    "description": "A brief description of the target (optional).",
+                                    "type": "string",
+                                    "example": "Complete 20 meals this month",
+                                    "nullable": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "CreateRecipeRequest": {
                 "required": true,
                 "content": {
@@ -2314,6 +2567,10 @@
         {
             "name": "Content",
             "description": "Content"
+        },
+        {
+            "name": "Target",
+            "description": "Target"
         },
         {
             "name": "Recipe",

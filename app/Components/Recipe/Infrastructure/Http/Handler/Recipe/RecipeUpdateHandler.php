@@ -6,8 +6,6 @@ use App\Components\Recipe\Application\Service\RecipeServiceInterface;
 use App\Components\Recipe\Infrastructure\Http\Request\Recipe\UpdateRecipeRequest;
 use App\Libraries\Base\Http\Handler;
 use OpenApi\Attributes as OA;
-
-
 #[OA\Patch(
     path: '/api/v1/recipe/{uuid}/update',
     description: 'update recipe',
@@ -27,7 +25,6 @@ use OpenApi\Attributes as OA;
             type: 'object',
         ))
     ]
-
 )]
 
 class RecipeUpdateHandler extends Handler

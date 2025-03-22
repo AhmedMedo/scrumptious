@@ -18,7 +18,6 @@ class RecipeServiceProvider extends ServiceProvider
             RecipeRepositoryInterface::class => RecipeRepository::class,
             RecipeQueryInterface::class => RecipeQuery::class,
             RecipeServiceInterface::class => RecipeService::class,
-
         ];
     }
 }

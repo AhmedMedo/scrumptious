@@ -2,6 +2,7 @@
 
 namespace App\Components\Recipe\Infrastructure\Http\Handler\Recipe;
 
+use App\Components\Auth\Infrastructure\Service\UserService;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
 use App\Components\Recipe\Infrastructure\Http\Request\Recipe\CreateRecipeRequest;
 use App\Libraries\Base\Http\Handler;
@@ -30,14 +31,16 @@ class RecipeCreateHandler extends Handler
 {
 
     public function __construct(
-        private readonly RecipeServiceInterface $recipeService
+        private readonly RecipeServiceInterface $recipeService,
+        private readonly UserService $userService
     )
     {
     }
 
     public function __invoke(CreateRecipeRequest $request): \Illuminate\Http\JsonResponse
     {
-        $recipe = $this->recipeService->store($request->validated());
+        $user = $this->userService->user();
+        $recipe = $this->recipeService->store(array_merge($request->validated(),['user_uuid' => $user->uuid()]));
         return $this->successResponseWithMessage('Recipe created successfully');
     }
 }

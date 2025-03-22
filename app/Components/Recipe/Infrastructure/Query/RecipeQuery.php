@@ -20,9 +20,10 @@ class RecipeQuery implements RecipeQueryInterface
 
     }
 
-    public function paginated(): LengthAwarePaginator
+    public function paginated(string $userUuid): LengthAwarePaginator
     {
        return RecipeEntity::query()
+           ->where('user_uuid', '=', $userUuid)
             ->with([
                 'categories',
                 'ingredients',

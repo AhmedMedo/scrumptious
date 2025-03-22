@@ -1,10 +1,14 @@
 <?php
 
+use App\Components\Auth\Infrastructure\ServiceProvider\AuthServiceProvider;
 use App\Components\Content\Infrastructure\ServiceProvider\ContentServiceProvider;
+use App\Components\MealPlanner\Infrastructure\ServiceProvider\MealPlannerServiceProvider;
+use App\Components\Recipe\Infrastructure\ServiceProvider\RecipeServiceProvider;
 
 return [
     App\Providers\AppServiceProvider::class,
-    App\Components\Auth\Infrastructure\ServiceProvider\AuthServiceProvider::class,
+    AuthServiceProvider::class,
     ContentServiceProvider::class,
-    \App\Components\Recipe\Infrastructure\ServiceProvider\RecipeServiceProvider::class,
+    RecipeServiceProvider::class,
+    MealPlannerServiceProvider::class,
 ];

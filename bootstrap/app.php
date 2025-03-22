@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     require app_path('Components/Auth/Resource/routes.php');
                     require app_path('Components/Content/Resource/routes.php');
                     require app_path('Components/Recipe/Resource/routes.php');
+                    require app_path('Components/MealPlanner/Resource/routes.php');
                     require base_path('routes/api.php');
                 });
         }
@@ -68,7 +70,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $e, $request) {
             return response()->json([
                 'status' => 'error',
-                'message' => $e->getMessage(),
+                'message' => 'Unauthorized. Please log in.',
                 'data' => []
             ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
         });
@@ -81,22 +83,26 @@ return Application::configure(basePath: dirname(__DIR__))
             ], \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND);
         });
 
-        $exceptions->renderable(function (Throwable $e, $request) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage(),
-                'data' => []
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
-        });
+
 
         // Unauthenticated response mapping
-        $exceptions->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+        $exceptions->renderable(function (AuthenticationException $e, $request) {
             return response()->json([
                 'status' => 'error',
-                'message' => $e->getMessage(),
+                'message' => 'Unauthorized. Please log in.',
                 'data' => []
             ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
         });
 
+        $exceptions->renderable(function (Throwable $e, $request) {
+            if ($request->is('api/*'))
+            {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'data' => []
+                ], \Symfony\Component\HttpFoundation\Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+        });
     })->create();
 
