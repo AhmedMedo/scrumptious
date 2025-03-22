@@ -13,7 +13,8 @@ class CategoryViewModelMapper
         return new CategoryViewModel(
             uuid: $categoryEntity->getKey(),
             name: $categoryEntity->name,
-            image: $categoryEntity->getFirstMediaUrl('image')
+            image: $categoryEntity->getFirstMediaUrl('image'),
+            recipesCount: $categoryEntity->recipes_count
         );
     }
 

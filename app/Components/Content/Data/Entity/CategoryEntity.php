@@ -35,7 +35,7 @@ class CategoryEntity extends Model implements HasMedia
 
     public function recipes(): BelongsToMany
     {
-        return $this->belongsToMany(RecipeEntity::class, 'recipe_category', 'category_uuid', 'recipe_uuid');
+        return $this->belongsToMany(RecipeEntity::class, 'category_recipe', 'category_uuid', 'recipe_uuid');
     }
 
 }

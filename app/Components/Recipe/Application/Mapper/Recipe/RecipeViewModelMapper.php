@@ -2,11 +2,12 @@
 
 namespace App\Components\Recipe\Application\Mapper\Recipe;
 
+use App\Components\Recipe\Data\Entity\InstructionEntity;
 use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Components\Recipe\Data\Entity\RecipeIngredientEntity;
-use App\Components\Recipe\InstructionEntity;
 use App\Components\Recipe\Presentation\ViewModel\RecipeViewModel;
 use OpenApi\Attributes as OA;
+
 #[OA\Schema(
     schema: 'RecipeViewModel',
     properties: [

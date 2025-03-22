@@ -3,7 +3,6 @@
 namespace App\Components\Recipe\Data\Entity;
 
 use App\Components\Content\Data\Entity\CategoryEntity;
-use App\Components\Recipe\InstructionEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Components\Recipe;
+namespace App\Components\Recipe\Data\Entity;
 
-use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

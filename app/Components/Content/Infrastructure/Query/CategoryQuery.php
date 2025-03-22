@@ -19,9 +19,11 @@ class CategoryQuery implements CategoryQueryInterface
 
     public function all(): Collection
     {
-        return CategoryEntity::query()->where('is_active','=', true)
+        return CategoryEntity::query()
+            ->where('is_active','=', true)
+            ->withCount('recipes')
             ->get()
-            ->map(fn (CategoryEntity $category) => $this->categoryViewModelMapper->fromEntity($category));
+            ->map(fn (CategoryEntity $category) => $this->categoryViewModelMapper->fromEntity($category)->toArray());
     }
 
 }

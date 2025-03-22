@@ -9,6 +9,7 @@ class CategoryViewModel
         public readonly string $uuid,
         public readonly string $name,
         public readonly ?string $image = null,
+        public readonly ?int $recipesCount = null
     )
     {
     }
@@ -20,6 +21,7 @@ class CategoryViewModel
             'uuid' => $this->uuid,
             'name' => $this->name,
             'image' => $this->image,
+            'recipes_count' => $this->recipesCount
         ];
     }
 }
