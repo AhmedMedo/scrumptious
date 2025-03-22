@@ -3,6 +3,7 @@
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeCreateHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeDeleteHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeListHandler;
+use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeShowHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeUpdateHandler;
 use Illuminate\Support\Facades\Route;
 
@@ -10,11 +11,11 @@ Route::group([
     'prefix' => 'recipe',
 ], function () {
 
+    Route::get('/{uuid}/show',RecipeShowHandler::class);
     Route::get('/list',RecipeListHandler::class);
     Route::post('/', RecipeCreateHandler::class);
     Route::patch('/{uuid}/update', RecipeUpdateHandler::class);
     Route::delete('/{uuid}/delete', RecipeDeleteHandler::class);
-
 });
 
 

@@ -1349,6 +1349,83 @@
                 }
             }
         },
+        "/api/v1/recipe/list": {
+            "get": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "List of recipes",
+                "operationId": "abcc8a501490d50100843cd8d5072b7a",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/RecipeViewModel"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recipe/{uuid}/show": {
+            "get": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "Show Recipe",
+                "operationId": "4398309b9b399bbd2b993fbf8304e125",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/RecipeViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/recipe/{uuid}/update": {
             "patch": {
                 "tags": [
@@ -1459,6 +1536,83 @@
                     },
                     "updated_at": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RecipeViewModel": {
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "cooking_minutes": {
+                        "type": "integer"
+                    },
+                    "total_carbs": {
+                        "type": "integer"
+                    },
+                    "total_proteins": {
+                        "type": "integer"
+                    },
+                    "total_fats": {
+                        "type": "integer"
+                    },
+                    "total_calories": {
+                        "type": "integer"
+                    },
+                    "youtube_video": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "instructions": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "uuid": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "ingredients": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "uuid": {
+                                    "type": "string"
+                                },
+                                "content": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "uuid": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
