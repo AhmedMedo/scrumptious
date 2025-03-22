@@ -842,8 +842,8 @@
                                                     "image": {
                                                         "type": "string"
                                                     },
-                                                    "created_at": {
-                                                        "type": "string"
+                                                    "recipes_count": {
+                                                        "type": "integer"
                                                     }
                                                 },
                                                 "type": "object"

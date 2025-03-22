@@ -23,7 +23,7 @@ use OpenApi\Attributes as OA;
                     new OA\Property(property: 'uuid', type: 'string'),
                     new OA\Property(property: 'name', type: 'string'),
                     new OA\Property(property: 'image', type: 'string'),
-                    new OA\Property(property: 'created_at', type: 'string'),
+                    new OA\Property(property: 'recipes_count', type: 'integer'),
                 ])),
             ],
             type      : 'object'
