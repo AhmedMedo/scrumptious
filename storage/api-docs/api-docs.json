@@ -1429,7 +1429,7 @@
         "/api/v1/target/{uuid}/update": {
             "patch": {
                 "tags": [
-                    "Recipe"
+                    "Target"
                 ],
                 "summary": "update target",
                 "description": "update target",

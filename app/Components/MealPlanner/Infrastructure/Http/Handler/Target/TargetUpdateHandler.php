@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
     description: 'update target',
     summary: 'update target',
     requestBody: new OA\RequestBody('#/components/requestBodies/CreateTargetRequest'),
-    tags: ['Recipe'],
+    tags: ['Target'],
     parameters: [
         new OA\Parameter(name: 'uuid', description: 'Recipe  UUID', in: 'path', required: true),
     ],
