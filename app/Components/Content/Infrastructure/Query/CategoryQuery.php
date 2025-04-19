@@ -19,7 +19,7 @@ class CategoryQuery implements CategoryQueryInterface
 
     public function all(): Collection
     {
-        return CategoryEntity::query()
+        return CategoryEntity::filter(request()->all())
             ->where('is_active','=', true)
             ->withCount('recipes')
             ->get()

@@ -10,19 +10,19 @@ use Illuminate\Support\Collection;
 class RecipeQuery implements RecipeQueryInterface
 {
 
-    public function findByUuid(string $uuid): \Illuminate\Database\Eloquent\Model
+    public function findByUuid(string $uuid): ?RecipeEntity
     {
-        return RecipeEntity::getByUuid($uuid);
+        return RecipeEntity::query()->findOrFail($uuid);
     }
 
     public function all(): Collection
     {
-
+        return RecipeEntity::filter(request()->all())->get();
     }
 
     public function paginated(string $userUuid): LengthAwarePaginator
     {
-       return RecipeEntity::query()
+       return RecipeEntity::filter(request()->all())
            ->where('user_uuid', '=', $userUuid)
             ->with([
                 'categories',

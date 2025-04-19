@@ -75,6 +75,11 @@ class UserService implements UserServiceInterface
         return $this->userQuery->findByUuid(auth()->user()->getKey());
     }
 
+    public function userEntity(): UserEntity
+    {
+        return $this->userQuery->findUserEntityByUuid(auth()->user()->getKey());
+    }
+
 
     public function register(array $data, RoleEnum $roleEnum = RoleEnum::USER): UserVerificationDto
     {

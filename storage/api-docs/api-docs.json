@@ -816,6 +816,14 @@
                 "summary": "Get countries",
                 "description": "Get countries",
                 "operationId": "80c4b5b7e0db7357eaea29727e8dba09",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Search by category name",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success ",
@@ -1467,6 +1475,61 @@
                 }
             }
         },
+        "/api/v1/ingredients": {
+            "get": {
+                "tags": [
+                    "Ingredient"
+                ],
+                "summary": "List ingredients",
+                "description": "List ingredients",
+                "operationId": "b83b8082610888e0b446a60f2f274422",
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "content of ingredient",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/recipe": {
             "post": {
                 "tags": [
@@ -1544,7 +1607,36 @@
                     "Recipe"
                 ],
                 "summary": "List of recipes",
+                "description": "List of recipes",
                 "operationId": "abcc8a501490d50100843cd8d5072b7a",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "title of recipe",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "is_favorite",
+                        "in": "query",
+                        "description": "Return only favorite recipes in user favorite list",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "examples": {
+                            "true": {
+                                "summary": "Return only favorite recipes in user favorite list"
+                            },
+                            "false": {
+                                "summary": "Return only non-favorite recipes in user favorite list"
+                            }
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success ",
@@ -1605,6 +1697,47 @@
                                         },
                                         "data": {
                                             "$ref": "#/components/schemas/RecipeViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recipe/{uuid}/toggle-favourite": {
+            "post": {
+                "tags": [
+                    "Recipe"
+                ],
+                "summary": "Toggle favourite recipe",
+                "description": "Toggle favourite recipe",
+                "operationId": "34d6690574a2a720d20c9a2f67c7a215",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Recipe uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -2571,6 +2704,10 @@
         {
             "name": "Target",
             "description": "Target"
+        },
+        {
+            "name": "Ingredient",
+            "description": "Ingredient"
         },
         {
             "name": "Recipe",

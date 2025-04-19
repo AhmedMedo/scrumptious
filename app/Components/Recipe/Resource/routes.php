@@ -1,9 +1,11 @@
 <?php
 
+use App\Components\Recipe\Infrastructure\Http\Handler\Ingredient\IngredientListHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeCreateHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeDeleteHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeListHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeShowHandler;
+use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeToggleFavouriteHandler;
 use App\Components\Recipe\Infrastructure\Http\Handler\Recipe\RecipeUpdateHandler;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,13 @@ Route::group([
     Route::post('/', RecipeCreateHandler::class);
     Route::patch('/{uuid}/update', RecipeUpdateHandler::class);
     Route::delete('/{uuid}/delete', RecipeDeleteHandler::class);
+    Route::post('/{uuid}/toggle-favourite', RecipeToggleFavouriteHandler::class);
+});
+
+Route::group([
+    'prefix' => 'ingredients',
+], function () {
+    Route::get('/', IngredientListHandler::class);
 });
 
 

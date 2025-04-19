@@ -2,8 +2,11 @@
 
 namespace App\Components\Recipe\Data\Entity;
 
+use App\Components\Auth\Traits\Favoriteable;
 use App\Components\Content\Data\Entity\CategoryEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
+use App\ModelFilters\RecipeEntityFilter;
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -17,6 +20,14 @@ class RecipeEntity extends Model implements HasMedia
     use HasUuidTrait;
     use InteractsWithMedia;
     use SoftDeletes;
+    use Favoriteable;
+    use Filterable;
+
+    public function modelFilter(): ?string
+    {
+        return $this->provideFilter(RecipeEntityFilter::class);
+    }
+
 
     /** @var bool */
     public $incrementing = false;
@@ -32,9 +43,9 @@ class RecipeEntity extends Model implements HasMedia
 
     protected $guarded = [];
 
-    public function ingredients(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function ingredients(): BelongsToMany
     {
-        return $this->hasMany(RecipeIngredientEntity::class, 'recipe_uuid', 'uuid');
+        return $this->belongsToMany(IngredientEntity::class, 'recipe_ingredient', 'recipe_uuid', 'ingredient_uuid');
     }
 
     public function instructions(): \Illuminate\Database\Eloquent\Relations\HasMany

@@ -2,9 +2,9 @@
 
 namespace App\Components\Recipe\Application\Mapper\Recipe;
 
+use App\Components\Recipe\Data\Entity\IngredientEntity;
 use App\Components\Recipe\Data\Entity\InstructionEntity;
 use App\Components\Recipe\Data\Entity\RecipeEntity;
-use App\Components\Recipe\Data\Entity\RecipeIngredientEntity;
 use App\Components\Recipe\Presentation\ViewModel\RecipeViewModel;
 
 
@@ -28,7 +28,7 @@ class RecipeViewModelMapper
                 'uuid' => $instruction->getKey(),
                 'content' => $instruction->content
             ])?->toArray(),
-            ingredients: $recipeEntity?->ingredients?->map(fn(RecipeIngredientEntity $ingredient) => [
+            ingredients: $recipeEntity?->ingredients?->map(fn(IngredientEntity $ingredient) => [
                 'uuid' => $ingredient->getKey(),
                 'content' => $ingredient->content
             ])->toArray(),

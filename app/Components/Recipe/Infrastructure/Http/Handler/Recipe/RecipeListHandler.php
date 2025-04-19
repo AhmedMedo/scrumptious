@@ -10,8 +10,35 @@ use App\Libraries\Base\Http\Handler;
 use OpenApi\Attributes as OA;
 #[OA\Get(
     path: '/api/v1/recipe/list',
+    description: 'List of recipes',
     summary: 'List of recipes',
     tags: ['Recipe'],
+    parameters: [
+        new OA\Parameter(
+            name: 'title',
+            description: 'title of recipe',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'string')
+        ),
+        new OA\Parameter(
+            name: 'is_favorite',
+            description: 'Return only favorite recipes in user favorite list',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'boolean'),
+            examples: [
+                new OA\Examples(
+                    example: 'true',
+                    summary: 'Return only favorite recipes in user favorite list',
+                ),
+                new OA\Examples(
+                    example: 'false',
+                    summary: 'Return only non-favorite recipes in user favorite list',
+                ),
+            ]
+        ),
+    ],
     responses: [
         new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(
             properties: [

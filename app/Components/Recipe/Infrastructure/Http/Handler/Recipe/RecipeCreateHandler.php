@@ -5,7 +5,9 @@ namespace App\Components\Recipe\Infrastructure\Http\Handler\Recipe;
 use App\Components\Auth\Infrastructure\Service\UserService;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
 use App\Components\Recipe\Infrastructure\Http\Request\Recipe\CreateRecipeRequest;
+use App\Libraries\Base\Database\ConnectionService;
 use App\Libraries\Base\Http\Handler;
+use Exception;
 use OpenApi\Attributes as OA;
 
 #[OA\Post(
@@ -26,21 +28,31 @@ use OpenApi\Attributes as OA;
     ]
 
 )]
-
 class RecipeCreateHandler extends Handler
 {
 
     public function __construct(
         private readonly RecipeServiceInterface $recipeService,
-        private readonly UserService $userService
+        private readonly UserService            $userService,
+        private readonly ConnectionService      $connection
     )
     {
     }
 
     public function __invoke(CreateRecipeRequest $request): \Illuminate\Http\JsonResponse
     {
-        $user = $this->userService->user();
-        $recipe = $this->recipeService->store(array_merge($request->validated(),['user_uuid' => $user->uuid()]));
-        return $this->successResponseWithMessage('Recipe created successfully');
+        try {
+            $this->connection->beginTransaction();
+            $user = $this->userService->user();
+            $this->recipeService->store(array_merge($request->validated(), ['user_uuid' => $user->uuid()]));
+            $this->connection->commit();
+
+            return $this->successResponseWithMessage('Recipe created successfully');
+        } catch (Exception $exception) {
+
+            $this->connection->rollBack();
+
+            return $this->errorResponseWithData([], $exception->getMessage());
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Components\Recipe\Infrastructure\Service;
 
+use App\Components\Auth\Application\Service\UserServiceInterface;
 use App\Components\Recipe\Application\Query\RecipeQueryInterface;
 use App\Components\Recipe\Application\Repository\RecipeRepositoryInterface;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
@@ -12,6 +13,7 @@ class RecipeService implements RecipeServiceInterface
     public function __construct(
         private readonly RecipeRepositoryInterface $recipeRepository,
         private readonly RecipeQueryInterface $recipeQuery,
+        private readonly UserServiceInterface $userService
     )
     {
     }
@@ -44,5 +46,12 @@ class RecipeService implements RecipeServiceInterface
     public function paginated(string $userUuid): LengthAwarePaginator
     {
         return $this->recipeQuery->paginated($userUuid);
+    }
+
+    public function toggleFavourite(string $uuid): void
+    {
+        $user = $this->userService->userEntity();
+        $recipe = $this->recipeQuery->findByUuid($uuid);
+        $user->toggleFavorite($recipe);
     }
 }

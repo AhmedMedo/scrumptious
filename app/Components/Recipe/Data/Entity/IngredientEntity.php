@@ -1,34 +1,26 @@
 <?php
 
-namespace App\Components\Content\Data\Entity;
+namespace App\Components\Recipe\Data\Entity;
 
-use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
-use App\ModelFilters\CategoryEntityFilter;
+use App\ModelFilters\IngredientEntityFilter;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class CategoryEntity extends Model implements HasMedia
+class IngredientEntity extends Model
 {
     use HasFactory;
     use HasUuidTrait;
-    use InteractsWithMedia;
     use Filterable;
 
-    public function modelFilter(): ?string
-    {
-        return $this->provideFilter(CategoryEntityFilter::class);
-    }
 
     /** @var bool */
     public $incrementing = false;
 
     /** @var string */
-    protected $table = 'category';
+    protected $table = 'ingredients';
 
     /** @var string */
     protected $primaryKey = 'uuid';
@@ -38,10 +30,13 @@ class CategoryEntity extends Model implements HasMedia
 
     protected $guarded = [];
 
-
+    public function modelFilter(): ?string
+    {
+        return $this->provideFilter(IngredientEntityFilter::class);
+    }
     public function recipes(): BelongsToMany
     {
-        return $this->belongsToMany(RecipeEntity::class, 'category_recipe', 'category_uuid', 'recipe_uuid');
+        return $this->belongsToMany(RecipeEntity::class, 'recipe_ingredient', 'ingredient_uuid', 'recipe_uuid');
     }
 
 }

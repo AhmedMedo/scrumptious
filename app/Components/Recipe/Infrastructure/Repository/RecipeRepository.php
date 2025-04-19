@@ -3,6 +3,7 @@
 namespace App\Components\Recipe\Infrastructure\Repository;
 
 use App\Components\Recipe\Application\Query\RecipeQueryInterface;
+use App\Components\Recipe\Application\Repository\IngredientRepositoryInterface;
 use App\Components\Recipe\Application\Repository\RecipeRepositoryInterface;
 use App\Components\Recipe\Data\Entity\RecipeEntity;
 use Illuminate\Support\Arr;
@@ -13,7 +14,8 @@ class RecipeRepository implements RecipeRepositoryInterface
 
 
     public function __construct(
-        private readonly RecipeQueryInterface $recipeQuery
+        private readonly RecipeQueryInterface $recipeQuery,
+        private readonly IngredientRepositoryInterface $ingredientRepository
     )
     {
     }
@@ -51,9 +53,10 @@ class RecipeRepository implements RecipeRepositoryInterface
 
         if (Arr::has($data, 'ingredients')) {
             foreach ($data['ingredients'] as $ingredient) {
-                $recipe->ingredients()->create([
+                $ingredientEntity = $this->ingredientRepository->create([
                     'content' => Arr::get($ingredient, 'content'),
                 ]);
+                $recipe->ingredients()->attach($ingredientEntity);
             }
         }
 
@@ -92,11 +95,13 @@ class RecipeRepository implements RecipeRepositoryInterface
 
 
         if (Arr::has($data, 'ingredients')) {
-            $recipe->ingredients()->delete();
+            $recipe->ingredients()->detach();
             foreach ($data['ingredients'] as $ingredient) {
-                $recipe->ingredients()->create([
+                $ingredientEntity = $this->ingredientRepository->create([
                     'content' => Arr::get($ingredient, 'content'),
                 ]);
+                $recipe->ingredients()->attach($ingredientEntity);
+
             }
         }
 
@@ -107,7 +112,7 @@ class RecipeRepository implements RecipeRepositoryInterface
         $recipe = $this->recipeQuery->findByUuid($uuid);
         $recipe->clearMediaCollection('image');
         $recipe->instructions()->delete();
-        $recipe->ingredients()->delete();
+        $recipe->ingredients()->detach();
         $recipe->delete();
     }
 }

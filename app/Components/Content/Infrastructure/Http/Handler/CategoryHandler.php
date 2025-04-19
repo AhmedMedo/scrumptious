@@ -14,6 +14,15 @@ use OpenApi\Attributes as OA;
     description: 'Get countries',
     summary: 'Get countries',
     tags: ['Content'],
+    parameters: [
+        //ad name parameter
+        new OA\Parameter(
+            name: 'name',
+            description: 'Search by category name',
+            in: 'query',
+            required: false,
+        )
+    ],
     responses  : [
         new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(
             properties: [

@@ -14,6 +14,8 @@ interface UserServiceInterface
 
     public function user(): UserDto;
 
+    public function userEntity(): UserEntity;
+
     public function register(array $data): UserVerificationDto;
 
     public function verify(string $code): bool;

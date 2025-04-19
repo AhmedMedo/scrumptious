@@ -11,4 +11,6 @@ return [
     ContentServiceProvider::class,
     RecipeServiceProvider::class,
     MealPlannerServiceProvider::class,
+    EloquentFilter\ServiceProvider::class,
+
 ];

@@ -3,6 +3,7 @@
 namespace App\Components\Auth\Data\Entity;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Components\Auth\Traits\Favoriter;
 use App\Components\Content\Data\Entity\CountryEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,8 @@ class UserEntity extends Authenticatable implements HasMedia
     use InteractsWithMedia;
     use SoftDeletes;
     use HasRoles;
+    use Favoriter;
+
 
 
     /** @var bool */

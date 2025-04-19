@@ -20,4 +20,6 @@ interface RecipeServiceInterface
 
     public function findByUuid(string $uuid);
 
+    public function toggleFavourite(string $uuid): void;
+
 }
