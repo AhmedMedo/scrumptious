@@ -30,7 +30,7 @@ class TargetViewModel
     {
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'uuid' => $this->uuid,

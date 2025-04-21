@@ -1,5 +1,10 @@
 <?php
 
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanCreateHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanDeleteHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanListHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanShowHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanUpdateHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Target\TargetCreateHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Target\TargetDeleteHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Target\TargetListHandler;
@@ -20,3 +25,14 @@ Route::group([
 });
 
 
+
+Route::group([
+    'prefix' => 'plans',
+    'middleware' => ['auth:api']
+], function () {
+    Route::post('/', PlanCreateHandler::class);
+    Route::patch('/{uuid}/update', PlanUpdateHandler::class);
+    Route::delete('/{uuid}/delete', PlanDeleteHandler::class);
+    Route::get('/list', PlanListHandler::class);
+    Route::get('/{uuid}/show', PlanShowHandler::class);
+});

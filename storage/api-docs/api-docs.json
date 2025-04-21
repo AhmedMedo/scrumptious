@@ -1286,6 +1286,205 @@
                 }
             }
         },
+        "/api/v1/plans": {
+            "post": {
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "Create new Plan",
+                "description": "Create new Plan",
+                "operationId": "c89c4eda771ebd4e4b1462683587081c",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreatePlanRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/{uuid}/plans": {
+            "delete": {
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "delete Plan",
+                "description": "delete Plan",
+                "operationId": "7fc5934ed15472bc46f07ea1b4f0cd41",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Plan UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "update Plan",
+                "description": "update Plan",
+                "operationId": "466663d14d00acfa271f8fe222ff67a3",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Plan UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreatePlanRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/plans/list": {
+            "get": {
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "Get list of Plans",
+                "description": "Get list of Plans",
+                "operationId": "7bc7c51eabee2aa696b78ae613aa3310",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PlanViewModel"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/plans/{uuid}/show": {
+            "get": {
+                "tags": [
+                    "Plan"
+                ],
+                "summary": "Show Plan",
+                "description": "Show Plan",
+                "operationId": "35a7cd57039fb112ae5c918575e267ca",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Plan UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PlanViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/target": {
             "post": {
                 "tags": [
@@ -1858,6 +2057,56 @@
                     },
                     "updated_at": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PlanViewModel": {
+                "required": [
+                    "uuid",
+                    "start_date",
+                    "end_date",
+                    "type",
+                    "meals"
+                ],
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "uuid"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "example": "2022-01-01"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "example": "2022-01-01"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "week"
+                    },
+                    "meals": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "uuid": {
+                                    "type": "string",
+                                    "example": "uuid"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "example": "breakfast"
+                                },
+                                "recipes": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecipeViewModel"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 },
                 "type": "object"
@@ -2530,6 +2779,65 @@
                     }
                 }
             },
+            "CreatePlanRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "type",
+                                "start_date",
+                                "end_date",
+                                "meals"
+                            ],
+                            "properties": {
+                                "type": {
+                                    "description": "The type of plan (e.g., \"weekly\", \"monthly\", \"yearly\").",
+                                    "type": "string",
+                                    "example": "weekly"
+                                },
+                                "start_date": {
+                                    "description": "The start date for the plan.",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-01"
+                                },
+                                "end_date": {
+                                    "description": "The end date for the plan.",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-01"
+                                },
+                                "meals": {
+                                    "description": "An array of meal objects.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "type": {
+                                                "description": "The type of meal (e.g., \"breakfast\", \"lunch\", \"dinner\").",
+                                                "type": "string",
+                                                "example": "breakfast"
+                                            },
+                                            "recipes": {
+                                                "description": "An array of recipe UUIDs.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5",
+                                                    "nullable": true
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "CreateTargetRequest": {
                 "required": true,
                 "content": {
@@ -2700,6 +3008,10 @@
         {
             "name": "Content",
             "description": "Content"
+        },
+        {
+            "name": "Plan",
+            "description": "Plan"
         },
         {
             "name": "Target",

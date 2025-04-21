@@ -4,6 +4,7 @@ namespace App\Components\Recipe\Data\Entity;
 
 use App\Components\Auth\Traits\Favoriteable;
 use App\Components\Content\Data\Entity\CategoryEntity;
+use App\Components\MealPlanner\Data\Entity\MealEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use App\ModelFilters\RecipeEntityFilter;
 use EloquentFilter\Filterable;
@@ -56,5 +57,10 @@ class RecipeEntity extends Model implements HasMedia
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(CategoryEntity::class, 'category_recipe', 'recipe_uuid', 'category_uuid');
+    }
+
+    public function meals(): BelongsToMany
+    {
+        return $this->belongsToMany(MealEntity::class, 'meal_recipe', 'recipe_uuid', 'meal_uuid');
     }
 }
