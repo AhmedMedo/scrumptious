@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserServiceInterface
 {
-    public function login(array $credentials): UserVerificationDto;
+    public function login(array $credentials): UserEntity;
 
     public function user(): UserDto;
 
