@@ -42,7 +42,7 @@ class UserService implements UserServiceInterface
      * @throws AccountInactiveException
      * @throws \Exception
      */
-    public function login(array $credentials): UserVerificationDto
+    public function login(array $credentials): UserEntity
     {
         $userName = $credentials['username'];
         $isEmailLogin = false;
@@ -67,7 +67,7 @@ class UserService implements UserServiceInterface
 //            throw new \Exception($e->getMessage());
 //        }
 
-        return $this->userVerificationService->addVerificationOtp($user->getKey(), UserVerificationTypeEnum::LOGIN_OTP, $isEmailLogin);
+        return $user;
     }
 
     public function user(): UserDto

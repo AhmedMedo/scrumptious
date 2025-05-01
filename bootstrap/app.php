@@ -68,11 +68,15 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $e, $request) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized. Please log in.',
-                'data' => []
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+            if (request()->is('api/*'))
+            {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized. Please log in.',
+                    'data' => []
+                ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+
+            }
         });
 
         $exceptions->renderable(function (\Illuminate\Database\Eloquent\ModelNotFoundException $e, $request) {
@@ -87,12 +91,15 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Unauthenticated response mapping
         $exceptions->renderable(function (AuthenticationException $e, $request) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized. Please log in.',
-                'data' => []
-            ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
-        });
+            if (request()->is('api/*'))
+            {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Unauthorized. Please log in.',
+                    'data' => []
+                ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
+
+            }        });
 
         $exceptions->renderable(function (Throwable $e, $request) {
             if ($request->is('api/*'))

@@ -24,6 +24,7 @@ class RecipeEntity extends Model implements HasMedia
     use Favoriteable;
     use Filterable;
 
+
     public function modelFilter(): ?string
     {
         return $this->provideFilter(RecipeEntityFilter::class);
@@ -42,7 +43,7 @@ class RecipeEntity extends Model implements HasMedia
     /** @var string */
     protected $keyType = 'string';
 
-    protected $guarded = [];
+    protected $guarded = ['image']; // Guard the 'image' field
 
     public function ingredients(): BelongsToMany
     {
