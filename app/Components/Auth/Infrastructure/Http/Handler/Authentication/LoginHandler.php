@@ -2,7 +2,10 @@
 
 namespace App\Components\Auth\Infrastructure\Http\Handler\Authentication;
 
+use App\Components\Auth\Application\Mapper\UserDtoMapperInterface;
+use App\Components\Auth\Application\Mapper\UserViewModelMapperInterface;
 use App\Components\Auth\Application\Service\UserServiceInterface;
+use App\Components\Auth\Data\Enums\RoleEnum;
 use App\Components\Auth\Domain\Exception\AccountInactiveException;
 use App\Components\Auth\Domain\Exception\UserNotFoundException;
 use App\Components\Auth\Domain\Exception\WrongCredentialsException;
@@ -34,6 +37,9 @@ class LoginHandler extends Handler
 {
     public function __construct(
         private readonly UserServiceInterface $userService,
+        private readonly UserDtoMapperInterface $userDtoMapper,
+        private readonly UserViewModelMapperInterface $userViewModelMapper
+
     ) {
     }
 
@@ -48,7 +54,7 @@ class LoginHandler extends Handler
     public function __invoke(LoginRequest $request)
     {
         try {
-            $userVerificationDto = $this->userService->login($request->toArray());
+            $userEntity = $this->userService->login($request->toArray());
         } catch (WrongCredentialsException $exception) {
 
             throw ValidationException::withMessages([
@@ -59,10 +65,23 @@ class LoginHandler extends Handler
                 'email' => [$exception->getMessage()],
             ]);
         }
+        $accessToken = $userEntity->createToken('auth_token');
 
-        return $this->successResponseWithData([
-            'token' => $userVerificationDto->token(),
-            'phone_number' => $userVerificationDto->phoneNumber(),
-        ]);
+        return $this->successResponseWithData(
+            array_merge(
+                $this->userViewModelMapper->map(
+                    $this->userDtoMapper->map($userEntity)
+                )->toArray(),
+                [
+                    'meta' => [
+                        'token' => $accessToken->accessToken,
+                        'token_type' => 'Bearer',
+                        'expires_at' => $accessToken->token->expires_at->toDateTimeString(),
+                        'is_guest' => $userEntity->hasRole(RoleEnum::GUEST->value) ? 1 : 0,
+                    ],
+
+                ]
+            )
+        );
     }
 }
