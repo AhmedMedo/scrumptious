@@ -4,12 +4,16 @@ namespace App\Filament\Resources;
 
 use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Filament\Resources\RecipeEntityResource\Pages;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class RecipeEntityResource extends Resource
 {
@@ -52,27 +56,62 @@ class RecipeEntityResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('Recipe Image')
                     ->image()
-                    ->disk('public') // You can specify the disk here
-                    ->directory('recipes') // Optionally specify a folder for the uploaded images
-                    ->afterStateUpdated(function (callable $set,$get,$record) {
-                        $image = $get('image'); // Get the image from form state
-                        if ($image && $record instanceof RecipeEntity) {
-                            $record->addMediaFromDisk($image->getPathname(), 'public') // Store the media
-                            ->toMediaCollection('image');
+                    ->disk('public')
+                    ->directory('recipes')
+                    ->preserveFilenames() // optional
+                    ->maxSize(2048) // optional
+                    ->afterStateHydrated(function ($component, $state) {
+                        $record = $component->getModelInstance();
+
+                        if ($record && $media = $record->getFirstMedia('image')) {
+                            // Wrap in array to match what FileUpload expects
+                            $component->state([$media->getPathRelativeToRoot()]);
+                        }
+                    })
+                    ->afterStateUpdated(function ($state, callable $set, callable $get, $record) {
+                        if ($state instanceof TemporaryUploadedFile && $record instanceof \App\Components\Recipe\Data\Entity\RecipeEntity) {
+                            // Move file to permanent location first
+                            $storedPath = $state->store('recipes', 'public');
+                            $record->clearMediaCollection('image');
+                            // Add to Spatie media from full path
+                            $record
+                                ->addMedia(storage_path("app/public/{$storedPath}"))
+                                ->usingFileName($state->getClientOriginalName())
+                                ->preservingOriginal()
+                                ->toMediaCollection('image');
                         }
                     }),
-                Forms\Components\Repeater::make('instructions')
+
+                Repeater::make('instructions')
                     ->schema([
-                        Forms\Components\Textarea::make('content')->label('Instruction'),
+                        Textarea::make('content')->label('Instruction'),
                     ])
                     ->label('Instructions')
-                    ->columns(1),
-                Forms\Components\Repeater::make('ingredients')
+                    ->columns(1)
+                    ->afterStateHydrated(function (Repeater $component) {
+                        $component->state(
+                            $component->getModelInstance()->instructions->map(function ($instruction) {
+                                return ['content' => $instruction->content];
+                            })->toArray()
+                        );
+                    })
+                    ->dehydrated(false),
+                Repeater::make('ingredients')
                     ->schema([
-                        Forms\Components\TextInput::make('content')->label('Ingredient'),
+                        TextInput::make('content')->label('Ingredient'),
                     ])
                     ->label('Ingredients')
-                    ->columns(1),
+                    ->columns(1)
+                    ->afterStateHydrated(function ($component) {
+                        $component->state(
+                            $component->getModelInstance()->ingredients->map(function ($ingredient) {
+                                return [
+                                    'content' => $ingredient->content, // now we access the actual ingredient field
+                                ];
+                            })->toArray()
+                        );
+                    })
+                    ->dehydrated(false),
             ]);
     }
 
