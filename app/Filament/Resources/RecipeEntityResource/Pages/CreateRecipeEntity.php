@@ -55,4 +55,13 @@ class CreateRecipeEntity extends CreateRecord
         }
 
     }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (auth()->guard('admin')->check()) {
+            $data['admin_uuid'] = auth()->guard('admin')->user()->uuid;
+        }
+
+        return $data;
+    }
 }

@@ -12,6 +12,7 @@ use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\MultiSelect;
@@ -128,6 +129,9 @@ class RecipeEntityResource extends Resource
             ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function table(Table $table): Table
     {
         return $table
@@ -146,30 +150,6 @@ class RecipeEntityResource extends Resource
                     ->label('Recipe Title')
                     ->sortable(), // Allow sorting by title
 
-                // Display Cooking Minutes (Time)
-                Tables\Columns\TextColumn::make('cooking_minutes')
-                    ->label('Cooking Minutes')
-                    ->sortable(),
-
-                // Display Total Carbs
-                Tables\Columns\TextColumn::make('total_carbs')
-                    ->label('Total Carbs (g)')
-                    ->sortable(),
-
-                // Display Total Proteins
-                Tables\Columns\TextColumn::make('total_proteins')
-                    ->label('Total Proteins (g)')
-                    ->sortable(),
-
-                // Display Total Fats
-                Tables\Columns\TextColumn::make('total_fats')
-                    ->label('Total Fats (g)')
-                    ->sortable(),
-
-                // Display Total Calories
-                Tables\Columns\TextColumn::make('total_calories')
-                    ->label('Total Calories')
-                    ->sortable(),
 
                 // Display YouTube Video URL (if any)
                 Tables\Columns\TextColumn::make('youtube_video')
@@ -177,34 +157,47 @@ class RecipeEntityResource extends Resource
                     ->url('youtube_video') // This will make it clickable
                     ->sortable(),
 
-                // Display Recipe Description
-                Tables\Columns\TextColumn::make('description')
-                    ->label('Description')
-                    ->limit(50), // Limit the length for a better table view
-
-
-
                 // Display User UUID (this would be the user who created the recipe)
-                Tables\Columns\TextColumn::make('user.first_name')
-                    ->label('User')
-                    ->sortable()
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('creator')
+                    ->label('Created By')
+                    ->getStateUsing(function ($record) {
+                        if ($record->admin) {
+                            return 'Admin: ' . $record->admin->name;
+                        } elseif ($record->user) {
+                            return 'User: ' . $record->user->first_name . ' ' . $record->user->last_name;
+                        }
+                        return 'Unknown';
+                    }),
 
                 // Display Created At (timestamp)
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At'),
-
-                // Display Updated At (timestamp)
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At'),
             ])
             ->filters([
-                // Filters can be added here if needed (e.g., filter by date or status)
+                Tables\Filters\SelectFilter::make('created_by')
+                    ->label('Created By')
+                    ->options([
+                        'admin' => 'Admins',
+                        'user' => 'Users',
+                    ])
+                    ->query(function (Builder $query, array $state) {
+                        if ($state['value'] === 'admin') {
+                            return $query->whereNotNull('admin_uuid');
+                        } elseif ($state['value'] === 'user') {
+                            return $query->whereNotNull('user_uuid');
+                        }
+                        return $query;
+                    })
             ])
             ->actions([
                 // Define actions for each row (e.g., view, edit, delete)
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

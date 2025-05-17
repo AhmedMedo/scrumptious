@@ -23,6 +23,7 @@ class EditRecipeEntity extends EditRecord
     {
         $instructions = $this->data['instructions'] ?? [];
         $ingredients = $this->data['ingredients'] ?? [];
+        $imageState = $this->data['image'] ?? [];
 
         // Save instructions (HasMany)
         $this->record->instructions()->delete();
@@ -43,6 +44,10 @@ class EditRecipeEntity extends EditRecord
             );
             $this->record->ingredients()->attach($ingredient);
 
+        }
+
+        if (empty($imageState)) {
+            $this->record->clearMediaCollection('image');
         }
     }
 

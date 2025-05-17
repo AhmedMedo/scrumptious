@@ -39,11 +39,6 @@ class CategoryEntityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('uuid')
-                    ->label('UUID')
-                    ->sortable()
-                    ->searchable(),
-
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->sortable()

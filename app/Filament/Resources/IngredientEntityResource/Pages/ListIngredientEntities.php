@@ -13,7 +13,8 @@ class ListIngredientEntities extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label('Add New Ingredient'),
         ];
     }
 }

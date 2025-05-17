@@ -2,14 +2,11 @@
 
 namespace App\Components\Auth\Data\Entity;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Components\Auth\Traits\Favoriter;
-use App\Components\Content\Data\Entity\CountryEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -19,7 +16,6 @@ class UserEntity extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
-//    use Notifiable;
     use HasUuidTrait;
     use InteractsWithMedia;
     use SoftDeletes;

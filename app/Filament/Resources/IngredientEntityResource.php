@@ -64,10 +64,14 @@ class IngredientEntityResource extends Resource
     public static function table(Tables\Table $table): Tables\Table
     {
         return $table->columns([
-            Tables\Columns\TextColumn::make('uuid')
-                ->label('UUID')
-                ->sortable()
-                ->searchable(),
+            Tables\Columns\ImageColumn::make('image_url')
+                ->label('Image')
+                ->getStateUsing(function ($record) {
+                    return $record->getFirstMediaUrl('image');
+                })
+                ->disk('public')
+                ->height(60)
+                ->circular(),
 
             Tables\Columns\TextColumn::make('content')
                 ->label('Content')

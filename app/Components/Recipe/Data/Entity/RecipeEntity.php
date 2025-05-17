@@ -70,4 +70,9 @@ class RecipeEntity extends Model implements HasMedia
     {
         return $this->belongsTo(UserEntity::class, 'user_uuid', 'uuid');
     }
+
+    public function admin(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Admin::class, 'admin_uuid', 'uuid');
+    }
 }
