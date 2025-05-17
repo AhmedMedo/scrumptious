@@ -153,9 +153,11 @@ class RecipeEntityResource extends Resource
 
                 // Display YouTube Video URL (if any)
                 Tables\Columns\TextColumn::make('youtube_video')
-                    ->label('YouTube Video')
-                    ->url('youtube_video') // This will make it clickable
-                    ->sortable(),
+                    ->label('YouTube Url')
+                    ->formatStateUsing(fn ($state) => 'Watch')
+                    ->url(fn ($record) => $record->youtube_video)
+                    ->openUrlInNewTab(),
+
 
                 // Display User UUID (this would be the user who created the recipe)
                 Tables\Columns\TextColumn::make('creator')
