@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Arr;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Filament\Forms\Components\MultiSelect;
 
 class RecipeEntityResource extends Resource
 {
@@ -84,7 +85,10 @@ class RecipeEntityResource extends Resource
 
                 Repeater::make('instructions')
                     ->schema([
-                        Textarea::make('content')->label('Instruction'),
+                        Textarea::make('content')
+                            ->label('Instruction')
+                            ->required()
+                            ->rules(['string', 'min:5']), // optional: add length or format rules
                     ])
                     ->label('Instructions')
                     ->columns(1)
@@ -98,7 +102,9 @@ class RecipeEntityResource extends Resource
                     ->dehydrated(false),
                 Repeater::make('ingredients')
                     ->schema([
-                        TextInput::make('content')->label('Ingredient'),
+                        TextInput::make('content')->label('Ingredient')
+                            ->required()
+                            ->rules(['string', 'min:5']),
                     ])
                     ->label('Ingredients')
                     ->columns(1)
@@ -112,6 +118,12 @@ class RecipeEntityResource extends Resource
                         );
                     })
                     ->dehydrated(false),
+                MultiSelect::make('categories')
+                    ->label('Categories')
+                    ->relationship('categories', 'name') // assuming your categories table has a 'name' column
+                    ->preload()
+                    ->searchable()
+                    ->required(),
             ]);
     }
 
@@ -119,6 +131,16 @@ class RecipeEntityResource extends Resource
     {
         return $table
             ->columns([
+                // Display Recipe Image
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label('Image')
+                    ->getStateUsing(function ($record) {
+                        return $record->getFirstMediaUrl('image');
+                    })
+                    ->disk('public')
+                    ->height(60)
+                    ->circular(), // optional
+
                 // Display Recipe Title
                 Tables\Columns\TextColumn::make('title')
                     ->label('Recipe Title')
@@ -160,15 +182,13 @@ class RecipeEntityResource extends Resource
                     ->label('Description')
                     ->limit(50), // Limit the length for a better table view
 
-                // Display Recipe Image
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
-                    ->disk('public'),
+
 
                 // Display User UUID (this would be the user who created the recipe)
-                Tables\Columns\TextColumn::make('user_uuid')
-                    ->label('User UUID')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.first_name')
+                    ->label('User')
+                    ->sortable()
+                    ->searchable(),
 
                 // Display Created At (timestamp)
                 Tables\Columns\TextColumn::make('created_at')
