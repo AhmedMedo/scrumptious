@@ -61,6 +61,7 @@ class RecipeEntityResource extends Resource
                     ->directory('recipes')
                     ->preserveFilenames() // optional
                     ->maxSize(2048) // optional
+                    ->dehydrated(false)
                     ->afterStateHydrated(function ($component, $state) {
                         $record = $component->getModelInstance();
 
@@ -139,8 +140,7 @@ class RecipeEntityResource extends Resource
                     })
                     ->disk('public')
                     ->height(60)
-                    ->circular(), // optional
-
+                    ->circular(),
                 // Display Recipe Title
                 Tables\Columns\TextColumn::make('title')
                     ->label('Recipe Title')

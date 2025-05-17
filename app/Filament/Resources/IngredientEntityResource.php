@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class IngredientEntityResource extends Resource
 {
@@ -24,6 +25,35 @@ class IngredientEntityResource extends Resource
             Forms\Components\TextInput::make('content')
                 ->required()
                 ->maxLength(255),
+            Forms\Components\FileUpload::make('image')
+                ->label('Ingredient Image')
+                ->image()
+                ->disk('public')
+                ->directory('ingredients')
+                ->preserveFilenames() // optional
+                ->maxSize(2048) // optional
+                ->dehydrated(false) // ✅ Do not try to save 'image' to DB
+                ->afterStateHydrated(function ($component, $state) {
+                    $record = $component->getModelInstance();
+
+                    if ($record && $media = $record->getFirstMedia('image')) {
+                        // Wrap in array to match what FileUpload expects
+                        $component->state([$media->getPathRelativeToRoot()]);
+                    }
+                })
+                ->afterStateUpdated(function ($state, callable $set, callable $get, $record) {
+                    if ($state instanceof TemporaryUploadedFile && $record instanceof \App\Components\Recipe\Data\Entity\IngredientEntity) {
+                        // Move file to permanent location first
+                        $storedPath = $state->store('ingredients', 'public');
+                        $record->clearMediaCollection('image');
+                        // Add to Spatie media from full path
+                        $record
+                            ->addMedia(storage_path("app/public/{$storedPath}"))
+                            ->usingFileName($state->getClientOriginalName())
+                            ->preservingOriginal()
+                            ->toMediaCollection('image');
+                    }
+                }),
 
             Forms\Components\Checkbox::make('is_active')
                 ->label('Is Active')
