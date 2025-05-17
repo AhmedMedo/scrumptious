@@ -20,6 +20,10 @@ class UserEntityResource extends Resource
 
     protected static ?string $navigationLabel = 'App Users';
 
+    protected static ?string $modelLabel = 'User';
+
+    protected static ?string $pluralModelLabel = 'Users';
+
     public static function form(Form $form): Form
     {
         return $form->schema([

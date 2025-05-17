@@ -11,9 +11,12 @@ use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\MultiSelect;
 
@@ -21,11 +24,45 @@ class RecipeEntityResource extends Resource
 {
     protected static ?string $model = RecipeEntity::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
 
     protected static ?string $navigationGroup = 'Recipes';
 
     protected static ?string $navigationLabel = 'Recipes';
+
+    protected static ?string $modelLabel = 'Recipe';
+    protected static ?string $pluralModelLabel = 'Recipes';
+
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['user', 'admin']);
+    }
+
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title;
+    }
+
+    public static function getGlobalSearchQuery(): Builder
+    {
+        return parent::getGlobalSearchQuery()
+            ->with(['user', 'admin'])
+            ->where(function ($query) {
+                $query
+                    ->orWhereHas('user', function ($query) {
+                        $query->where('first_name', 'like', '%' . request('search') . '%')
+                            ->orWhere('last_name', 'like', '%' . request('search') . '%')
+                            ->orWhere('email', 'like', '%' . request('search') . '%');
+                    })
+                    ->orWhereHas('admin', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%')
+                            ->orWhere('email', 'like', '%' . request('search') . '%');
+                    });
+            });
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -126,6 +163,10 @@ class RecipeEntityResource extends Resource
                     ->preload()
                     ->searchable()
                     ->required(),
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Is Active')
+                    ->default(true),
+
             ]);
     }
 
@@ -154,9 +195,10 @@ class RecipeEntityResource extends Resource
                 // Display YouTube Video URL (if any)
                 Tables\Columns\TextColumn::make('youtube_video')
                     ->label('YouTube Url')
-                    ->formatStateUsing(fn ($state) => 'Watch')
+                    ->formatStateUsing(fn () => '<span title="Watch on YouTube">▶️</span>') // emoji as icon
                     ->url(fn ($record) => $record->youtube_video)
-                    ->openUrlInNewTab(),
+                    ->openUrlInNewTab()
+                    ->html(),
 
 
                 // Display User UUID (this would be the user who created the recipe)
@@ -170,6 +212,10 @@ class RecipeEntityResource extends Resource
                         }
                         return 'Unknown';
                     }),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active')
+                    ->sortable(),
+
 
                 // Display Created At (timestamp)
                 Tables\Columns\TextColumn::make('created_at')
@@ -189,7 +235,13 @@ class RecipeEntityResource extends Resource
                             return $query->whereNotNull('user_uuid');
                         }
                         return $query;
-                    })
+                    }),
+                TernaryFilter::make('is_active')
+                    ->label('Active Status')
+                    ->trueLabel('Active')
+                    ->falseLabel('Inactive')
+                    ->nullable(), // allows filtering by active/inactive/null
+
             ])
             ->actions([
                 // Define actions for each row (e.g., view, edit, delete)
@@ -199,6 +251,16 @@ class RecipeEntityResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\BulkAction::make('activate')
+                        ->label('Activate')
+                        ->icon('heroicon-o-check')
+                        ->action(fn (Collection $records) => $records->each->update(['is_active' => true])),
+
+                    Tables\Actions\BulkAction::make('deactivate')
+                        ->label('Deactivate')
+                        ->icon('heroicon-o-x-mark')
+                        ->action(fn (Collection $records) => $records->each->update(['is_active' => false])),
+
                 ]),
             ]);
     }

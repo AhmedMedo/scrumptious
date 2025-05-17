@@ -18,7 +18,11 @@ class CategoryEntityResource extends Resource
     protected static ?string $navigationGroup = 'Recipes';
 
     protected static ?string $navigationLabel = 'Categories';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
+
+    protected static ?string $modelLabel = 'Category';
+
+    protected static ?string $pluralModelLabel = 'Categories';
 
     public static function form(Form $form): Form
     {

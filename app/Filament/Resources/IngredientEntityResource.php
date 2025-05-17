@@ -19,6 +19,10 @@ class IngredientEntityResource extends Resource
     protected static ?string $navigationLabel = 'Ingredients';
     protected static ?string $navigationGroup = 'Recipes';
 
+    protected static ?string $modelLabel = 'Ingredient';
+
+    protected static ?string $pluralModelLabel = 'Ingredients';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
