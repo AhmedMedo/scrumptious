@@ -2,7 +2,6 @@
 
 namespace App\Components\Recipe\Presentation\ViewModel;
 
-use phpseclib3\Math\PrimeField\Integer;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema(
@@ -61,11 +60,11 @@ class RecipeViewModel
     public function __construct(
         public readonly string   $uuid,
         public readonly string   $title,
-        public readonly ?integer $cookingMinutes = null,
-        public readonly ?integer $totalCarbs = null,
-        public readonly ?integer $totalProteins = null,
-        public readonly ?integer $totalFats = null,
-        public readonly ?Integer $totalCalories = null,
+        public readonly ?int $cookingMinutes = null,
+        public readonly ?int $totalCarbs = null,
+        public readonly ?int $totalProteins = null,
+        public readonly ?int $totalFats = null,
+        public readonly ?int $totalCalories = null,
         public readonly ?string  $youTubeVideo = null,
         public readonly ?string  $image = null,
         public readonly ?string  $description = null,
