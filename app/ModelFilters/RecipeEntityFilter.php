@@ -33,4 +33,12 @@ class RecipeEntityFilter extends ModelFilter
             $query->where(config('favorite.user_foreign_key'), $user->getKey());
         }, $isFavorite ? '>=' : '=', $isFavorite ? 1 : 0);
     }
+
+    public function category($categoryUuid): RecipeEntityFilter
+    {
+
+        return $this->whereHas('categories', function($query) use ($categoryUuid) {
+            $query->where('uuid', $categoryUuid);
+        });
+    }
 }
