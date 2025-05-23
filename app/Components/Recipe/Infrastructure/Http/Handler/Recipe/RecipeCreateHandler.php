@@ -21,8 +21,7 @@ use OpenApi\Attributes as OA;
         new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
-                new OA\Property(property: 'message', type: 'string'),
-            ],
+                new OA\Property(property: 'uuid', type: 'string'),],
             type: 'object',
         ))
     ]
@@ -44,10 +43,12 @@ class RecipeCreateHandler extends Handler
         try {
             $this->connection->beginTransaction();
             $user = $this->userService->user();
-            $this->recipeService->store(array_merge($request->validated(), ['user_uuid' => $user->uuid()]));
+            $recipeEntity = $this->recipeService->store(array_merge($request->validated(), ['user_uuid' => $user->uuid()]));
             $this->connection->commit();
 
-            return $this->successResponseWithMessage('Recipe created successfully');
+            return $this->successResponseWithData([
+                'uuid' => $recipeEntity->getKey()
+            ]);
         } catch (Exception $exception) {
 
             $this->connection->rollBack();

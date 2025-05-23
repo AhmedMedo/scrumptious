@@ -1750,7 +1750,7 @@
                                         "status": {
                                             "type": "string"
                                         },
-                                        "message": {
+                                        "uuid": {
                                             "type": "string"
                                         }
                                     },
