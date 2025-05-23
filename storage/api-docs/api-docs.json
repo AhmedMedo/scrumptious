@@ -1834,6 +1834,25 @@
                                 "summary": "Return only non-favorite recipes in user favorite list"
                             }
                         }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "category of recipe",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2f4f7f8f-7f8f-8f8f-8f8f-8f8f8f8f8f8f"
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
                     }
                 ],
                 "responses": {

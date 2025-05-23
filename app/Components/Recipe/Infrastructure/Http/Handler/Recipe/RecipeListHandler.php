@@ -38,6 +38,22 @@ use OpenApi\Attributes as OA;
                 ),
             ]
         ),
+        //Category
+        new OA\Parameter(
+            name: 'category',
+            description: 'category of recipe',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'string'),
+            example: '2f4f7f8f-7f8f-8f8f-8f8f-8f8f8f8f8f8f'
+        ),
+        new OA\Parameter(
+            name: 'per_page',
+            description: 'Number of items per page',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'integer')
+        ),
     ],
     responses: [
         new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(
