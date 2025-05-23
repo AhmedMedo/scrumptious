@@ -2215,6 +2215,9 @@
                             },
                             "type": "object"
                         }
+                    },
+                    "is_favorite": {
+                        "type": "boolean"
                     }
                 },
                 "type": "object"

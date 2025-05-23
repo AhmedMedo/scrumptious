@@ -51,6 +51,7 @@ use OpenApi\Attributes as OA;
                 type: 'object'
             )
         ),
+        new OA\Property(property: 'is_favorite', type: 'boolean'),
     ],
     type: 'object'
 )]
@@ -71,6 +72,7 @@ class RecipeViewModel
         public readonly ?array   $instructions = [],
         public readonly ?array   $ingredients = [],
         public readonly ?array   $categories = [],
+        public readonly ?bool    $isFavorite = null
 
     )
     {
@@ -91,7 +93,8 @@ class RecipeViewModel
             'description' => $this->description,
             'instructions' => $this->instructions,
             'ingredients' => $this->ingredients,
-            'categories' => $this->categories
+            'categories' => $this->categories,
+            'is_favorite' => $this->isFavorite
         ];
     }
 

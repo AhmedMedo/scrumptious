@@ -13,6 +13,7 @@ class RecipeViewModelMapper
 {
     public function fromEntity(RecipeEntity $recipeEntity): RecipeViewModel
     {
+        $user = auth()->user();
         return new RecipeViewModel(
             uuid: $recipeEntity->getKey(),
             title: $recipeEntity->title,
@@ -32,7 +33,8 @@ class RecipeViewModelMapper
                 'uuid' => $ingredient->getKey(),
                 'content' => $ingredient->content
             ])->toArray(),
-            categories: $recipeEntity?->categories?->toArray()
+            categories: $recipeEntity?->categories?->toArray(),
+            isFavorite: $user && $recipeEntity->hasBeenFavoritedBy($user)
         );
     }
 }

@@ -5,7 +5,7 @@ namespace App\Components\Recipe\Infrastructure\Http\Handler\Recipe;
 use App\Components\Auth\Infrastructure\Service\UserService;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
 use App\Components\Recipe\Infrastructure\Http\Request\Recipe\CreateRecipeRequest;
-use App\Libraries\Base\Database\ConnectionService;
+use App\Libraries\Base\Database\MySQL\ConnectionService;
 use App\Libraries\Base\Http\Handler;
 use Exception;
 use OpenApi\Attributes as OA;
