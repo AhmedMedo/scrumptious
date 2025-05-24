@@ -2142,6 +2142,10 @@
                         "type": "string",
                         "example": "uuid"
                     },
+                    "title": {
+                        "type": "string",
+                        "example": "title"
+                    },
                     "start_date": {
                         "type": "string",
                         "example": "2022-01-01"
@@ -2866,10 +2870,16 @@
                     "application/json": {
                         "schema": {
                             "required": [
+                                "title",
                                 "start_date",
                                 "timeframe"
                             ],
                             "properties": {
+                                "title": {
+                                    "description": "The title of the target.",
+                                    "type": "string",
+                                    "example": "Complete 20 recipes this month"
+                                },
                                 "start_date": {
                                     "description": "The start date for the target.",
                                     "type": "string",

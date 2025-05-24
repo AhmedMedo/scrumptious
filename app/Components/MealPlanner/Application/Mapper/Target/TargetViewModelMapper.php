@@ -11,6 +11,7 @@ class TargetViewModelMapper
     {
         return new TargetViewModel(
             uuid: $entity->getKey(),
+            title: $entity->title,
             startDate: $entity->start_date,
             endDate: $entity->end_date,
             timeframe: $entity->timeframe,

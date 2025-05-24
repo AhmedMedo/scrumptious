@@ -38,7 +38,7 @@ class RecipeService implements RecipeServiceInterface
         $this->recipeRepository->delete($uuid);
     }
 
-    public function findByUuid(string $uuid)
+    public function findByUuid(string $uuid): ?\App\Components\Recipe\Data\Entity\RecipeEntity
     {
         return $this->recipeQuery->findByUuid($uuid);
     }

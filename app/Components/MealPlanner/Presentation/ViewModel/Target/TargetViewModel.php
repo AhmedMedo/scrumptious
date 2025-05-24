@@ -10,6 +10,7 @@ use OpenApi\Attributes as OA;
     required: ['uuid', 'start_date', 'end_date', 'timeframe'],
     properties: [
         new OA\Property(property: 'uuid', type: 'string', example: 'uuid'),
+        new OA\Property(property: 'title', type: 'string', example: 'title'),
         new OA\Property(property: 'start_date', type: 'string', example: '2022-01-01'),
         new OA\Property(property: 'end_date', type: 'string', example: '2022-01-01'),
         new OA\Property(property: 'timeframe', type: 'string', example: 'week'),
@@ -22,6 +23,7 @@ class TargetViewModel
 
     public function __construct(
         public readonly string  $uuid,
+        public readonly string  $title,
         public readonly Carbon  $startDate,
         public readonly Carbon  $endDate,
         public readonly string  $timeframe,
@@ -34,6 +36,7 @@ class TargetViewModel
     {
         return [
             'uuid' => $this->uuid,
+            'title' => $this->title,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
             'timeframe' => $this->timeframe,
