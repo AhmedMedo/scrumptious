@@ -23,7 +23,7 @@ class TargetViewModel
 
     public function __construct(
         public readonly string  $uuid,
-        public readonly string  $title,
+        public readonly ?string  $title = null,
         public readonly Carbon  $startDate,
         public readonly Carbon  $endDate,
         public readonly string  $timeframe,
