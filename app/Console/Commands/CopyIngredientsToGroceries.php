@@ -119,6 +119,7 @@ class CopyIngredientsToGroceries extends Command
                     }
 
                     // Delete the IngredientEntity after copying
+                    $ingredient->recipes()->detach();
                     $ingredient->delete();
 
                     $this->info("Moved: {$itemName}");
