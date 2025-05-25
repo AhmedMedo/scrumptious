@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Components\Content\Data\Entity\CategoryEntity;
+use App\Components\Recipe\Data\Entity\GroceryEntity;
 use App\Filament\Resources\CategoryEntityResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class CategoryEntityResource extends Resource
 {
@@ -31,6 +33,32 @@ class CategoryEntityResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->label('Grocery Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('categories')
+                    ->preserveFilenames()
+                    ->maxSize(2048)
+                    ->dehydrated(false)
+                    ->afterStateHydrated(function ($component, $state) {
+                        $record = $component->getModelInstance();
+
+                        if ($record && $media = $record->getFirstMedia('image')) {
+                            $component->state([$media->getPathRelativeToRoot()]);
+                        }
+                    })
+                    ->afterStateUpdated(function ($state, callable $set, callable $get, $record) {
+                        if ($state instanceof TemporaryUploadedFile && $record instanceof GroceryEntity) {
+                            $storedPath = $state->store('categories', 'public');
+                            $record->clearMediaCollection('image');
+                            $record
+                                ->addMedia(storage_path("app/public/{$storedPath}"))
+                                ->usingFileName($state->getClientOriginalName())
+                                ->preservingOriginal()
+                                ->toMediaCollection('image');
+                        }
+                    }),
 
                 Forms\Components\Checkbox::make('is_active')
                     ->label('Is Active')
@@ -43,10 +71,19 @@ class CategoryEntityResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label('Image')
+                    ->getStateUsing(function ($record) {
+                        return $record->getFirstMediaUrl('image');
+                    })
+                    ->disk('public')
+                    ->height(60)
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->sortable()
                     ->searchable(),
+
 
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean('is_active')

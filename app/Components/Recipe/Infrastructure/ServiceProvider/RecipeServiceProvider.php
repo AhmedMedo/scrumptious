@@ -2,11 +2,13 @@
 
 namespace App\Components\Recipe\Infrastructure\ServiceProvider;
 
+use App\Components\Recipe\Application\Query\GroceryQueryInterface;
 use App\Components\Recipe\Application\Query\IngredientQueryInterface;
 use App\Components\Recipe\Application\Query\RecipeQueryInterface;
 use App\Components\Recipe\Application\Repository\IngredientRepositoryInterface;
 use App\Components\Recipe\Application\Repository\RecipeRepositoryInterface;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
+use App\Components\Recipe\Infrastructure\Query\GroceryQuery;
 use App\Components\Recipe\Infrastructure\Query\IngredientQuery;
 use App\Components\Recipe\Infrastructure\Query\RecipeQuery;
 use App\Components\Recipe\Infrastructure\Repository\IngredientRepository;
@@ -23,7 +25,8 @@ class RecipeServiceProvider extends ServiceProvider
             RecipeQueryInterface::class => RecipeQuery::class,
             RecipeServiceInterface::class => RecipeService::class,
             IngredientRepositoryInterface::class => IngredientRepository::class,
-            IngredientQueryInterface::class => IngredientQuery::class
+            IngredientQueryInterface::class => IngredientQuery::class,
+            GroceryQueryInterface::class => GroceryQuery::class,
         ];
     }
 }

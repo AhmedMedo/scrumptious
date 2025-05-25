@@ -1674,6 +1674,64 @@
                 }
             }
         },
+        "/api/v1/groceries": {
+            "get": {
+                "tags": [
+                    "Grocery"
+                ],
+                "summary": "List groceries",
+                "description": "List groceries",
+                "operationId": "56d46007f6817c25d457bbb2fccc3b7b",
+                "parameters": [
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "content of grocery",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "content": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/ingredients": {
             "get": {
                 "tags": [
@@ -1711,6 +1769,9 @@
                                                         "type": "string"
                                                     },
                                                     "content": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
                                                         "type": "string"
                                                     }
                                                 },
@@ -3048,6 +3109,10 @@
         {
             "name": "Target",
             "description": "Target"
+        },
+        {
+            "name": "Grocery",
+            "description": "Grocery"
         },
         {
             "name": "Ingredient",

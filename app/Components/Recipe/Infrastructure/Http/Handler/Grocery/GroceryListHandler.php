@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Components\Recipe\Infrastructure\Http\Handler\Ingredient;
+namespace App\Components\Recipe\Infrastructure\Http\Handler\Grocery;
 
+use App\Components\Recipe\Application\Query\GroceryQueryInterface;
 use App\Components\Recipe\Application\Query\IngredientQueryInterface;
+use App\Components\Recipe\Data\Entity\GroceryEntity;
 use App\Components\Recipe\Data\Entity\IngredientEntity;
 use App\Libraries\Base\Http\Handler;
 use OpenApi\Attributes as OA;
 
 #[OA\Get(
-    path: '/api/v1/ingredients',
-    description: 'List ingredients',
-    summary: 'List ingredients',
-    tags: ['Ingredient'],
+    path: '/api/v1/groceries',
+    description: 'List groceries',
+    summary: 'List groceries',
+    tags: ['Grocery'],
     parameters: [
         new OA\Parameter(
             name: 'content',
-            description: 'content of ingredient',
+            description: 'content of grocery',
             in: 'query',
             required: false,
         )
@@ -35,29 +37,29 @@ use OpenApi\Attributes as OA;
         ))
     ]
 )]
-class IngredientListHandler extends Handler
+class GroceryListHandler extends Handler
 {
 
     public function __construct(
-        private readonly IngredientQueryInterface $ingredientQuery
+        private readonly GroceryQueryInterface $groceryQuery
     )
     {
     }
 
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        $ingredients = $this->ingredientQuery->paginated();
+        $groceries = $this->groceryQuery->paginated();
         return $this->successResponseWithDataAndMeta(
-            data: $ingredients->map(fn (IngredientEntity $ingredient) => [
-                'uuid' => $ingredient->uuid,
-                'content' => $ingredient->content,
-                'image' => $ingredient->getFirstMediaUrl('image'),
+            data: $groceries->map(fn (GroceryEntity $groceryEntity) => [
+                'uuid' => $groceryEntity->uuid,
+                'content' => $groceryEntity->content,
+                'image' => $groceryEntity->getFirstMediaUrl('image'),
             ])->toArray(),
             meta: [
-                'total' => $ingredients->total(),
-                'per_page' => $ingredients->perPage(),
-                'current_page' => $ingredients->currentPage(),
-                'last_page' => $ingredients->lastPage(),
+                'total' => $groceries->total(),
+                'per_page' => $groceries->perPage(),
+                'current_page' => $groceries->currentPage(),
+                'last_page' => $groceries->lastPage(),
             ]
         );
     }

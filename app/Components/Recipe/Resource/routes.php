@@ -30,3 +30,9 @@ Route::group([
 
 
 
+
+Route::group([
+    'prefix' => 'groceries',
+], function () {
+    Route::get('/', \App\Components\Recipe\Infrastructure\Http\Handler\Grocery\GroceryListHandler::class);
+});

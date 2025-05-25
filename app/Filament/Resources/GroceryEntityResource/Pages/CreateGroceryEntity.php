@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\CategoryEntityResource\Pages;
+namespace App\Filament\Resources\GroceryEntityResource\Pages;
 
-use App\Filament\Resources\CategoryEntityResource;
+use App\Filament\Resources\GroceryEntityResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateCategoryEntity extends CreateRecord
+class CreateGroceryEntity extends CreateRecord
 {
-    protected static string $resource = CategoryEntityResource::class;
+    protected static string $resource = GroceryEntityResource::class;
 
     protected function afterCreate(): void
     {
