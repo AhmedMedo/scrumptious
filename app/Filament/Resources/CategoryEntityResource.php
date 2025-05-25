@@ -49,7 +49,7 @@ class CategoryEntityResource extends Resource
                         }
                     })
                     ->afterStateUpdated(function ($state, callable $set, callable $get, $record) {
-                        if ($state instanceof TemporaryUploadedFile && $record instanceof GroceryEntity) {
+                        if ($state instanceof TemporaryUploadedFile && $record instanceof CategoryEntity) {
                             $storedPath = $state->store('categories', 'public');
                             $record->clearMediaCollection('image');
                             $record
