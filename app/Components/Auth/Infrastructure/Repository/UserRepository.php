@@ -33,10 +33,7 @@ class UserRepository implements UserRepositoryInterface
     public function update(string $userUuid, array $data, ?string $imagePath = null, bool $resetPhoneVerification = true): bool
     {
         $user = UserEntity::where('uuid', $userUuid)->firstOrFail();
-//        if (Arr::has($data, 'email') && $user->email != Arr::get($data, 'email')) {
-//            $data['email_verified_at'] = null;
-//            $data['verification_code'] = $user->verification_code;
-//        }
+
         $forceResetPhone = Arr::has($data, 'phone_number') && $user->phone_number != Arr::get($data, 'phone_number') && $resetPhoneVerification;
         if ($forceResetPhone) {
             $data['phone_verified_at'] = null;

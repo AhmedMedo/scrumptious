@@ -3,7 +3,6 @@
 namespace App\Components\Auth\Domain\DTO;
 
 use Carbon\Carbon;
-use phpseclib3\Common\Functions\Strings;
 
 class UserDto
 {
@@ -25,14 +24,24 @@ class UserDto
         public readonly bool $isEmailVerified = false,
         public readonly bool $isPhoneVerified = false,
         public readonly ?string $countryCode = null,
+
+        // New fields
+        public readonly ?Carbon $birthDate = null,
+        public readonly ?float $weight = null,
+        public readonly ?string $weightUnit = null,
+        public readonly ?float $height = null,
+        public readonly ?string $heightUnit = null,
+        public readonly ?string $userDiet = null,
+        public readonly ?string $goal = null,
+        public readonly ?bool $haveAllergies = null,
+        public readonly ?array $allergies = null,
     ) {
     }
-
-
     public function Uuid(): string
     {
         return $this->uuid;
     }
+
     public function FirstName(): string
     {
         return $this->firstName;
@@ -117,4 +126,52 @@ class UserDto
     {
         return $this->countryCode;
     }
+
+// ---- New getters ---- //
+
+    public function BirthDate(): ?Carbon
+    {
+        return $this->birthDate;
+    }
+
+    public function Weight(): ?float
+    {
+        return $this->weight;
+    }
+
+    public function WeightUnit(): ?string
+    {
+        return $this->weightUnit;
+    }
+
+    public function Height(): ?float
+    {
+        return $this->height;
+    }
+
+    public function HeightUnit(): ?string
+    {
+        return $this->heightUnit;
+    }
+
+    public function UserDiet(): ?string
+    {
+        return $this->userDiet;
+    }
+
+    public function Goal(): ?string
+    {
+        return $this->goal;
+    }
+
+    public function HaveAllergies(): ?bool
+    {
+        return $this->haveAllergies;
+    }
+
+    public function Allergies(): ?array
+    {
+        return $this->allergies;
+    }
+
 }

@@ -8,4 +8,5 @@ return [
     App\Providers\AppServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
     EloquentFilter\ServiceProvider::class,
+    \App\Components\Subscription\Infrastructure\ServiceProvider\SubscriptionServiceProvider::class,
 ];

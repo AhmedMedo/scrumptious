@@ -69,6 +69,7 @@ class UserEntity extends Authenticatable implements HasMedia
         'password' => 'hashed',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'allergies' => 'array',
     ];
 
 

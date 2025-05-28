@@ -5,6 +5,7 @@ namespace App\Components\Auth\Infrastructure\Factory;
 use App\Components\Auth\Application\Factory\UserFactoryInterface;
 use App\Components\Auth\Data\Entity\UserEntity;
 use App\Components\Auth\Domain\DTO\UserDto;
+use Carbon\Carbon;
 
 class UserFactory implements UserFactoryInterface
 {
@@ -28,6 +29,17 @@ class UserFactory implements UserFactoryInterface
             isEmailVerified: $userEntity->email_verified_at !== null,
             isPhoneVerified: $userEntity->phone_verified_at !== null,
             countryCode: $userEntity->country_code,
+
+            // New fields
+            birthDate: $userEntity->birth_date ? Carbon::parse($userEntity->birth_date) : null,
+            weight: $userEntity->weight !== null ? (float) $userEntity->weight : null,
+            weightUnit: $userEntity->weight_unit,
+            height: $userEntity->height !== null ? (float) $userEntity->height : null,
+            heightUnit: $userEntity->height_unit,
+            userDiet: $userEntity->user_diet,
+            goal: $userEntity->goal,
+            haveAllergies: $userEntity->have_allergies,
+            allergies: $userEntity->allergies ? $userEntity->allergies : null,
         );
     }
 }

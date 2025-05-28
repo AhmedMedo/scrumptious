@@ -2067,6 +2067,60 @@
                     }
                 }
             }
+        },
+        "/api/v1/subscription/plans": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get list of subscription plans",
+                "description": "Get list of subscription plans",
+                "operationId": "fcd9aa03ffc8b9d12bc4a76b8506ec88",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "description": {
+                                                        "type": "string"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "format": "float"
+                                                    },
+                                                    "currency": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2133,10 +2187,54 @@
                         "type": "boolean"
                     },
                     "created_at": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                     },
                     "updated_at": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "birth_date": {
+                        "type": "string",
+                        "format": "date",
+                        "nullable": true
+                    },
+                    "weight": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "weight_unit": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "height": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    },
+                    "height_unit": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "user_diet": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "goal": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "have_allergies": {
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "allergies": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2733,6 +2831,48 @@
                                         }
                                     },
                                     "type": "object"
+                                },
+                                "birth_date": {
+                                    "description": "Birth Date",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "weight": {
+                                    "description": "Weight",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "weight_unit": {
+                                    "description": "Weight Unit",
+                                    "type": "string"
+                                },
+                                "height": {
+                                    "description": "Height",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "height_unit": {
+                                    "description": "Height Unit",
+                                    "type": "string"
+                                },
+                                "user_diet": {
+                                    "description": "User Diet",
+                                    "type": "string"
+                                },
+                                "goal": {
+                                    "description": "Goal",
+                                    "type": "string"
+                                },
+                                "have_allergies": {
+                                    "description": "Has Allergies",
+                                    "type": "boolean"
+                                },
+                                "allergies": {
+                                    "description": "Allergies List",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             },
                             "type": "object"
@@ -3121,6 +3261,10 @@
         {
             "name": "Recipe",
             "description": "Recipe"
+        },
+        {
+            "name": "Subscription",
+            "description": "Subscription"
         }
     ]
 }

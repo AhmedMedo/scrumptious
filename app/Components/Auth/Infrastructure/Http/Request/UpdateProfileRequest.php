@@ -21,13 +21,21 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: 'file_url', type: 'string'),
                 new OA\Property(property: 'file_name', type: 'string'),
                 new OA\Property(property: 'mime_type', type: 'string'),
-
             ], type: 'object'),
+
+            // New optional fields
+            new OA\Property(property: 'birth_date', description: 'Birth Date', type: 'string', format: 'date'),
+            new OA\Property(property: 'weight', description: 'Weight', type: 'number', format: 'float'),
+            new OA\Property(property: 'weight_unit', description: 'Weight Unit', type: 'string'),
+            new OA\Property(property: 'height', description: 'Height', type: 'number', format: 'float'),
+            new OA\Property(property: 'height_unit', description: 'Height Unit', type: 'string'),
+            new OA\Property(property: 'user_diet', description: 'User Diet', type: 'string'),
+            new OA\Property(property: 'goal', description: 'Goal', type: 'string'),
+            new OA\Property(property: 'have_allergies', description: 'Has Allergies', type: 'boolean'),
+            new OA\Property(property: 'allergies', description: 'Allergies List', type: 'array', items: new OA\Items(type: 'string')),
         ],
     )
 )]
-
-
 
 class UpdateProfileRequest extends FormRequest
 {
@@ -38,22 +46,46 @@ class UpdateProfileRequest extends FormRequest
 
     public function rules(): array
     {
+        $user = $this->user('api');
+
         return [
-            'first_name'  => 'required|string',
-            'last_name'  => 'required|string',
-            'address'  => 'nullable|string',
-            'postal_code'  => 'nullable|string',
-            'country_uuid'  => 'nullable|string',
-            'image'  => 'nullable|array',
+            'first_name'       => 'required|string',
+            'last_name'        => 'required|string',
+            'address'          => 'nullable|string',
+            'postal_code'      => 'nullable|string',
+            'country_uuid'     => 'nullable|string',
+            'image'            => 'nullable|array',
             'image.file_path'  => 'nullable|string',
-            'image.file_url'  => 'nullable|string',
+            'image.file_url'   => 'nullable|string',
             'image.file_name'  => 'nullable|string',
             'image.mime_type'  => 'nullable|string',
-            'phone' => 'nullable|numeric|unique:users,phone_number'.($this->user('api')->phone_number ? ','.$this->user('api')->uuid.',uuid' : ''),
-            'email' => 'nullable|email|unique:users,email'.($this->user('api')->email ? ','.$this->user('api')->uuid.',uuid' : ''),
+
+            'phone'            => [
+                'nullable',
+                'numeric',
+                'unique:users,phone_number' . ($user && $user->phone_number ? ',' . $user->uuid . ',uuid' : ''),
+            ],
+            'email'            => [
+                'nullable',
+                'email',
+                'unique:users,email' . ($user && $user->email ? ',' . $user->uuid . ',uuid' : ''),
+            ],
+
+            // New fields validation
+            'birth_date'       => 'nullable|date',
+            'weight'           => 'nullable|numeric',
+            'weight_unit'      => 'nullable|string|max:10',
+            'height'           => 'nullable|numeric',
+            'height_unit'      => 'nullable|string|max:10',
+            'user_diet'        => 'nullable|string',
+            'goal'             => 'nullable|string',
+            'have_allergies'   => 'nullable|boolean',
+            'allergies'        => 'nullable|array',
+            'allergies.*'      => 'string',
         ];
     }
 
+    // Keep existing getters...
     public function firstName()
     {
         return $this->input('first_name');
@@ -87,8 +119,8 @@ class UpdateProfileRequest extends FormRequest
     public function toArray(): array
     {
         $data =  [
-            'first_name' => $this->firstName(),
-            'last_name' => $this->lastName(),
+            'first_name' => $this->input('first_name'),
+            'last_name' => $this->input('last_name'),
             'address' => $this->input('address'),
             'postal_code' => $this->input('postal_code'),
             'country_uuid' => $this->input('country_uuid'),
@@ -100,6 +132,23 @@ class UpdateProfileRequest extends FormRequest
 
         if ($this->input('email')) {
             $data['email'] = $this->input('email');
+        }
+
+        // Add new fields if present
+        foreach ([
+                     'birth_date',
+                     'weight',
+                     'weight_unit',
+                     'height',
+                     'height_unit',
+                     'user_diet',
+                     'goal',
+                     'have_allergies',
+                     'allergies',
+                 ] as $field) {
+            if ($this->has($field)) {
+                $data[$field] = $this->input($field);
+            }
         }
 
         return $data;

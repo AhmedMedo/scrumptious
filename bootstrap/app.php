@@ -23,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     require app_path('Components/Content/Resource/routes.php');
                     require app_path('Components/Recipe/Resource/routes.php');
                     require app_path('Components/MealPlanner/Resource/routes.php');
+                    require app_path('Components/Subscription/Resource/routes.php');
                     require base_path('routes/api.php');
                 });
         }

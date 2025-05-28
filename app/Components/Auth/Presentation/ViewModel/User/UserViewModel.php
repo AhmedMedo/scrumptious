@@ -26,8 +26,19 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "is_active", type: "boolean"),
         new OA\Property(property: "is_email_verified", type: "boolean"),
         new OA\Property(property: "is_phone_verified", type: "boolean"),
-        new OA\Property(property: "created_at", type: "string"),
-        new OA\Property(property: "updated_at", type: "string"),
+        new OA\Property(property: "created_at", type: "string", format: "date-time"),
+        new OA\Property(property: "updated_at", type: "string", format: "date-time"),
+
+        // New fields
+        new OA\Property(property: "birth_date", type: "string", format: "date", nullable: true),
+        new OA\Property(property: "weight", type: "number", format: "float", nullable: true),
+        new OA\Property(property: "weight_unit", type: "string", nullable: true),
+        new OA\Property(property: "height", type: "number", format: "float", nullable: true),
+        new OA\Property(property: "height_unit", type: "string", nullable: true),
+        new OA\Property(property: "user_diet", type: "string", nullable: true),
+        new OA\Property(property: "goal", type: "string", nullable: true),
+        new OA\Property(property: "have_allergies", type: "boolean", nullable: true),
+        new OA\Property(property: "allergies", type: "array", nullable: true, items: new OA\Items(type: "string")),
     ],
     type: "object",
 )]
@@ -52,21 +63,32 @@ class UserViewModel
         private readonly bool $isEmailVerified = false,
         private readonly bool $isPhoneVerified = false,
         private readonly ?string $countryCode = null,
+
+        // New fields
+        private readonly ?Carbon $birthDate = null,
+        private readonly ?float $weight = null,
+        private readonly ?string $weightUnit = null,
+        private readonly ?float $height = null,
+        private readonly ?string $heightUnit = null,
+        private readonly ?string $userDiet = null,
+        private readonly ?string $goal = null,
+        private readonly ?bool $haveAllergies = null,
+        private readonly ?array $allergies = null,
     ) {
     }
 
     public function toArray(): array
     {
-        return  [
+        return [
             'uuid' => $this->uuid,
             'email' => $this->email,
             'first_name' => $this->firstName,
             'last_name' => $this->lastName,
             'phone' => $this->phoneNumber,
             'country_code' => $this->countryCode,
-            'full_phone' =>[
-                    'phone' => str_replace($this->countryCode, '', $this->phoneNumber),
-                    'country_code' => $this->countryCode,
+            'full_phone' => [
+                'phone' => str_replace($this->countryCode, '', $this->phoneNumber),
+                'country_code' => $this->countryCode,
             ],
             'country' => $this->countryUuid ? [
                 'uuid' => $this->countryUuid,
@@ -82,6 +104,17 @@ class UserViewModel
             'force_logout' => !$this->isEmailVerified || !$this->isPhoneVerified,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
+
+            // New fields
+            'birth_date' => $this->birthDate?->toDateString(),
+            'weight' => $this->weight,
+            'weight_unit' => $this->weightUnit,
+            'height' => $this->height,
+            'height_unit' => $this->heightUnit,
+            'user_diet' => $this->userDiet,
+            'goal' => $this->goal,
+            'have_allergies' => $this->haveAllergies,
+            'allergies' => $this->allergies,
         ];
     }
 }
