@@ -42,9 +42,9 @@ class SubscriptionPlanEntityResource extends Resource
 
                 // Disable editing other fields
                 // If you want to display other fields read-only, you can use Disabled inputs
-                Forms\Components\TextInput::make('name')->disabled(),
-                Forms\Components\TextInput::make('slug')->disabled(),
-                Forms\Components\Textarea::make('description')->disabled(),
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\TextInput::make('slug'),
+                Forms\Components\Textarea::make('description'),
             ]);
     }
 

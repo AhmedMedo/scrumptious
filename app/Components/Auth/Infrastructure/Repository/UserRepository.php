@@ -13,7 +13,6 @@ class UserRepository implements UserRepositoryInterface
 {
     public function create(array $data): UserEntity
     {
-        //TODO: Handle Country code to map with countries
         return UserEntity::create([
             'first_name' => Arr::get($data, 'first_name'),
             'last_name' => Arr::get($data, 'last_name'),
@@ -24,6 +23,15 @@ class UserRepository implements UserRepositoryInterface
             'password' => Arr::get($data, 'password'),
             'verification_code' => Str::random(32),
             'address' => Arr::get($data, 'address'),
+            'birth_date'        => Arr::get($data, 'birth_date', null),
+            'weight'            => Arr::get($data, 'weight', null),
+            'weight_unit'       => Arr::get($data, 'weight_unit', null),
+            'height'            => Arr::get($data, 'height', null),
+            'height_unit'       => Arr::get($data, 'height_unit', null),
+            'user_diet'         => Arr::get($data, 'user_diet', null),
+            'goal'              => Arr::get($data, 'goal', null),
+            'have_allergies'    => Arr::get($data, 'have_allergies', null),
+            'allergies'         => Arr::get($data, 'allergies', []),  // assuming allergies is stored as JSON or serialized array
         ]);
     }
 

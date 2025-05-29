@@ -2,9 +2,11 @@
 
 namespace App\Components\MealPlanner\Data\Entity;
 
+use App\Components\Auth\Data\Entity\UserEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -32,4 +34,9 @@ class TargetEntity extends Model implements HasMedia
         'start_date' => 'date',
         'end_date'   => 'date',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(UserEntity::class, 'user_uuid', 'uuid');
+    }
 }

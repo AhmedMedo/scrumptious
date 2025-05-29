@@ -32,6 +32,12 @@ class SubscriptionPlanEntitySeeder extends Seeder
                 'description' => 'Yearly plan',
                 'price' => 300,
             ],
+            [
+                'name' => 'Custom Plan',
+                'slug' => 'custom',
+                'description' => 'Custom plan',
+                'price' => 400,
+            ]
         ];
 
         foreach ($plans as $plan) {

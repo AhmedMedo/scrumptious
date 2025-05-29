@@ -2714,6 +2714,48 @@
                                 },
                                 "phone_number": {
                                     "type": "string"
+                                },
+                                "birth_date": {
+                                    "description": "Birth Date",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "weight": {
+                                    "description": "Weight",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "weight_unit": {
+                                    "description": "Weight Unit",
+                                    "type": "string"
+                                },
+                                "height": {
+                                    "description": "Height",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "height_unit": {
+                                    "description": "Height Unit",
+                                    "type": "string"
+                                },
+                                "user_diet": {
+                                    "description": "User Diet",
+                                    "type": "string"
+                                },
+                                "goal": {
+                                    "description": "Goal",
+                                    "type": "string"
+                                },
+                                "have_allergies": {
+                                    "description": "Has Allergies",
+                                    "type": "boolean"
+                                },
+                                "allergies": {
+                                    "description": "Allergies List",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
                                 }
                             },
                             "type": "object"
