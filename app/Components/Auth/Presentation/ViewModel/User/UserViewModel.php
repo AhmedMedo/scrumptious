@@ -38,7 +38,9 @@ use OpenApi\Attributes as OA;
         new OA\Property(property: "user_diet", type: "string", nullable: true),
         new OA\Property(property: "goal", type: "string", nullable: true),
         new OA\Property(property: "have_allergies", type: "boolean", nullable: true),
-        new OA\Property(property: "allergies", type: "array", nullable: true, items: new OA\Items(type: "string")),
+        new OA\Property(property: "allergies", type: "array", items: new OA\Items(type: "string"), nullable: true),
+        new OA\Property(property: "gender", type: "string", nullable: true),
+
     ],
     type: "object",
 )]
@@ -74,6 +76,7 @@ class UserViewModel
         private readonly ?string $goal = null,
         private readonly ?bool $haveAllergies = null,
         private readonly ?array $allergies = null,
+        private readonly ?string $gender = null,
     ) {
     }
 
@@ -115,6 +118,7 @@ class UserViewModel
             'goal' => $this->goal,
             'have_allergies' => $this->haveAllergies,
             'allergies' => $this->allergies,
+            'gender' => $this->gender,
         ];
     }
 }

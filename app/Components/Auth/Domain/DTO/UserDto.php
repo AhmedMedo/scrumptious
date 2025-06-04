@@ -35,6 +35,7 @@ class UserDto
         public readonly ?string $goal = null,
         public readonly ?bool $haveAllergies = null,
         public readonly ?array $allergies = null,
+        public readonly ?string $gender = null
     ) {
     }
     public function Uuid(): string
@@ -172,6 +173,12 @@ class UserDto
     public function Allergies(): ?array
     {
         return $this->allergies;
+    }
+
+
+    public function Gender(): ?string
+    {
+        return $this->gender;
     }
 
 }

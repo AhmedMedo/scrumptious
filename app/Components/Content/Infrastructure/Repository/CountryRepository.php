@@ -11,11 +11,7 @@ class CountryRepository implements CountryRepositoryInterface
     public function findAll(): Collection
     {
         return CountryEntity::query()
-        ->when(request()->has('has_cards'), function ($query) {
-            $query->whereHas('giftCards',fn($query) => $query->where('is_active','=', true))->union(
-                CountryEntity::query()->where('is_global', true)
-            );
-        })->where('is_global', false)
+        ->where('is_global', false)
         ->orderBy('name->' . app()->getLocale())
             ->get()
             ->sortBy(fn($country) => !$country->is_global);

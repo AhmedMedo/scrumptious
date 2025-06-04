@@ -24,6 +24,8 @@ use OpenApi\Attributes as OA;
                     new OA\Property(property: 'flag', type: 'string'),
                     new OA\Property(property: 'iso_code', type: 'string'),
                     new OA\Property(property: 'iso3_code', type: 'string'),
+                    new OA\Property(property: 'country_code', type: 'string'),
+                    new OA\Property(property: 'currency_code', type: 'string'),
                     new OA\Property(property: 'created_at', type: 'string'),
                 ])),
             ],

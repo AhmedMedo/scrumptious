@@ -40,6 +40,7 @@ class UserFactory implements UserFactoryInterface
             goal: $userEntity->goal,
             haveAllergies: $userEntity->have_allergies,
             allergies: $userEntity->allergies ? $userEntity->allergies : null,
+            gender: $userEntity->gender,
         );
     }
 }

@@ -33,6 +33,9 @@ use OpenApi\Attributes as OA;
             new OA\Property(property: 'goal', description: 'Goal', type: 'string'),
             new OA\Property(property: 'have_allergies', description: 'Has Allergies', type: 'boolean'),
             new OA\Property(property: 'allergies', description: 'Allergies List', type: 'array', items: new OA\Items(type: 'string')),
+            new OA\Property(property: 'phone', description: 'Phone', type: 'string'),
+            new OA\Property(property: 'email', description: 'Email', type: 'string'),
+            new OA\Property(property: 'gender', description: 'Gender', type: 'string'),
         ],
     )
 )]
@@ -82,6 +85,7 @@ class UpdateProfileRequest extends FormRequest
             'have_allergies'   => 'nullable|boolean',
             'allergies'        => 'nullable|array',
             'allergies.*'      => 'string',
+            'gender'           => 'nullable|string',
         ];
     }
 
@@ -116,6 +120,7 @@ class UpdateProfileRequest extends FormRequest
         return $this->input('country_uuid');
     }
 
+
     public function toArray(): array
     {
         $data =  [
@@ -145,6 +150,7 @@ class UpdateProfileRequest extends FormRequest
                      'goal',
                      'have_allergies',
                      'allergies',
+                     'gender',
                  ] as $field) {
             if ($this->has($field)) {
                 $data[$field] = $this->input($field);

@@ -1085,6 +1085,12 @@
                                                     "iso3_code": {
                                                         "type": "string"
                                                     },
+                                                    "country_code": {
+                                                        "type": "string"
+                                                    },
+                                                    "currency_code": {
+                                                        "type": "string"
+                                                    },
                                                     "created_at": {
                                                         "type": "string"
                                                     }
@@ -2235,6 +2241,10 @@
                             "type": "string"
                         },
                         "nullable": true
+                    },
+                    "gender": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -2756,6 +2766,10 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "gender": {
+                                    "description": "Gender",
+                                    "type": "string"
                                 }
                             },
                             "type": "object"
@@ -2915,6 +2929,18 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                },
+                                "phone": {
+                                    "description": "Phone",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Email",
+                                    "type": "string"
+                                },
+                                "gender": {
+                                    "description": "Gender",
+                                    "type": "string"
                                 }
                             },
                             "type": "object"

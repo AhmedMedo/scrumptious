@@ -16,6 +16,8 @@ class CountryViewMapper
                 'flag' => $country->flag,
                 'iso_code' => $country->iso_code,
                 'iso3_code' => $country->iso3_code,
+                'country_code' => $country->country_code,
+                'currency_code' => $country->currency_code,
                 'created_at' => $country->created_at,
             ];
         }

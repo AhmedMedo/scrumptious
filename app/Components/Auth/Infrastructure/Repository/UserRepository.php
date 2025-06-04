@@ -32,6 +32,7 @@ class UserRepository implements UserRepositoryInterface
             'goal'              => Arr::get($data, 'goal', null),
             'have_allergies'    => Arr::get($data, 'have_allergies', null),
             'allergies'         => Arr::get($data, 'allergies', []),  // assuming allergies is stored as JSON or serialized array
+            'gender'            => Arr::get($data, 'gender', null),
         ]);
     }
 
