@@ -2716,7 +2716,7 @@
                                 "password_confirmation": {
                                     "type": "string"
                                 },
-                                "country": {
+                                "country_uuid": {
                                     "type": "string"
                                 },
                                 "country_code": {

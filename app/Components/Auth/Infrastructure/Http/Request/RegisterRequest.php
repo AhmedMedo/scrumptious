@@ -17,7 +17,7 @@ use OpenApi\Attributes as OA;
             new OA\Property(property: 'email', type: 'string'),
             new OA\Property(property: 'password', type: 'string'),
             new OA\Property(property: 'password_confirmation', type: 'string'),
-            new OA\Property(property: 'country', type: 'string'),
+            new OA\Property(property: 'country_uuid', type: 'string'),
             new OA\Property(property: 'country_code', type: 'string'),
             new OA\Property(property: 'phone_number', type: 'string'),
             // New optional fields
