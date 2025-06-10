@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
             new OA\Property(property: 'country_uuid', type: 'string'),
             new OA\Property(property: 'country_code', type: 'string'),
             new OA\Property(property: 'phone_number', type: 'string'),
-            // New optional fields
+            // New optional fieldss
             new OA\Property(property: 'birth_date', description: 'Birth Date', type: 'string', format: 'date'),
             new OA\Property(property: 'weight', description: 'Weight', type: 'number', format: 'float'),
             new OA\Property(property: 'weight_unit', description: 'Weight Unit', type: 'string'),
