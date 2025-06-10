@@ -37,6 +37,11 @@ use OpenApi\Attributes as OA;
                     new OA\Property(property: 'uuid', type: 'string'),
                     new OA\Property(property: 'content', type: 'string'),
                     new OA\Property(property: 'image', type: 'string'),
+                    new OA\Property(property: 'category', properties: [
+                        new OA\Property(property: 'uuid', type: 'string'),
+                        new OA\Property(property: 'name', type: 'string'),
+                        new OA\Property(property: 'image', type: 'string'),
+                    ], type: 'object')
                 ])),
                 new OA\Property(property: 'meta', ref: '#/components/schemas/Meta'),
             ]
@@ -60,6 +65,11 @@ class GroceryListHandler extends Handler
                 'uuid' => $groceryEntity->uuid,
                 'content' => $groceryEntity->content,
                 'image' => $groceryEntity->getFirstMediaUrl('image'),
+                'category' => $groceryEntity->category? [
+                    'uuid' => $groceryEntity->category->uuid,
+                    'name' => $groceryEntity->category->name,
+                    'image' => $groceryEntity->category->getFirstMediaUrl('image'),
+                ]: null
             ])->toArray(),
             meta: [
                 'total' => $groceries->total(),

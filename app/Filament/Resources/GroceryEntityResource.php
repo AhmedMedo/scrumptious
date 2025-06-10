@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Components\Recipe\Data\Entity\GroceryEntity;
+use App\Components\Recipe\Data\Entity\GroceryCategoryEntity;
 use App\Filament\Resources\GroceryEntityResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -29,6 +30,13 @@ class GroceryEntityResource extends Resource
                 ->required()
                 ->maxLength(255),
 
+            Forms\Components\Select::make('category_uuid')
+                ->label('Category')
+                ->relationship('category', 'name')
+                ->required()
+                ->searchable()
+                ->preload(),
+
             Forms\Components\FileUpload::make('image')
                 ->label('Grocery Image')
                 ->image()
@@ -39,7 +47,6 @@ class GroceryEntityResource extends Resource
                 ->dehydrated(false)
                 ->afterStateHydrated(function ($component, $state) {
                     $record = $component->getModelInstance();
-
                     if ($record && $media = $record->getFirstMedia('image')) {
                         $component->state([$media->getPathRelativeToRoot()]);
                     }
@@ -64,26 +71,36 @@ class GroceryEntityResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->columns([
-            Tables\Columns\ImageColumn::make('image_url')
-                ->label('Image')
-                ->getStateUsing(function ($record) {
-                    return $record->getFirstMediaUrl('image');
-                })
-                ->disk('public')
-                ->height(60)
-                ->circular(),
+        return $table
+            ->columns([
+                Tables\Columns\ImageColumn::make('image_url')
+                    ->label('Image')
+                    ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('image'))
+                    ->disk('public')
+                    ->height(60)
+                    ->circular(),
 
-            Tables\Columns\TextColumn::make('content')
-                ->label('Content')
-                ->sortable()
-                ->searchable(),
+                Tables\Columns\TextColumn::make('content')
+                    ->label('Content')
+                    ->sortable()
+                    ->searchable(),
 
-            Tables\Columns\IconColumn::make('is_active')
-                ->boolean('is_active')
-                ->label('Is Active')
-                ->sortable(),
-        ])
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Category')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean()
+                    ->label('Is Active')
+                    ->sortable(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('category_uuid')
+                    ->label('Category')
+                    ->relationship('category', 'name')
+                    ->searchable(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

@@ -1202,6 +1202,64 @@
                 }
             }
         },
+        "/api/v1/grocery-categories": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "List grocery categories",
+                "description": "List grocery categories",
+                "operationId": "a407c3ae41eb478776c3cc0552db199d",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Search by category name",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "uuid": {
+                                                        "type": "string"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "image": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/newsletter": {
             "post": {
                 "tags": [
@@ -1693,6 +1751,12 @@
                         "name": "content",
                         "in": "query",
                         "description": "content of grocery",
+                        "required": false
+                    },
+                    {
+                        "name": "category_uuid",
+                        "in": "query",
+                        "description": "filter by grocery category uuid",
                         "required": false
                     }
                 ],
