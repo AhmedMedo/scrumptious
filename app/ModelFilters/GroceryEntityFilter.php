@@ -19,4 +19,9 @@ class GroceryEntityFilter extends ModelFilter
     {
         return $this->where('content', 'like', '%'.$content.'%');
     }
+
+    public function categoryUuid($categoryUuid): GroceryEntityFilter
+    {
+        return $this->where('category_uuid', $categoryUuid);
+    }
 }

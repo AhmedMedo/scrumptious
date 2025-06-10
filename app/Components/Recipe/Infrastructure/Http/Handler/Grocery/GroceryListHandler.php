@@ -20,6 +20,12 @@ use OpenApi\Attributes as OA;
             description: 'content of grocery',
             in: 'query',
             required: false,
+        ),
+        new OA\Parameter(
+            name: 'category_uuid',
+            description: 'filter by grocery category uuid',
+            in: 'query',
+            required: false,
         )
     ],
     responses: [

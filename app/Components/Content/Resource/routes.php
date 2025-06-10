@@ -7,6 +7,7 @@ use App\Components\Content\Infrastructure\Http\Handler\CustomerSupportHandler;
 use App\Components\Content\Infrastructure\Http\Handler\FaqHandler;
 use App\Components\Content\Infrastructure\Http\Handler\NewsletterHandler;
 use App\Components\Content\Infrastructure\Http\Handler\UploadMediaHandler;
+use App\Components\Content\Infrastructure\Http\Handler\GroceryCategoryHandler;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -17,6 +18,7 @@ Route::group([
     Route::get('config', ConfigHandler::class);
     Route::get('faq', FaqHandler::class);
     Route::get('categories', CategoryHandler::class);
+    Route::get('grocery-categories', GroceryCategoryHandler::class);
 });
 
 Route::post('customer-support', CustomerSupportHandler::class);
