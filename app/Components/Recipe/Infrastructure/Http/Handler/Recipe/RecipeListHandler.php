@@ -38,6 +38,14 @@ use OpenApi\Attributes as OA;
                 ),
             ]
         ),
+        new OA\Parameter(
+            name: 'is_admin',
+            description: 'Return recipes created by admin when set to 1',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'integer', enum: [0,1]),
+            example: 1
+        ),
         //Category
         new OA\Parameter(
             name: 'category',
