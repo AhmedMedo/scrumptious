@@ -7,45 +7,26 @@ use App\Components\Content\Application\Repository\WebsiteSettingsRepositoryInter
 use App\Components\Content\Application\Service\WebsiteSettingsServiceInterface;
 use App\Components\Content\Data\Entity\WebsiteSettingsEntity;
 use Illuminate\Http\UploadedFile;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 class WebsiteSettingsRepository implements WebsiteSettingsRepositoryInterface
 {
-    const CONTENTS_NAMES = [
-        'privacy_content_en',
-        'privacy_content_ar',
-        'terms_content_en',
-        'terms_content_ar',
-        'about_us_content_en',
-        'about_us_content_ar'
-    ];
-
     public function __construct(
         private readonly WebsiteSettingsQueryInterface $websiteSettingsQuery,
         private readonly WebsiteSettingsServiceInterface $websiteSettingsService
     ) {
     }
 
-    /**
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     */
     public function update(array $data, ?UploadedFile $bannerImage): void
     {
-        $websiteSettings = $this->websiteSettingsQuery->first();
+        $websiteSettings = WebsiteSettingsEntity::where('key', $data['key'] ?? null)->first();
         if ($websiteSettings === null) {
             $websiteSettings = new WebsiteSettingsEntity();
+            $websiteSettings->key = $data['key'];
         }
-        $websiteSettings->fill($data);
-        $getChangedAttributes = array_filter(array_keys($websiteSettings->getDirty()), fn($item) => in_array($item, self::CONTENTS_NAMES));
 
+        $websiteSettings->setTranslations('value', $data['value'] ?? []);
         $websiteSettings->save();
 
-        if ($bannerImage !== null) {
-            $websiteSettings->addMedia($bannerImage)->toMediaCollection('banner');
-        }
-
-        $this->websiteSettingsService->generatePDF($websiteSettings, $getChangedAttributes);
+        $this->websiteSettingsService->generatePDF($websiteSettings);
     }
 }

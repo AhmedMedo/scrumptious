@@ -12,6 +12,7 @@ class WebsiteSettingsEntity extends Model implements HasMedia
 {
     use HasUuidTrait;
     use InteractsWithMedia;
+    use HasTranslations;
 
     /** @var bool */
     public $incrementing = false;
@@ -25,5 +26,11 @@ class WebsiteSettingsEntity extends Model implements HasMedia
     /** @var string */
     protected $keyType = 'string';
 
+
     protected $guarded = [];
+
+    /** @var array<int, string> */
+    public array $translatable = [
+        'value',
+    ];
 }

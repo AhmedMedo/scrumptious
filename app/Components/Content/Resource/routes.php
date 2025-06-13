@@ -19,6 +19,7 @@ Route::group([
     Route::get('faq', FaqHandler::class);
     Route::get('categories', CategoryHandler::class);
     Route::get('grocery-categories', GroceryCategoryHandler::class);
+    Route::get('policies', \App\Components\Content\Infrastructure\Http\Handler\PolicyHandler::class);
 });
 
 Route::post('customer-support', CustomerSupportHandler::class);
