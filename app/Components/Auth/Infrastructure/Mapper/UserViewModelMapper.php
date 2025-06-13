@@ -39,6 +39,7 @@ class UserViewModelMapper implements UserViewModelMapperInterface
             goal: $userDto->Goal(),
             haveAllergies: $userDto->HaveAllergies(),
             allergies: $userDto->Allergies(),
+            gender: $userDto->Gender(),
         );
     }
 }

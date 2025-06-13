@@ -3,8 +3,10 @@
 namespace App\Components\Auth\Data\Entity;
 
 use App\Components\Auth\Traits\Favoriter;
+use App\Components\Content\Data\Entity\CountryEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
@@ -77,6 +79,11 @@ class UserEntity extends Authenticatable implements HasMedia
     public function getFullNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(CountryEntity::class, 'country_uuid', 'uuid');
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Components\Auth\Infrastructure\Mapper;
 
 use App\Components\Auth\Application\Mapper\UserDtoMapperInterface;
 use App\Components\Auth\Domain\DTO\UserDto;
+use Carbon\Carbon;
 
 class UserDtoMapper implements UserDtoMapperInterface
 {
@@ -26,6 +27,17 @@ class UserDtoMapper implements UserDtoMapperInterface
             countryIsoCode: $user->country?->iso_code,
             isEmailVerified: $user->email_verified_at !== null,
             isPhoneVerified: $user->phone_verified_at !== null,
+            // New fields
+            birthDate: $user->birth_date ? Carbon::parse($user->birth_date) : null,
+            weight: $user->weight !== null ? (float) $user->weight : null,
+            weightUnit: $user->weight_unit,
+            height: $user->height !== null ? (float) $user->height : null,
+            heightUnit: $user->height_unit,
+            userDiet: $user->user_diet,
+            goal: $user->goal,
+            haveAllergies: $user->have_allergies,
+            allergies: $user->allergies ? $user->allergies : null,
+            gender: $user->gender,
         );
     }
 }
