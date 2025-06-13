@@ -6,5 +6,5 @@ use App\Components\Content\Data\Entity\WebsiteSettingsEntity;
 
 interface WebsiteSettingsServiceInterface
 {
-    public function generatePDF(WebsiteSettingsEntity $websiteSettingsEntity, array $changedAttributes): void;
+    public function generatePDF(WebsiteSettingsEntity $websiteSettingsEntity): void;
 }
