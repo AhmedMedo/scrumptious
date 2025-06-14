@@ -31,12 +31,11 @@ class PolicyHandler extends Handler
     public function __invoke(): JsonResponse
     {
         $locale = app()->getLocale();
-        $privacy = WebsiteSettingsEntity::where('key', 'privacy_and_policy')->first();
-        $terms = WebsiteSettingsEntity::where('key', 'terms_and_condition')->first();
+        $settings = WebsiteSettingsEntity::first();
 
         return $this->successResponseWithData([
-            'privacy' => $privacy?->getFirstMediaUrl('privacy_and_policy_' . $locale),
-            'terms' => $terms?->getFirstMediaUrl('terms_and_condition_' . $locale),
+            'privacy' => $settings?->getFirstMediaUrl('privacy_and_policy_' . $locale),
+            'terms' => $settings?->getFirstMediaUrl('terms_and_condition_' . $locale),
         ]);
     }
 }

@@ -17,13 +17,12 @@ class WebsiteSettingsRepository implements WebsiteSettingsRepositoryInterface
 
     public function update(array $data, ?UploadedFile $bannerImage): void
     {
-        $websiteSettings = WebsiteSettingsEntity::where('key', $data['key'] ?? null)->first();
+        $websiteSettings = $this->websiteSettingsQuery->first();
         if ($websiteSettings === null) {
             $websiteSettings = new WebsiteSettingsEntity();
-            $websiteSettings->key = $data['key'];
         }
 
-        $websiteSettings->setTranslations('value', $data['value'] ?? []);
+        $websiteSettings->fill($data);
         $websiteSettings->save();
 
         $this->websiteSettingsService->generatePDF($websiteSettings);

@@ -9,21 +9,25 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class WebsiteSettingsService implements WebsiteSettingsServiceInterface
 {
     /**
-     * Generate PDF files for all translations of the given setting.
+     * Generate PDF files for privacy policy and terms in both locales.
      */
     public function generatePDF(WebsiteSettingsEntity $websiteSettingsEntity): void
     {
-        foreach (['en', 'ar'] as $locale) {
-            $content = $websiteSettingsEntity->getTranslation('value', $locale, false);
+        foreach ([
+            'privacy_and_policy_en' => 'en',
+            'privacy_and_policy_ar' => 'ar',
+            'terms_and_condition_en' => 'en',
+            'terms_and_condition_ar' => 'ar',
+        ] as $attribute => $locale) {
+            $content = $websiteSettingsEntity->getAttribute($attribute);
             if (!empty($content)) {
-                $this->generatePDFByContent($websiteSettingsEntity, $locale, $content);
+                $this->generatePDFByContent($websiteSettingsEntity, $attribute, $locale, $content);
             }
         }
     }
 
-    private function generatePDFByContent(WebsiteSettingsEntity $websiteSettingsEntity, string $locale, string $content): void
+    private function generatePDFByContent(WebsiteSettingsEntity $websiteSettingsEntity, string $attribute, string $locale, string $content): void
     {
-        $attribute = $websiteSettingsEntity->key . '_' . $locale;
         $renderedView = view('pdf.content', [
             'content' => $content,
             'currentLocale' => $locale,

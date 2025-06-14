@@ -23,15 +23,20 @@ class WebsiteSettingsEntityResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\TextInput::make('key')
-                ->required()
-                ->unique(ignoreRecord: true)
-                ->disabled(fn ($record) => $record !== null),
-            Forms\Components\RichEditor::make('value.en')
-                ->label('Value (English)')
+            Forms\Components\TextInput::make('website_name')
+                ->label('Website Name')
                 ->required(),
-            Forms\Components\RichEditor::make('value.ar')
-                ->label('Value (Arabic)')
+            Forms\Components\RichEditor::make('privacy_and_policy_en')
+                ->label('Privacy & Policy (English)')
+                ->required(),
+            Forms\Components\RichEditor::make('privacy_and_policy_ar')
+                ->label('Privacy & Policy (Arabic)')
+                ->required(),
+            Forms\Components\RichEditor::make('terms_and_condition_en')
+                ->label('Terms & Conditions (English)')
+                ->required(),
+            Forms\Components\RichEditor::make('terms_and_condition_ar')
+                ->label('Terms & Conditions (Arabic)')
                 ->required(),
         ]);
     }
@@ -40,7 +45,7 @@ class WebsiteSettingsEntityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('key')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('website_name')->label('Website Name')->sortable()->searchable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -6,13 +6,11 @@ use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Translatable\HasTranslations;
 
 class WebsiteSettingsEntity extends Model implements HasMedia
 {
     use HasUuidTrait;
     use InteractsWithMedia;
-    use HasTranslations;
 
     /** @var bool */
     public $incrementing = false;
@@ -28,9 +26,4 @@ class WebsiteSettingsEntity extends Model implements HasMedia
 
 
     protected $guarded = [];
-
-    /** @var array<int, string> */
-    public array $translatable = [
-        'value',
-    ];
 }
