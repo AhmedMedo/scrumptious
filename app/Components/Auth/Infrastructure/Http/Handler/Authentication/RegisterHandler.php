@@ -15,7 +15,7 @@ use OpenApi\Attributes as OA;
     requestBody: new OA\RequestBody('#/components/requestBodies/RegisterRequest'),
     tags       : ['Auth'],
     responses  : [
-        new OA\Response(response: 200, description: 'User registered successfully ', content: new OA\JsonContent(
+        new OA\Response(response: 200, description: 'User registered successfully', content: new OA\JsonContent(
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
                 new OA\Property(property: 'message', type: 'string'),

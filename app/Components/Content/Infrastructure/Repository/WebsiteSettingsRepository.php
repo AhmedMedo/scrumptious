@@ -11,7 +11,6 @@ use Illuminate\Http\UploadedFile;
 class WebsiteSettingsRepository implements WebsiteSettingsRepositoryInterface
 {
     public function __construct(
-        private readonly WebsiteSettingsQueryInterface $websiteSettingsQuery,
         private readonly WebsiteSettingsServiceInterface $websiteSettingsService
     ) {
     }
