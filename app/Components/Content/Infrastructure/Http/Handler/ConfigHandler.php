@@ -77,11 +77,6 @@ class ConfigHandler extends Handler
 {
     public function __construct(
         private readonly WebsiteSettingsQueryInterface $websiteSettingsQuery,
-        private readonly CategoryQueryInterface $categoryQuery,
-        private readonly OccasionQueryInterface $occasionQuery,
-        private readonly DesignTemplateQueryInterface $designTemplateQuery,
-        private readonly CountryViewMapper $countryViewMapper,
-        private readonly CountryRepositoryInterface $countryQuery,
     ) {
     }
 
@@ -101,54 +96,6 @@ class ConfigHandler extends Handler
                     'pdf' => $websiteSettings?->getFirstMediaUrl('terms_and_condition_' . $currentLocale),
                     'html' => $websiteSettings?->getAttribute('terms_and_condition_' . $currentLocale)
                 ],
-            ],
-            'basic_data' => [
-                'categories' => $this->categoryQuery->findAll()->map(function ($category) {
-                    return [
-                        'uuid' => $category->getKey(),
-                        'name' => $category->name,
-                        'is_active' => $category->is_active,
-                        'created_at' => $category->created_at,
-                    ];
-                }),
-                'occasions' => $this->occasionQuery->findAll()->map(function ($occasion) {
-                    return [
-                        'uuid' => $occasion->getKey(),
-                        'name' => $occasion->name,
-                        'image' => $occasion->getFirstMediaUrl('image') ?? null,
-                        'created_at' => $occasion->created_at,
-                    ];
-                }),
-                'templates' => $this->designTemplateQuery->findAll()->map(function ($template) {
-                    return [
-                        'uuid' => $template->getKey(),
-                        'name' => $template->name,
-                        'image' => $template->getFirstMediaUrl('images') ?? null,
-                        'created_at' => $template->created_at,
-                    ];
-                }),
-                'contracted_avenues' => ContractedAvenuesEntity::all()->map(function ($contractedAvenue) {
-                    return [
-                        'uuid' => $contractedAvenue->getKey(),
-                        'name' => $contractedAvenue->name,
-                        'location_address' => $contractedAvenue->location_address,
-                        'location_url' => $contractedAvenue->location_url,
-                        'created_at' => $contractedAvenue->created_at,
-                    ];
-                }),
-                'countries' => $this->countryViewMapper->toArray(
-                    $this->countryQuery->findOnlyForGiftCards()
-                ),
-                "vendors" => VendorEntity::all()->map(fn(VendorEntity $vendorEntity) => [
-                    "name" => $vendorEntity->name,
-                    "slug" => $vendorEntity->slug,
-                ])->merge([
-                    [
-                        "name" => "Giftit",
-                        "slug" => "giftit",
-                    ]
-                ])->toArray(),
-
             ]
         ]);
     }

@@ -32,7 +32,6 @@ class WebsiteSettingsService implements WebsiteSettingsServiceInterface
             'content' => $content,
             'currentLocale' => $locale,
         ]);
-        $renderedView = $locale === 'ar' ? $renderedView->toArabicHTML() : $renderedView;
         $pdf = PDF::loadHTML($renderedView);
         $basePath = 'files/temp/' . $attribute . '.pdf';
         $path = storage_path('app/public/' . $basePath);
