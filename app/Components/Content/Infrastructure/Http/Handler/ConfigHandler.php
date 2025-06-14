@@ -27,7 +27,7 @@ use OpenApi\Attributes as OA;
                 new OA\Property(property: 'message', type: 'string'),
                 new OA\Property(property: 'data', type: 'array', items: new OA\Items(properties: [
                     new OA\Property(property: 'contents', type: 'array', items: new OA\Items(properties: [
-                        new OA\Property(property: 'type', type: 'string', enum: ['privacy', 'terms', 'about_us']),
+                        new OA\Property(property: 'type', type: 'string', enum: ['privacy', 'terms']),
                         new OA\Property(property: 'pdf', type: 'string'),
                         new OA\Property(property: 'html', type: 'string'),
                     ])),
@@ -93,18 +93,13 @@ class ConfigHandler extends Handler
             'contents' => [
                 [
                     'type' => 'privacy',
-                    'pdf' => $websiteSettings?->getFirstMediaUrl('privacy_content_' . $currentLocale),
-                    'html' => $websiteSettings?->getAttribute('privacy_content_' . $currentLocale)
+                    'pdf' => $websiteSettings?->getFirstMediaUrl('privacy_and_policy_' . $currentLocale),
+                    'html' => $websiteSettings?->getAttribute('privacy_and_policy_' . $currentLocale)
                 ],
                 [
                     'type' => 'terms',
-                    'pdf' => $websiteSettings?->getFirstMediaUrl('terms_content_' . $currentLocale),
-                    'html' => $websiteSettings?->getAttribute('terms_content_' . $currentLocale)
-                ],
-                [
-                    'type' => 'about_us',
-                    'pdf' => $websiteSettings?->getFirstMediaUrl('about_us_content_' . $currentLocale),
-                    'html' => $websiteSettings?->getAttribute('about_us_content_' . $currentLocale)
+                    'pdf' => $websiteSettings?->getFirstMediaUrl('terms_and_condition_' . $currentLocale),
+                    'html' => $websiteSettings?->getAttribute('terms_and_condition_' . $currentLocale)
                 ],
             ],
             'basic_data' => [
