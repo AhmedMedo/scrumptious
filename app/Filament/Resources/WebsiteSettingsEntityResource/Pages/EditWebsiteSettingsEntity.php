@@ -13,9 +13,7 @@ class EditWebsiteSettingsEntity extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+        return [];
     }
 
     protected function afterSave(): void

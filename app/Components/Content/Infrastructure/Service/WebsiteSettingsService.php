@@ -5,6 +5,7 @@ namespace App\Components\Content\Infrastructure\Service;
 use App\Components\Content\Application\Service\WebsiteSettingsServiceInterface;
 use App\Components\Content\Data\Entity\WebsiteSettingsEntity;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class WebsiteSettingsService implements WebsiteSettingsServiceInterface
 {
@@ -34,8 +35,8 @@ class WebsiteSettingsService implements WebsiteSettingsServiceInterface
         ]);
         $pdf = PDF::loadHTML($renderedView);
         $basePath = 'files/temp/' . $attribute . '.pdf';
-        $path = storage_path('app/public/' . $basePath);
-        $pdf->save($path);
+        Storage::disk('public')->put($basePath, $pdf->output());
+        $path = Storage::disk('public')->path($basePath);
 
         $websiteSettingsEntity->getMedia($attribute)->each(fn($media) => $media->delete());
 

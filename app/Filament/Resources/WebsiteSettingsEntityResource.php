@@ -6,6 +6,7 @@ use App\Components\Content\Data\Entity\WebsiteSettingsEntity;
 use App\Filament\Resources\WebsiteSettingsEntityResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -65,5 +66,20 @@ class WebsiteSettingsEntityResource extends Resource
             'create' => Pages\CreateWebsiteSettingsEntity::route('/create'),
             'edit' => Pages\EditWebsiteSettingsEntity::route('/{record}/edit'),
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return WebsiteSettingsEntity::count() === 0;
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
     }
 }
