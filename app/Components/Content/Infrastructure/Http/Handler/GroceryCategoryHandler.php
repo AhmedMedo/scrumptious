@@ -4,6 +4,7 @@ namespace App\Components\Content\Infrastructure\Http\Handler;
 
 use App\Components\Recipe\Application\Query\GroceryCategoryQueryInterface;
 use App\Components\Recipe\Data\Entity\GroceryCategoryEntity;
+use App\Components\Recipe\Data\Entity\GroceryEntity;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
@@ -51,6 +52,10 @@ class GroceryCategoryHandler extends Handler
                 'uuid' => $category->uuid,
                 'name' => $category->name,
                 'image' => $category->getFirstMediaUrl('image'),
+                'groceries' => $category?->groceries->map(fn (GroceryEntity $grocery) => [
+                    'uuid' => $grocery->uuid,
+                    'content' => $grocery->content,
+                ]),
             ])->toArray(),
             meta: [
                 'total' => $categories->total(),

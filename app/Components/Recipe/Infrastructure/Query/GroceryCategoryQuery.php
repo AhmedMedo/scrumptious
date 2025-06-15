@@ -22,6 +22,7 @@ class GroceryCategoryQuery implements GroceryCategoryQueryInterface
     public function paginated(): LengthAwarePaginator
     {
         return GroceryCategoryEntity::filter(request()->all())
+            ->with('groceries',fn($q) => $q->where('is_active', true))
             ->latest()
             ->paginate(
                 request()->get('per_page', 10),
