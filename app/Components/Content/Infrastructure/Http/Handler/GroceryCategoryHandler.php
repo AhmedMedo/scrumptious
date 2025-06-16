@@ -46,6 +46,7 @@ class GroceryCategoryHandler extends Handler
 
     public function __invoke(): JsonResponse
     {
+
         $categories = $this->query->paginated();
         return $this->successResponseWithDataAndMeta(
             data: $categories->map(fn (GroceryCategoryEntity $category) => [
@@ -55,6 +56,7 @@ class GroceryCategoryHandler extends Handler
                 'groceries' => $category?->groceries->map(fn (GroceryEntity $grocery) => [
                     'uuid' => $grocery->uuid,
                     'content' => $grocery->content,
+                    'image' => $grocery->getFirstMediaUrl('image'),
                 ]),
             ])->toArray(),
             meta: [
