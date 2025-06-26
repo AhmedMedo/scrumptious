@@ -8,7 +8,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface RecipeServiceInterface
 {
 
-    public function paginated(string $userUuid): LengthAwarePaginator;
+    public function paginated(?string $userUuid = null): LengthAwarePaginator;
 
     public function all();
 

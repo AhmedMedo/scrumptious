@@ -43,7 +43,7 @@ class RecipeService implements RecipeServiceInterface
         return $this->recipeQuery->findByUuid($uuid);
     }
 
-    public function paginated(string $userUuid): LengthAwarePaginator
+    public function paginated(?string $userUuid = null): LengthAwarePaginator
     {
         return $this->recipeQuery->paginated($userUuid);
     }

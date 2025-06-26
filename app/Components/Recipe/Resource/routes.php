@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'recipe',
-    'middleware' => ['auth:api']
 ], function () {
 
     Route::get('/{uuid}/show',RecipeShowHandler::class);

@@ -20,24 +20,25 @@ class RecipeQuery implements RecipeQueryInterface
         return RecipeEntity::filter(request()->all())->get();
     }
 
-    public function paginated(string $userUuid): LengthAwarePaginator
+    public function paginated(?string $userUuid = null): LengthAwarePaginator
     {
-       return RecipeEntity::filter(request()->all())
-           ->when(request('is_admin'), function ($query) {
-               $query->whereNotNull('admin_uuid');
-           }, function ($query) use ($userUuid) {
-               $query->where('user_uuid', '=', $userUuid);
-           })
-           ->with([
+        return RecipeEntity::filter(request()->all())
+            ->when(request('is_admin'), function ($query) {
+                $query->whereNotNull('admin_uuid');
+            })
+            ->when($userUuid, function ($query) use ($userUuid) {
+                $query->where('user_uuid', $userUuid);
+            })
+            ->with([
                 'categories',
                 'ingredients',
                 'instructions'
             ])
-           ->where('is_active','=', true)
-           ->latest()
-           ->paginate(
-               request()->get('per_page', 10),
-               ['*'],
-           );
+            ->where('is_active', '=', true)
+            ->latest()
+            ->paginate(
+                request()->get('per_page', 10),
+                ['*'],
+            );
     }
 }

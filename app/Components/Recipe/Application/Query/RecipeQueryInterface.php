@@ -13,6 +13,6 @@ interface RecipeQueryInterface
 
     public function all(): Collection;
 
-    public function paginated(string $userUuid): LengthAwarePaginator;
+    public function paginated(?string $userUuid = null): LengthAwarePaginator;
 
 }

@@ -90,8 +90,14 @@ class RecipeListHandler extends Handler
 
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        $user = $this->userService->user();
-        $recipes = $this->recipeService->paginated($user->uuid());
+        $userUuid=null;
+        if ($this->userService->isAuthenticated()) {
+            $user = $this->userService->user();
+            $userUuid = $user->uuid();
+        }
+        $recipes = $this->recipeService->paginated(
+            userUuid: $userUuid
+        );
         return $this->successResponseWithDataAndMeta(
             data: $recipes->map(fn (RecipeEntity $recipe) => $this->recipeViewModelMapper->fromEntity($recipe)->toArray())->toArray(),
             meta: [
