@@ -19,3 +19,9 @@ Route::group([
     Route::get('/plans', \App\Components\Subscription\Infrastructure\Http\Handler\SubscriptionPlan\PlanListHandler::class);
     Route::post('/payment', \App\Components\Subscription\Infrastructure\Http\Handler\Payment\PaymentHandler::class);
 });
+Route::group([
+    'prefix' => 'subscription',
+    'middleware' => ['auth:api']
+], function () {
+    Route::post('/payment', \App\Components\Subscription\Infrastructure\Http\Handler\Payment\PaymentHandler::class);
+});

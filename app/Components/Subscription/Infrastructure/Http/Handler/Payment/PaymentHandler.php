@@ -2,8 +2,10 @@
 
 namespace App\Components\Subscription\Infrastructure\Http\Handler\Payment;
 
+use App\Components\Auth\Data\Entity\UserEntity;
 use App\Components\Subscription\Data\Entity\SubscriptionPlanEntity;
 use App\Components\Subscription\Data\Entity\PaymobPaymentEntity;
+use App\Components\Subscription\Payments\Providers\Paymob\PaymobPayment;
 use App\Components\Subscription\PaymobClass;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
@@ -40,7 +42,7 @@ use OpenApi\Attributes as OA;
 )]
 class PaymentHandler extends Handler
 {
-    public function __construct(private PaymobClass $paymob)
+    public function __construct(private readonly PaymobPayment $paymob)
     {
     }
 
@@ -51,10 +53,11 @@ class PaymentHandler extends Handler
         ]);
 
         $user = auth()->user();
+        $userEntity = UserEntity::query()->findOrFail($user->uuid);
         $plan = SubscriptionPlanEntity::query()->findOrFail($validated['subscription_plan_uuid']);
         $merchantOrderId = random_int(1, 999999);
 
-        $paymentInfo = $this->paymob->createPayment($user, $plan, $merchantOrderId);
+        $paymentInfo = $this->paymob->createPayment($userEntity, $plan, $merchantOrderId);
 
         PaymobPaymentEntity::create([
             'user_uuid' => $user->uuid,

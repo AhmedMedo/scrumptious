@@ -379,7 +379,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User registered successfully ",
+                        "description": "User registered successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -394,6 +394,9 @@
                                             "properties": {
                                                 "token": {
                                                     "type": "string"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserViewModel"
                                                 }
                                             },
                                             "type": "object"
@@ -899,8 +902,7 @@
                                                                     "type": "string",
                                                                     "enum": [
                                                                         "privacy",
-                                                                        "terms",
-                                                                        "about_us"
+                                                                        "terms"
                                                                     ]
                                                                 },
                                                                 "pdf": {
@@ -1283,6 +1285,47 @@
                                         },
                                         "message": {
                                             "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/content/policies": {
+            "get": {
+                "tags": [
+                    "Content"
+                ],
+                "summary": "Policies PDFs",
+                "description": "Get privacy policy and terms PDF URLs",
+                "operationId": "1927469403609e742562bc9d09110b44",
+                "responses": {
+                    "200": {
+                        "description": "success ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "privacy": {
+                                                    "type": "string"
+                                                },
+                                                "terms": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1785,6 +1828,20 @@
                                                     },
                                                     "image": {
                                                         "type": "string"
+                                                    },
+                                                    "category": {
+                                                        "properties": {
+                                                            "uuid": {
+                                                                "type": "string"
+                                                            },
+                                                            "name": {
+                                                                "type": "string"
+                                                            },
+                                                            "image": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
@@ -1967,6 +2024,20 @@
                         }
                     },
                     {
+                        "name": "is_admin",
+                        "in": "query",
+                        "description": "Return recipes created by admin when set to 1",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "enum": [
+                                0,
+                                1
+                            ]
+                        },
+                        "example": 1
+                    },
+                    {
                         "name": "category",
                         "in": "query",
                         "description": "category of recipe",
@@ -2128,6 +2199,60 @@
                                         },
                                         "message": {
                                             "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscription/payment": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "operationId": "0e7c4bb3daeebe3aaa91c011a5fb4848",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "subscription_plan_uuid"
+                                ],
+                                "properties": {
+                                    "subscription_plan_uuid": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "redirect url",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect_url": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Components\Subscription;
+namespace App\Components\Subscription\Payments\Providers\Paymob;
 
 use App\Components\Auth\Data\Entity\UserEntity;
 use App\Components\Subscription\Data\Entity\SubscriptionPlanEntity;
 use MG\Paymob\Paymob;
 
-class PaymobClass
+class PaymobPayment
 {
     public function createPayment(UserEntity $user, SubscriptionPlanEntity $plan, int $merchantOrderId): array
     {
