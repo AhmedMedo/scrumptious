@@ -17,4 +17,5 @@ Route::group([
     'prefix' => 'subscription',
 ], function () {
     Route::get('/plans', \App\Components\Subscription\Infrastructure\Http\Handler\SubscriptionPlan\PlanListHandler::class);
+    Route::post('/payment', \App\Components\Subscription\Infrastructure\Http\Handler\Payment\PaymentHandler::class);
 });
