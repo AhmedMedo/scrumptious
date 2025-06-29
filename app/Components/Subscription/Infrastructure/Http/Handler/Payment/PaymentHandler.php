@@ -69,6 +69,7 @@ class PaymentHandler extends Handler
         ]);
 
         return $this->successResponseWithData([
+            'order_id' => $paymentInfo['order_id'],
             'redirect_url' => $paymentInfo['redirect_url'],
         ]);
     }

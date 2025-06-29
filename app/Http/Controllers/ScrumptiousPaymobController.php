@@ -33,7 +33,7 @@ class ScrumptiousPaymobController extends Controller
             ]);
         }
 
-        return redirect( $request->boolean('success') ?'myapp://payment-success': 'myapp://payment-failed');
+        return redirect( $request->boolean('success') ?'scrumptious://payment-success': 'scrumptious://payment-failed');
 
     }
 }
