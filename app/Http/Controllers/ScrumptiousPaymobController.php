@@ -19,7 +19,7 @@ class ScrumptiousPaymobController extends Controller
     /**
      * Handle Transaction Callback Response.
      */
-    public function response(Request $request): JsonResponse
+    public function response(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $merchantOrderId = $request->input('merchant_order_id');
         $payment = PaymobPaymentEntity::query()->where('merchant_order_id', $merchantOrderId)->first();
@@ -33,7 +33,7 @@ class ScrumptiousPaymobController extends Controller
             ]);
         }
 
-        return response()->json($request->all());
+        return redirect( $request->boolean('success') ?'myapp://payment-success': 'myapp://payment-failed');
 
     }
 }
