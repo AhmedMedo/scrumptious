@@ -27,9 +27,9 @@ class ScrumptiousPaymobController extends Controller
         $data = $request->all();
 
         // If the request is a string (raw JSON), decode it
-        if (is_string($raw) && !empty($raw)) {
-            $data = json_decode($raw, true);
-        }
+//        if (is_string($raw) && !empty($raw)) {
+//            $data = json_decode($raw, true);
+//        }
 
         // Always extract the actual payload
         $payload = $data['payload'] ?? [];
