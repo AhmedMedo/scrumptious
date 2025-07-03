@@ -25,22 +25,19 @@ class ScrumptiousPaymobController extends Controller
         $payload = $request->all();
         Log::debug('Paymob Callback Response', ['payload' => $payload]);
         // Handle both JSON and form-data
-        if (empty($payload) && str_contains($request->header('Content-Type'), 'json')) {
-            $payload = json_decode($request->getContent(), true);
+        if(is_string($payload)){
+            $payload = json_decode($payload, true);
         }
 
-        // Paymob sends the data in 'obj' for transaction webhooks
-        $obj = $payload['obj'] ?? null;
-        if (!$obj) {
-            // fallback for legacy or malformed payloads
-            $obj = $payload;
-        }
+        // Support both flat and nested webhook formats
+        $merchantOrderId = $payload['merchant_order_id'] ?? ($payload['obj']['order']['merchant_order_id'] ?? null);
+        $orderId = $payload['order'] ?? ($payload['obj']['order']['id'] ?? null);
+        $paymentId = $payload['id'] ?? ($payload['obj']['id'] ?? null);
 
-        // Extract merchant_order_id (deep in obj['order']['merchant_order_id'])
-        $merchantOrderId = $obj['order']['merchant_order_id'] ?? null;
-        $orderId = $obj['order']['id'] ?? null;
-        $paymentId = $obj['id'] ?? null;
-        $success = $obj['success'] ?? false;
+        // 'success' can be string or bool
+        $success = $payload['success'] ?? ($payload['obj']['success'] ?? false);
+        $success = filter_var($success, FILTER_VALIDATE_BOOLEAN);
+
         $status = $success ? 'paid' : 'failed';
 
         $payment = $merchantOrderId ? PaymobPaymentEntity::query()->where('merchant_order_id', $merchantOrderId)->first() : null;
