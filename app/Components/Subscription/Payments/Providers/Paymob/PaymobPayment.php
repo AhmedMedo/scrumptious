@@ -49,7 +49,7 @@ class PaymobPayment
             ],
             'special_reference' => $merchantOrderId,
             'notification_url' => $webhookUrl,
-            'redirection_url' => $redirectUrl,
+            'redirection_url' => $webhookUrl,
         ];
 
         $headers = [
