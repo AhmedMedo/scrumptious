@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Components\Subscription\Data\Entity\PaymobPaymentEntity;
+use Illuminate\Support\Facades\Log;
 use MG\Paymob\Controllers\PaymobController;
 
 class ScrumptiousPaymobController extends Controller
@@ -22,6 +23,7 @@ class ScrumptiousPaymobController extends Controller
     public function response(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $payload = $request->all();
+        Log::debug('Paymob Callback Response', ['payload' => $payload]);
         // Handle both JSON and form-data
         if (empty($payload) && str_contains($request->header('Content-Type'), 'json')) {
             $payload = json_decode($request->getContent(), true);
