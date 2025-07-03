@@ -46,6 +46,9 @@ class PaymentHandler extends Handler
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function __invoke(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -55,7 +58,7 @@ class PaymentHandler extends Handler
         $user = auth()->user();
         $userEntity = UserEntity::query()->findOrFail($user->uuid);
         $plan = SubscriptionPlanEntity::query()->findOrFail($validated['subscription_plan_uuid']);
-        $merchantOrderId = random_int(1, 999999);
+        $merchantOrderId = 'SCRUMPTIOUS-'.uniqid();
 
         $paymentInfo = $this->paymob->createPayment($userEntity, $plan, $merchantOrderId);
 

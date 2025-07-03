@@ -21,19 +21,37 @@ class ScrumptiousPaymobController extends Controller
      */
     public function response(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
-        $merchantOrderId = $request->input('merchant_order_id');
-        $payment = PaymobPaymentEntity::query()->where('merchant_order_id', $merchantOrderId)->first();
+        $payload = $request->all();
+        // Handle both JSON and form-data
+        if (empty($payload) && str_contains($request->header('Content-Type'), 'json')) {
+            $payload = json_decode($request->getContent(), true);
+        }
+
+        // Paymob sends the data in 'obj' for transaction webhooks
+        $obj = $payload['obj'] ?? null;
+        if (!$obj) {
+            // fallback for legacy or malformed payloads
+            $obj = $payload;
+        }
+
+        // Extract merchant_order_id (deep in obj['order']['merchant_order_id'])
+        $merchantOrderId = $obj['order']['merchant_order_id'] ?? null;
+        $orderId = $obj['order']['id'] ?? null;
+        $paymentId = $obj['id'] ?? null;
+        $success = $obj['success'] ?? false;
+        $status = $success ? 'paid' : 'failed';
+
+        $payment = $merchantOrderId ? PaymobPaymentEntity::query()->where('merchant_order_id', $merchantOrderId)->first() : null;
 
         if ($payment) {
             $payment->update([
-                'payment_id' => $request->input('id'),
-                'order_id' => $request->input('order'),
-                'status' => $request->boolean('success') ? 'paid' : 'failed',
-                'response' => $request->all(),
+                'payment_id' => $paymentId,
+                'order_id' => $orderId,
+                'status' => $status,
+                'response' => $payload,
             ]);
         }
 
-        return redirect( $request->boolean('success') ?'scrumptious://payment-success': 'scrumptious://payment-failed');
-
+        return redirect($success ? 'scrumptious://payment-success' : 'scrumptious://payment-failed');
     }
 }
