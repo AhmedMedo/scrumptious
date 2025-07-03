@@ -18,6 +18,7 @@
         "league/fractal": "^0.20.1",
         "mgamal/paymob-laravel": "^1.1",
         "myclabs/php-enum": "^1.8",
+        "opcodesio/log-viewer": "^3.18",
         "overtrue/laravel-favorite": "^5.3",
         "spatie/laravel-medialibrary": "^11.11",
         "spatie/laravel-permission": "^6.10",
