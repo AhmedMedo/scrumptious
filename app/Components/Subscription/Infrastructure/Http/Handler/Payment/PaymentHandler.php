@@ -6,7 +6,6 @@ use App\Components\Auth\Data\Entity\UserEntity;
 use App\Components\Subscription\Data\Entity\SubscriptionPlanEntity;
 use App\Components\Subscription\Data\Entity\PaymobPaymentEntity;
 use App\Components\Subscription\Payments\Providers\Paymob\PaymobPayment;
-use App\Components\Subscription\PaymobClass;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

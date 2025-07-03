@@ -68,7 +68,7 @@ class PaymobPayment
             $body = json_decode($response->getBody()->getContents(), true);
             Log::info('Paymob Intention Response', ['response' => $body]);
 
-            if ($response->getStatusCode() !== 200 || !isset($body['client_secret'])) {
+            if ($response->getStatusCode() !== 201 || !isset($body['client_secret'])) {
                 Log::error('Paymob Intention Error', ['response' => $body]);
                 throw new \Exception('Failed to create payment intention: ' . ($body['message'] ?? 'Unknown error'));
             }
