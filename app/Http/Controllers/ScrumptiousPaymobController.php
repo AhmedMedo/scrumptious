@@ -25,7 +25,7 @@ class ScrumptiousPaymobController extends Controller
         // Handle both raw JSON and form-data
         $raw = $request->getContent();
         $data = $request->all();
-
+        Log::debug('all', ['raw' => $raw, 'data' => $data]);
         // If the request is a string (raw JSON), decode it
 //        if (is_string($raw) && !empty($raw)) {
 //            $data = json_decode($raw, true);
