@@ -10,6 +10,8 @@ use App\Components\Auth\Domain\Exception\AccountInactiveException;
 use App\Components\Auth\Domain\Exception\UserNotFoundException;
 use App\Components\Auth\Domain\Exception\WrongCredentialsException;
 use App\Components\Auth\Infrastructure\Http\Request\LoginRequest;
+use App\Components\MealPlanner\Data\Entity\PlanEntity;
+use App\Components\Subscription\Data\Entity\PaymobPaymentEntity;
 use App\Helpers\TelegramLogger;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
@@ -67,6 +69,41 @@ class LoginHandler extends Handler
         }
         $accessToken = $userEntity->createToken('auth_token');
 
+        // Get user's current active plan
+        $currentPlan = PlanEntity::query()
+            ->where('user_uuid', $userEntity->uuid)
+            ->where('status', 'active')
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->first();
+
+        $planData = null;
+        if ($currentPlan) {
+            $planData = [
+                'uuid' => $currentPlan->uuid,
+                'type' => $currentPlan->type,
+                'start_date' => $currentPlan->start_date->format('Y-m-d'),
+                'end_date' => $currentPlan->end_date->format('Y-m-d'),
+                'status' => $currentPlan->status,
+            ];
+        }
+
+        // Get user's latest payment status
+        $latestPayment = PaymobPaymentEntity::query()
+            ->where('user_uuid', $userEntity->uuid)
+            ->latest()
+            ->first();
+
+        $paymentData = null;
+        if ($latestPayment) {
+            $paymentData = [
+                'status' => $latestPayment->status, // pending, paid, failed
+                'amount' => $latestPayment->amount,
+                'created_at' => $latestPayment->created_at->format('Y-m-d H:i:s'),
+                'plan_name' => $latestPayment->plan->name ?? null,
+            ];
+        }
+
         return $this->successResponseWithData(
             array_merge(
                 $this->userViewModelMapper->map(
@@ -79,7 +116,8 @@ class LoginHandler extends Handler
                         'expires_at' => $accessToken->token->expires_at->toDateTimeString(),
                         'is_guest' => $userEntity->hasRole(RoleEnum::GUEST->value) ? 1 : 0,
                     ],
-
+                    'plan' => $planData,
+                    'payment' => $paymentData,
                 ]
             )
         );
