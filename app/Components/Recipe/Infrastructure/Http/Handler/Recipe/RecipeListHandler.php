@@ -90,7 +90,7 @@ class RecipeListHandler extends Handler
 
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        $userUuid=null;
+        $userUuid = null;
         if ($this->userService->isAuthenticated()) {
             $user = $this->userService->user();
             $userUuid = $user->uuid();

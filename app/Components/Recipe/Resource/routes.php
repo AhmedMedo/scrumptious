@@ -15,10 +15,10 @@ Route::group([
 
     Route::get('/{uuid}/show',RecipeShowHandler::class);
     Route::get('/list',RecipeListHandler::class);
-    Route::post('/', RecipeCreateHandler::class);
+    Route::post('/', RecipeCreateHandler::class)->middleware('auth:api');;
     Route::patch('/{uuid}/update', RecipeUpdateHandler::class);
     Route::delete('/{uuid}/delete', RecipeDeleteHandler::class);
-    Route::post('/{uuid}/toggle-favourite', RecipeToggleFavouriteHandler::class);
+    Route::post('/{uuid}/toggle-favourite', RecipeToggleFavouriteHandler::class)->middleware('auth:api');
 });
 
 Route::group([

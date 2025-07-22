@@ -72,17 +72,17 @@ class UserService implements UserServiceInterface
 
     public function user(): UserDto
     {
-        return $this->userQuery->findByUuid(auth()->user()->getKey());
+        return $this->userQuery->findByUuid(auth()->guard('api')->user()->getKey());
     }
 
     public function isAuthenticated(): bool
     {
-        return auth()->check();
+        return auth()->guard('api')->check();
     }
 
     public function userEntity(): UserEntity
     {
-        return $this->userQuery->findUserEntityByUuid(auth()->user()->getKey());
+        return $this->userQuery->findUserEntityByUuid(auth()->guard('api')->user()->getKey());
     }
 
 
