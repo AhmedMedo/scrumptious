@@ -7,6 +7,7 @@ use App\Components\Recipe\Application\Mapper\Recipe\RecipeViewModelMapper;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
 use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Libraries\Base\Http\Handler;
+use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 #[OA\Get(
     path: '/api/v1/recipe/list',
@@ -88,10 +89,10 @@ class RecipeListHandler extends Handler
     }
 
 
-    public function __invoke(): \Illuminate\Http\JsonResponse
+    public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         $userUuid = null;
-        if ($this->userService->isAuthenticated()) {
+        if ($this->userService->isAuthenticated() && !$request->query('is_favorite')) {
             $user = $this->userService->user();
             $userUuid = $user->uuid();
         }
