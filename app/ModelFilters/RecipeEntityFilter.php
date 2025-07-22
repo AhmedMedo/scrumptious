@@ -22,7 +22,7 @@ class RecipeEntityFilter extends ModelFilter
     public function isFavorite(bool $isFavorite = true): RecipeEntityFilter
     {
 //        dd($isFavorite);
-        $user = auth()->user();
+        $user = auth()->guard('api')->user();
         if (!$user) {
             return $isFavorite
                 ? $this->whereRaw('1 = 0') // No results for guests when requesting favorites
