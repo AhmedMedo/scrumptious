@@ -71,7 +71,8 @@ class RecipeViewModel
         public readonly ?array   $instructions = [],
         public readonly ?array   $ingredients = [],
         public readonly ?array   $categories = [],
-        public readonly ?bool    $isFavorite = null
+        public readonly ?bool    $isFavorite = null,
+        public readonly ?string $video = null,
 
     )
     {
@@ -93,7 +94,8 @@ class RecipeViewModel
             'instructions' => $this->instructions,
             'ingredients' => $this->ingredients,
             'categories' => $this->categories,
-            'is_favorite' => $this->isFavorite
+            'is_favorite' => $this->isFavorite,
+            'video' => $this->video,
         ];
     }
 

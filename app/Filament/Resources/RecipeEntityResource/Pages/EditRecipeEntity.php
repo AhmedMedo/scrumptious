@@ -24,6 +24,7 @@ class EditRecipeEntity extends EditRecord
         $instructions = $this->data['instructions'] ?? [];
         $ingredients = $this->data['ingredients'] ?? [];
         $imageState = $this->data['image'] ?? [];
+        $videoState = $this->data['video'] ?? [];
 
         // Save instructions (HasMany)
         $this->record->instructions()->delete();
@@ -48,6 +49,9 @@ class EditRecipeEntity extends EditRecord
 
         if (empty($imageState)) {
             $this->record->clearMediaCollection('image');
+        }
+        if (empty($videoState)) {
+            $this->record->clearMediaCollection('video');
         }
     }
 

@@ -34,7 +34,8 @@ class RecipeViewModelMapper
                 'content' => $ingredient->content
             ])->toArray(),
             categories: $recipeEntity?->categories?->toArray(),
-            isFavorite: $user && $recipeEntity->hasBeenFavoritedBy($user)
+            isFavorite: $user && $recipeEntity->hasBeenFavoritedBy($user),
+            video: $recipeEntity?->getFirstMediaUrl('video'),
         );
     }
 }

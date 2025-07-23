@@ -18,6 +18,8 @@ class CreateRecipeEntity extends CreateRecord
         $instructions = $this->data['instructions'] ?? [];
         $ingredients = $this->data['ingredients'] ?? [];
         $imageArray = $this->data['image'] ?? [];
+        $videoArray = $this->data['video'] ?? [];
+
         // Save instructions (HasMany)
         $this->record->instructions()->delete();
         foreach ($instructions as $instructionData) {
@@ -51,6 +53,21 @@ class CreateRecipeEntity extends CreateRecord
                     ->usingFileName(basename($relativePath))
                     ->preservingOriginal()
                     ->toMediaCollection('image');
+            }
+        }
+
+        if (is_array($videoArray) && count($videoArray) > 0) {
+            $relativePath = reset($videoArray);
+            $fullPath = storage_path("app/public/{$relativePath}");
+
+            if (file_exists($fullPath)) {
+                $this->record->clearMediaCollection('video');
+
+                $this->record
+                    ->addMedia($fullPath)
+                    ->usingFileName(basename($relativePath))
+                    ->preservingOriginal()
+                    ->toMediaCollection('video');
             }
         }
 

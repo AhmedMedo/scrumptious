@@ -122,6 +122,35 @@ class RecipeEntityResource extends Resource
                         }
                     }),
 
+                Forms\Components\FileUpload::make('video')
+                    ->label('Recipe video')
+//                    ->video()
+                    ->disk('public')
+                    ->directory('recipes')
+                    ->preserveFilenames() // optional
+//                    ->maxSize(2048) // optional
+                    ->dehydrated(false)
+                    ->afterStateHydrated(function ($component, $state) {
+                        $record = $component->getModelInstance();
+
+                        if ($record && $media = $record->getFirstMedia('video')) {
+                            // Wrap in array to match what FileUpload expects
+                            $component->state([$media->getPathRelativeToRoot()]);
+                        }
+                    })
+                    ->afterStateUpdated(function ($state, callable $set, callable $get, $record) {
+                        if ($state instanceof TemporaryUploadedFile && $record instanceof \App\Components\Recipe\Data\Entity\RecipeEntity) {
+                            // Move file to permanent location first
+                            $storedPath = $state->store('recipes', 'public');
+                            $record->clearMediaCollection('video');
+                            // Add to Spatie media from full path
+                            $record
+                                ->addMedia(storage_path("app/public/{$storedPath}"))
+                                ->usingFileName($state->getClientOriginalName())
+                                ->preservingOriginal()
+                                ->toMediaCollection('video');
+                        }
+                    }),
                 Repeater::make('instructions')
                     ->schema([
                         Textarea::make('content')
