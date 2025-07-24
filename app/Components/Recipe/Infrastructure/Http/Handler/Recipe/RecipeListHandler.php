@@ -92,10 +92,10 @@ class RecipeListHandler extends Handler
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         $userUuid = null;
-        if ($this->userService->isAuthenticated() && !$request->query('is_favorite')) {
-            $user = $this->userService->user();
-            $userUuid = $user->uuid();
-        }
+//        if ($this->userService->isAuthenticated() && !$request->query('is_favorite')) {
+//            $user = $this->userService->user();
+//            $userUuid = $user->uuid();
+//        }
         $recipes = $this->recipeService->paginated(
             userUuid: $userUuid
         );
