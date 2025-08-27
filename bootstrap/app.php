@@ -100,7 +100,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     'data' => []
                 ], \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED);
 
-            }        });
+            }
+        });
 
         $exceptions->renderable(function (Throwable $e, $request) {
             if ($request->is('api/*'))

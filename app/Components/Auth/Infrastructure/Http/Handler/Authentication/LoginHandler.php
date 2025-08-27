@@ -90,7 +90,8 @@ class LoginHandler extends Handler
 
         // Get user's latest payment status
         $latestPayment = PaymobPaymentEntity::query()
-            ->where('user_uuid', $userEntity->uuid)
+            ->where('user_uuid','=' , $userEntity->uuid)
+            ->where('status', '=', 'paid')
             ->latest()
             ->first();
 
