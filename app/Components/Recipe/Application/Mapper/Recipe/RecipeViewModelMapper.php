@@ -13,7 +13,7 @@ class RecipeViewModelMapper
 {
     public function fromEntity(RecipeEntity $recipeEntity): RecipeViewModel
     {
-        $user = auth()->user();
+        $user = auth()->guard('api')->user();
         return new RecipeViewModel(
             uuid: $recipeEntity->getKey(),
             title: $recipeEntity->title,

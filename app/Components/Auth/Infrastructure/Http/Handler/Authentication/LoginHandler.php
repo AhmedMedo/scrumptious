@@ -12,7 +12,6 @@ use App\Components\Auth\Domain\Exception\WrongCredentialsException;
 use App\Components\Auth\Infrastructure\Http\Request\LoginRequest;
 use App\Components\MealPlanner\Data\Entity\PlanEntity;
 use App\Components\Subscription\Data\Entity\PaymobPaymentEntity;
-use App\Helpers\TelegramLogger;
 use App\Libraries\Base\Http\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
