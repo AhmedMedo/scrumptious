@@ -48,12 +48,14 @@ class RecipeEntity extends Model implements HasMedia
 
     public function ingredients(): BelongsToMany
     {
-        return $this->belongsToMany(IngredientEntity::class, 'recipe_ingredient', 'recipe_uuid', 'ingredient_uuid');
+        return $this->belongsToMany(IngredientEntity::class, 'recipe_ingredient', 'recipe_uuid', 'ingredient_uuid')
+            ->withPivot('order')
+            ->orderBy('recipe_ingredient.order');
     }
 
     public function instructions(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(InstructionEntity::class, 'recipe_uuid', 'uuid');
+        return $this->hasMany(InstructionEntity::class, 'recipe_uuid', 'uuid')->orderBy('order');
     }
 
     public function categories(): BelongsToMany

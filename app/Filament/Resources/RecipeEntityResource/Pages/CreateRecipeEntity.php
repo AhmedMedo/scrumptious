@@ -22,15 +22,24 @@ class CreateRecipeEntity extends CreateRecord
 
         // Save instructions (HasMany)
         $this->record->instructions()->delete();
-        foreach ($instructions as $instructionData) {
+        
+        // Reset array keys to ensure we have sequential integer indexes
+        $instructions = array_values($instructions);
+        
+        foreach ($instructions as $index => $instructionData) {
             $this->record->instructions()->create([
                 'content' => $instructionData['content'],
+                'order' => $index,
             ]);
         }
 
         // Save ingredients (BelongsToMany with pivot)
         $this->record->ingredients()->detach();
-        foreach ($ingredients as $ingredientData) {
+        
+        // Reset array keys to ensure we have sequential integer indexes
+        $ingredients = array_values($ingredients);
+        
+        foreach ($ingredients as $index => $ingredientData) {
             $ingredientName = $ingredientData['content'];
 
             $ingredient = IngredientEntity::firstOrCreate(
@@ -38,7 +47,8 @@ class CreateRecipeEntity extends CreateRecord
                 ['uuid' => Str::uuid()]
             );
 
-            $this->record->ingredients()->attach($ingredient);
+            // Attach with order in pivot table
+            $this->record->ingredients()->attach($ingredient, ['order' => $index]);
         }
 
         if (is_array($imageArray) && count($imageArray) > 0) {

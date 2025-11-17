@@ -160,14 +160,13 @@ class RecipeEntityResource extends Resource
                     ])
                     ->label('Instructions')
                     ->columns(1)
-                    ->afterStateHydrated(function (Repeater $component) {
-                        $component->state(
-                            $component->getModelInstance()->instructions->map(function ($instruction) {
-                                return ['content' => $instruction->content];
-                            })->toArray()
-                        );
-                    })
-                    ->dehydrated(false),
+                    ->reorderable()
+                    ->defaultItems(0)
+                    ->default([])
+                    ->dehydrated(true)
+                    ->saveRelationshipsUsing(function (Repeater $component, $state) {
+                        // This will be handled in afterSave
+                    }),
                 Repeater::make('ingredients')
                     ->schema([
                         TextInput::make('content')->label('Ingredient')
@@ -176,16 +175,13 @@ class RecipeEntityResource extends Resource
                     ])
                     ->label('Ingredients')
                     ->columns(1)
-                    ->afterStateHydrated(function ($component) {
-                        $component->state(
-                            $component->getModelInstance()->ingredients->map(function ($ingredient) {
-                                return [
-                                    'content' => $ingredient->content, // now we access the actual ingredient field
-                                ];
-                            })->toArray()
-                        );
-                    })
-                    ->dehydrated(false),
+                    ->reorderable()
+                    ->defaultItems(0)
+                    ->default([])
+                    ->dehydrated(true)
+                    ->saveRelationshipsUsing(function (Repeater $component, $state) {
+                        // This will be handled in afterSave
+                    }),
                 MultiSelect::make('categories')
                     ->label('Categories')
                     ->relationship('categories', 'name') // assuming your categories table has a 'name' column

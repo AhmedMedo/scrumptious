@@ -42,21 +42,28 @@ class RecipeRepository implements RecipeRepositoryInterface
 
 
         if (Arr::has($data, 'instructions')) {
-
-            foreach ($data['instructions'] as $instruction) {
+            // Reset array keys to ensure we have sequential integer indexes
+            $instructions = array_values($data['instructions']);
+            
+            foreach ($instructions as $index => $instruction) {
                 $recipe->instructions()->create([
                     'content' => Arr::get($instruction, 'content'),
+                    'order' => $index,
                 ]);
             }
         }
 
 
         if (Arr::has($data, 'ingredients')) {
-            foreach ($data['ingredients'] as $ingredient) {
+            // Reset array keys to ensure we have sequential integer indexes
+            $ingredients = array_values($data['ingredients']);
+            
+            foreach ($ingredients as $index => $ingredient) {
                 $ingredientEntity = $this->ingredientRepository->create([
                     'content' => Arr::get($ingredient, 'content'),
                 ]);
-                $recipe->ingredients()->attach($ingredientEntity);
+                // Attach with order in pivot table
+                $recipe->ingredients()->attach($ingredientEntity, ['order' => $index]);
             }
         }
 
@@ -86,9 +93,14 @@ class RecipeRepository implements RecipeRepositoryInterface
 
         if (Arr::has($data, 'instructions')) {
             $recipe->instructions()->delete();
-            foreach ($data['instructions'] as $instruction) {
+            
+            // Reset array keys to ensure we have sequential integer indexes
+            $instructions = array_values($data['instructions']);
+            
+            foreach ($instructions as $index => $instruction) {
                 $recipe->instructions()->create([
                     'content' => Arr::get($instruction, 'content'),
+                    'order' => $index,
                 ]);
             }
         }
@@ -96,12 +108,16 @@ class RecipeRepository implements RecipeRepositoryInterface
 
         if (Arr::has($data, 'ingredients')) {
             $recipe->ingredients()->detach();
-            foreach ($data['ingredients'] as $ingredient) {
+            
+            // Reset array keys to ensure we have sequential integer indexes
+            $ingredients = array_values($data['ingredients']);
+            
+            foreach ($ingredients as $index => $ingredient) {
                 $ingredientEntity = $this->ingredientRepository->create([
                     'content' => Arr::get($ingredient, 'content'),
                 ]);
-                $recipe->ingredients()->attach($ingredientEntity);
-
+                // Attach with order in pivot table
+                $recipe->ingredients()->attach($ingredientEntity, ['order' => $index]);
             }
         }
 
