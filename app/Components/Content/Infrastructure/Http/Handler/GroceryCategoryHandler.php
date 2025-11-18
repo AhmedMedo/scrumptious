@@ -11,8 +11,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Get(
     path: '/api/v1/grocery-categories',
-    description: 'List grocery categories',
-    summary: 'List grocery categories',
+    description: 'List grocery categories (non-paginated)',
+    summary: 'List grocery categories (no pagination)',
     tags: ['Content'],
     parameters: [
         new OA\Parameter(
@@ -31,8 +31,13 @@ use OpenApi\Attributes as OA;
                     new OA\Property(property: 'uuid', type: 'string'),
                     new OA\Property(property: 'name', type: 'string'),
                     new OA\Property(property: 'image', type: 'string'),
+                    new OA\Property(property: 'groceries', type: 'array', items: new OA\Items(properties: [
+                        new OA\Property(property: 'uuid', type: 'string'),
+                        new OA\Property(property: 'content', type: 'string'),
+                        new OA\Property(property: 'image', type: 'string'),
+                    ])),
                 ])),
-                new OA\Property(property: 'meta', ref: '#/components/schemas/Meta'),
+                // meta removed for non-paginated response
             ],
             type: 'object'
         )),
@@ -46,9 +51,9 @@ class GroceryCategoryHandler extends Handler
 
     public function __invoke(): JsonResponse
     {
+        $categories = $this->query->all();
 
-        $categories = $this->query->paginated();
-        return $this->successResponseWithDataAndMeta(
+        return $this->successResponseWithData(
             data: $categories->map(fn (GroceryCategoryEntity $category) => [
                 'uuid' => $category->uuid,
                 'name' => $category->name,
@@ -58,13 +63,7 @@ class GroceryCategoryHandler extends Handler
                     'content' => $grocery->content,
                     'image' => $grocery->getFirstMediaUrl('image'),
                 ]),
-            ])->toArray(),
-            meta: [
-                'total' => $categories->total(),
-                'per_page' => $categories->perPage(),
-                'current_page' => $categories->currentPage(),
-                'last_page' => $categories->lastPage(),
-            ]
+            ])->toArray()
         );
     }
 }

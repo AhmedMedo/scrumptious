@@ -11,8 +11,8 @@ use OpenApi\Attributes as OA;
 
 #[OA\Get(
     path: '/api/v1/groceries',
-    description: 'List groceries',
-    summary: 'List groceries',
+    description: 'List groceries (non-paginated)',
+    summary: 'List groceries (no pagination)',
     tags: ['Grocery'],
     parameters: [
         new OA\Parameter(
@@ -43,7 +43,7 @@ use OpenApi\Attributes as OA;
                         new OA\Property(property: 'image', type: 'string'),
                     ], type: 'object')
                 ])),
-                new OA\Property(property: 'meta', ref: '#/components/schemas/Meta'),
+                // meta removed for non-paginated response
             ]
         ))
     ]
@@ -59,8 +59,9 @@ class GroceryListHandler extends Handler
 
     public function __invoke(): \Illuminate\Http\JsonResponse
     {
-        $groceries = $this->groceryQuery->paginated();
-        return $this->successResponseWithDataAndMeta(
+        $groceries = $this->groceryQuery->all();
+
+        return $this->successResponseWithData(
             data: $groceries->map(fn (GroceryEntity $groceryEntity) => [
                 'uuid' => $groceryEntity->uuid,
                 'content' => $groceryEntity->content,
@@ -70,13 +71,7 @@ class GroceryListHandler extends Handler
                     'name' => $groceryEntity->category->name,
                     'image' => $groceryEntity->category->getFirstMediaUrl('image'),
                 ]: null
-            ])->toArray(),
-            meta: [
-                'total' => $groceries->total(),
-                'per_page' => $groceries->perPage(),
-                'current_page' => $groceries->currentPage(),
-                'last_page' => $groceries->lastPage(),
-            ]
+            ])->toArray()
         );
     }
 }
