@@ -37,8 +37,7 @@ use OpenApi\Attributes as OA;
 class ProfileHandler extends Handler
 {
     public function __construct(
-        private readonly UserViewModelMapperInterface $userViewModelMapper,
-        private readonly UserServiceInterface $userService
+        private readonly UserServiceInterface $userService,
     ) {
     }
 
@@ -67,7 +66,8 @@ class ProfileHandler extends Handler
 
             // Get user's latest payment status
             $latestPayment = PaymobPaymentEntity::query()
-                ->where('user_uuid', $userEntity->uuid)
+                ->where('user_uuid','=' , $userEntity->uuid)
+                ->where('status', '=', 'paid')
                 ->latest()
                 ->first();
 
