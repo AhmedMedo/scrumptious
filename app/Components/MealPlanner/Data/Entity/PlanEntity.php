@@ -37,6 +37,11 @@ class PlanEntity extends Model
         return $this->hasMany(MealEntity::class, 'plan_uuid', 'uuid');
     }
 
+    public function breakdowns(): HasMany
+    {
+        return $this->hasMany(MealPlanBreakdownEntity::class, 'plan_uuid', 'uuid');
+    }
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(UserEntity::class, 'user_uuid', 'uuid');

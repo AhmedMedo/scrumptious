@@ -46,6 +46,11 @@ class RecipeEntity extends Model implements HasMedia
 
     protected $guarded = ['image']; // Guard the 'image' field
 
+    public $casts = [
+        'is_active' => 'boolean',
+        'is_popular' => 'boolean',
+    ];
+
     public function ingredients(): BelongsToMany
     {
         return $this->belongsToMany(IngredientEntity::class, 'recipe_ingredient', 'recipe_uuid', 'ingredient_uuid')
