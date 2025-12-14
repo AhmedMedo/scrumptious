@@ -191,6 +191,9 @@ class RecipeEntityResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->label('Is Active')
                     ->default(true),
+                Forms\Components\Toggle::make('is_popular')
+                    ->label('Is Popular')
+                    ->default(false),
 
             ]);
     }
@@ -240,6 +243,9 @@ class RecipeEntityResource extends Resource
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Active')
                     ->sortable(),
+                Tables\Columns\ToggleColumn::make('is_popular')
+                    ->label('Popular')
+                    ->sortable(),
 
 
                 // Display Created At (timestamp)
@@ -266,6 +272,11 @@ class RecipeEntityResource extends Resource
                     ->trueLabel('Active')
                     ->falseLabel('Inactive')
                     ->nullable(), // allows filtering by active/inactive/null
+                TernaryFilter::make('is_popular')
+                    ->label('Popular Status')
+                    ->trueLabel('Popular')
+                    ->falseLabel('Not Popular')
+                    ->nullable(), // allows filtering by popular/not popular/null
 
             ])
             ->actions([
@@ -285,6 +296,14 @@ class RecipeEntityResource extends Resource
                         ->label('Deactivate')
                         ->icon('heroicon-o-x-mark')
                         ->action(fn (Collection $records) => $records->each->update(['is_active' => false])),
+                    Tables\Actions\BulkAction::make('mark_popular')
+                        ->label('Mark as Popular')
+                        ->icon('heroicon-o-star')
+                        ->action(fn (Collection $records) => $records->each->update(['is_popular' => true])),
+                    Tables\Actions\BulkAction::make('unmark_popular')
+                        ->label('Unmark as Popular')
+                        ->icon('heroicon-o-star')
+                        ->action(fn (Collection $records) => $records->each->update(['is_popular' => false])),
 
                 ]),
             ]);

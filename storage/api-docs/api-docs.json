@@ -1209,8 +1209,8 @@
                 "tags": [
                     "Content"
                 ],
-                "summary": "List grocery categories",
-                "description": "List grocery categories",
+                "summary": "List grocery categories (no pagination)",
+                "description": "List grocery categories (non-paginated)",
                 "operationId": "a407c3ae41eb478776c3cc0552db199d",
                 "parameters": [
                     {
@@ -1245,13 +1245,27 @@
                                                     },
                                                     "image": {
                                                         "type": "string"
+                                                    },
+                                                    "groceries": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "uuid": {
+                                                                    "type": "string"
+                                                                },
+                                                                "content": {
+                                                                    "type": "string"
+                                                                },
+                                                                "image": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
                                             }
-                                        },
-                                        "meta": {
-                                            "$ref": "#/components/schemas/Meta"
                                         }
                                     },
                                     "type": "object"
@@ -1383,6 +1397,229 @@
                                                 },
                                                 "type": "object"
                                             }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/breakdowns": {
+            "post": {
+                "tags": [
+                    "Breakdown"
+                ],
+                "summary": "Create new Meal Plan Breakdown",
+                "description": "Create new Meal Plan Breakdown",
+                "operationId": "4cb6ba4df9aa22e8bd2bbce0e9e91a6a",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/CreateBreakdownRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/breakdowns/{uuid}/delete": {
+            "delete": {
+                "tags": [
+                    "Breakdown"
+                ],
+                "summary": "Delete Meal Plan Breakdown",
+                "description": "Delete Meal Plan Breakdown",
+                "operationId": "0a5bff0860f1a0256f777bb162ae4a68",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Breakdown UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/breakdowns/list": {
+            "get": {
+                "tags": [
+                    "Breakdown"
+                ],
+                "summary": "Get list of Meal Plan Breakdowns",
+                "description": "Get list of Meal Plan Breakdowns",
+                "operationId": "890e46d0d7de32783162a8b5ce2b42c2",
+                "parameters": [
+                    {
+                        "name": "plan_uuid",
+                        "in": "query",
+                        "description": "Filter by plan UUID",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Filter by date",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BreakdownViewModel"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/Meta"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/breakdowns/{uuid}/show": {
+            "get": {
+                "tags": [
+                    "Breakdown"
+                ],
+                "summary": "Show Meal Plan Breakdown",
+                "description": "Show Meal Plan Breakdown",
+                "operationId": "0802a40d843cec41f840e2d3edc8ad5b",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Breakdown UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BreakdownViewModel"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/breakdowns/{uuid}/update": {
+            "patch": {
+                "tags": [
+                    "Breakdown"
+                ],
+                "summary": "Update Meal Plan Breakdown",
+                "description": "Update Meal Plan Breakdown",
+                "operationId": "723d4e753fc0bec1cfd6e1152f0a4272",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Breakdown UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateBreakdownRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "message": {
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -1786,8 +2023,8 @@
                 "tags": [
                     "Grocery"
                 ],
-                "summary": "List groceries",
-                "description": "List groceries",
+                "summary": "List groceries (no pagination)",
+                "description": "List groceries (non-paginated)",
                 "operationId": "56d46007f6817c25d457bbb2fccc3b7b",
                 "parameters": [
                     {
@@ -1846,9 +2083,6 @@
                                                 },
                                                 "type": "object"
                                             }
-                                        },
-                                        "meta": {
-                                            "$ref": "#/components/schemas/Meta"
                                         }
                                     },
                                     "type": "object"
@@ -2054,6 +2288,23 @@
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "is_popular",
+                        "in": "query",
+                        "description": "Return only popular recipes when set to true",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "examples": {
+                            "true": {
+                                "summary": "Return only popular recipes"
+                            },
+                            "false": {
+                                "summary": "Return only non-popular recipes"
+                            }
                         }
                     }
                 ],
@@ -2438,6 +2689,71 @@
                 },
                 "type": "object"
             },
+            "BreakdownViewModel": {
+                "required": [
+                    "uuid",
+                    "plan",
+                    "date",
+                    "meals"
+                ],
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "uuid"
+                    },
+                    "plan": {
+                        "properties": {
+                            "uuid": {
+                                "type": "string",
+                                "example": "uuid"
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "user@example.com-2025-01-01-2025-01-07"
+                            },
+                            "start_date": {
+                                "type": "string",
+                                "format": "date",
+                                "example": "2025-01-01"
+                            },
+                            "end_date": {
+                                "type": "string",
+                                "format": "date",
+                                "example": "2025-01-07"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2022-01-01"
+                    },
+                    "meals": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "uuid": {
+                                    "type": "string",
+                                    "example": "uuid"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "example": "breakfast"
+                                },
+                                "recipes": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RecipeViewModel"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "PlanViewModel": {
                 "required": [
                     "uuid",
@@ -2598,6 +2914,9 @@
                         }
                     },
                     "is_favorite": {
+                        "type": "boolean"
+                    },
+                    "is_popular": {
                         "type": "boolean"
                     }
                 },
@@ -3263,6 +3582,105 @@
                     }
                 }
             },
+            "CreateBreakdownRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "plan_uuid",
+                                "date",
+                                "meals"
+                            ],
+                            "properties": {
+                                "plan_uuid": {
+                                    "description": "The UUID of the plan this breakdown belongs to.",
+                                    "type": "string",
+                                    "format": "uuid",
+                                    "example": "f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5"
+                                },
+                                "date": {
+                                    "description": "The date for this breakdown (must be within plan date range).",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-01"
+                                },
+                                "meals": {
+                                    "description": "An array of meal objects.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "type": {
+                                                "description": "The type of meal (e.g., \"breakfast\", \"lunch\", \"dinner\").",
+                                                "type": "string",
+                                                "example": "breakfast"
+                                            },
+                                            "recipes": {
+                                                "description": "An array of recipe UUIDs.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5",
+                                                    "nullable": true
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateBreakdownRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "date",
+                                "meals"
+                            ],
+                            "properties": {
+                                "date": {
+                                    "description": "The date for this breakdown (must be within plan date range).",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-01"
+                                },
+                                "meals": {
+                                    "description": "An array of meal objects.",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "type": {
+                                                "description": "The type of meal (e.g., \"breakfast\", \"lunch\", \"dinner\").",
+                                                "type": "string",
+                                                "example": "breakfast"
+                                            },
+                                            "recipes": {
+                                                "description": "An array of recipe UUIDs.",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "format": "uuid",
+                                                    "example": "f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5",
+                                                    "nullable": true
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
             "CreatePlanRequest": {
                 "required": true,
                 "content": {
@@ -3498,6 +3916,10 @@
         {
             "name": "Content",
             "description": "Content"
+        },
+        {
+            "name": "Breakdown",
+            "description": "Breakdown"
         },
         {
             "name": "Plan",

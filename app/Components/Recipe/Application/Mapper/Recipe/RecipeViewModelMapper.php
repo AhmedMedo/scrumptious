@@ -36,6 +36,7 @@ class RecipeViewModelMapper
             categories: $recipeEntity?->categories?->toArray(),
             isFavorite: $user && $recipeEntity->hasBeenFavoritedBy($user),
             video: $recipeEntity?->getFirstMediaUrl('video'),
+            isPopular: $recipeEntity->is_popular ?? false,
         );
     }
 }

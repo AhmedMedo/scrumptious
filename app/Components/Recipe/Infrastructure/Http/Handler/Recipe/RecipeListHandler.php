@@ -63,6 +63,23 @@ use OpenApi\Attributes as OA;
             required: false,
             schema: new OA\Schema(type: 'integer')
         ),
+        new OA\Parameter(
+            name: 'is_popular',
+            description: 'Return only popular recipes when set to true',
+            in: 'query',
+            required: false,
+            schema: new OA\Schema(type: 'boolean'),
+            examples: [
+                new OA\Examples(
+                    example: 'true',
+                    summary: 'Return only popular recipes',
+                ),
+                new OA\Examples(
+                    example: 'false',
+                    summary: 'Return only non-popular recipes',
+                ),
+            ]
+        ),
     ],
     responses: [
         new OA\Response(response: 200, description: 'success ', content: new OA\JsonContent(

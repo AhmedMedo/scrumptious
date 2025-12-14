@@ -41,4 +41,10 @@ class RecipeEntityFilter extends ModelFilter
             $query->where('uuid', $categoryUuid);
         });
     }
+
+    public function isPopular($isPopular): RecipeEntityFilter
+    {
+        $isPopular = filter_var($isPopular, FILTER_VALIDATE_BOOLEAN);
+        return $this->where('is_popular', $isPopular);
+    }
 }

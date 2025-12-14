@@ -1,5 +1,10 @@
 <?php
 
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown\BreakdownCreateHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown\BreakdownDeleteHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown\BreakdownListHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown\BreakdownShowHandler;
+use App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown\BreakdownUpdateHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanCreateHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanDeleteHandler;
 use App\Components\MealPlanner\Infrastructure\Http\Handler\Plan\PlanListHandler;
@@ -35,4 +40,15 @@ Route::group([
     Route::delete('/{uuid}/delete', PlanDeleteHandler::class);
     Route::get('/list', PlanListHandler::class);
     Route::get('/{uuid}/show', PlanShowHandler::class);
+});
+
+Route::group([
+    'prefix' => 'breakdowns',
+    'middleware' => ['auth:api']
+], function () {
+    Route::post('/', BreakdownCreateHandler::class);
+    Route::patch('/{uuid}/update', BreakdownUpdateHandler::class);
+    Route::delete('/{uuid}/delete', BreakdownDeleteHandler::class);
+    Route::get('/list', BreakdownListHandler::class);
+    Route::get('/{uuid}/show', BreakdownShowHandler::class);
 });

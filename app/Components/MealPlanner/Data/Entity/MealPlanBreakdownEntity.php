@@ -2,14 +2,13 @@
 
 namespace App\Components\MealPlanner\Data\Entity;
 
-use App\Components\Recipe\Data\Entity\RecipeEntity;
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class MealEntity extends Model
+class MealPlanBreakdownEntity extends Model
 {
     use HasFactory;
     use HasUuidTrait;
@@ -17,7 +16,7 @@ class MealEntity extends Model
     public $incrementing = false;
 
     /** @var string */
-    protected $table = 'meals';
+    protected $table = 'meal_plan_breakdowns';
 
     /** @var string */
     protected $primaryKey = 'uuid';
@@ -27,23 +26,17 @@ class MealEntity extends Model
 
     protected $guarded = [];
 
+    public $casts = [
+        'date' => 'date',
+    ];
+
     public function plan(): BelongsTo
     {
         return $this->belongsTo(PlanEntity::class, 'plan_uuid', 'uuid');
     }
 
-    public function breakdown(): BelongsTo
+    public function meals(): HasMany
     {
-        return $this->belongsTo(MealPlanBreakdownEntity::class, 'breakdown_uuid', 'uuid');
-    }
-
-    public function belongsToBreakdown(): bool
-    {
-        return !is_null($this->breakdown_uuid);
-    }
-
-    public function recipes(): BelongsToMany
-    {
-        return $this->belongsToMany(RecipeEntity::class, 'meal_recipe', 'meal_uuid', 'recipe_uuid');
+        return $this->hasMany(MealEntity::class, 'breakdown_uuid', 'uuid');
     }
 }
