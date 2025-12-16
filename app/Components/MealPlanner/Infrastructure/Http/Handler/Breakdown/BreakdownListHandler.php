@@ -16,14 +16,14 @@ use OpenApi\Attributes as OA;
     parameters: [
         new OA\Parameter(
             name: 'plan_uuid',
-            description: 'Filter by plan UUID',
+            description: 'Filter by plan UUID (required if date is not provided)',
             in: 'query',
             required: false,
             schema: new OA\Schema(type: 'string', format: 'uuid')
         ),
         new OA\Parameter(
             name: 'date',
-            description: 'Filter by date',
+            description: 'Filter by date (required if plan_uuid is not provided)',
             in: 'query',
             required: false,
             schema: new OA\Schema(type: 'string', format: 'date')
@@ -54,6 +54,11 @@ class BreakdownListHandler extends Handler
         $planUuid = request()->query('plan_uuid');
         $date = request()->query('date');
 
+        // Require at least one filter: plan_uuid OR date
+        if (!$planUuid && !$date) {
+            return $this->errorResponse('Either plan_uuid or date query parameter is required.');
+        }
+
         $breakdowns = $this->service->paginate($planUuid, $date);
         return $this->successResponseWithDataAndMeta(
             data: $breakdowns->map(fn(MealPlanBreakdownEntity $breakdown) => $this->mapper->fromEntity($breakdown)->toArray())->toArray(),
@@ -66,3 +71,4 @@ class BreakdownListHandler extends Handler
         );
     }
 }
+

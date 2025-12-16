@@ -2,6 +2,7 @@
 
 namespace App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown;
 
+use App\Components\MealPlanner\Application\Mapper\Breakdown\BreakdownViewModelMapper;
 use App\Components\MealPlanner\Application\Service\Breakdown\BreakdownServiceInterface;
 use App\Components\MealPlanner\Infrastructure\Http\Request\Breakdown\UpdateBreakdownRequest;
 use App\Libraries\Base\Database\MySQL\ConnectionService;
@@ -28,6 +29,7 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
                 new OA\Property(property: 'message', type: 'string'),
+                new OA\Property(property: 'data', ref: '#/components/schemas/BreakdownViewModel', type: 'object'),
             ]
         ))
     ]
@@ -36,7 +38,8 @@ class BreakdownUpdateHandler extends Handler
 {
     public function __construct(
         private readonly BreakdownServiceInterface $service,
-        private readonly ConnectionService $connectionService
+        private readonly ConnectionService $connectionService,
+        private readonly BreakdownViewModelMapper $mapper
     )
     {
     }
@@ -45,12 +48,16 @@ class BreakdownUpdateHandler extends Handler
     {
         try {
             $this->connectionService->beginTransaction();
-            $this->service->update($uuid, $request->validated());
+            $breakdown = $this->service->update($uuid, $request->validated());
             $this->connectionService->commit();
-            return $this->successResponseWithMessage('Breakdown updated successfully');
+            return $this->successResponseWithData(
+                data: $this->mapper->fromEntity($breakdown)->toArray(),
+                message: 'Breakdown updated successfully'
+            );
         } catch (\Exception $exception) {
             $this->connectionService->rollback();
             return $this->errorResponse($exception->getMessage());
         }
     }
 }
+

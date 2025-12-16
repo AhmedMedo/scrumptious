@@ -2,6 +2,8 @@
 
 namespace App\Components\MealPlanner\Infrastructure\Http\Handler\Breakdown;
 
+use App\Components\Auth\Application\Service\UserServiceInterface;
+use App\Components\MealPlanner\Application\Mapper\Breakdown\BreakdownViewModelMapper;
 use App\Components\MealPlanner\Application\Service\Breakdown\BreakdownServiceInterface;
 use App\Components\MealPlanner\Infrastructure\Http\Request\Breakdown\CreateBreakdownRequest;
 use App\Libraries\Base\Database\MySQL\ConnectionService;
@@ -19,6 +21,7 @@ use OpenApi\Attributes as OA;
             properties: [
                 new OA\Property(property: 'status', type: 'string'),
                 new OA\Property(property: 'message', type: 'string'),
+                new OA\Property(property: 'data', ref: '#/components/schemas/BreakdownViewModel', type: 'object'),
             ]
         ))
     ]
@@ -27,7 +30,9 @@ class BreakdownCreateHandler extends Handler
 {
     public function __construct(
         private readonly BreakdownServiceInterface $service,
-        private readonly ConnectionService $connectionService
+        private readonly ConnectionService $connectionService,
+        private readonly UserServiceInterface $userService,
+        private readonly BreakdownViewModelMapper $mapper
     )
     {
     }
@@ -36,9 +41,15 @@ class BreakdownCreateHandler extends Handler
     {
         try {
             $this->connectionService->beginTransaction();
-            $this->service->store($request->validated());
+
+            $user = $this->userService->userEntity();
+            $breakdown = $this->service->store($request->validated(), $user->uuid);
+
             $this->connectionService->commit();
-            return $this->successResponseWithMessage('Breakdown created successfully');
+            return $this->successResponseWithData(
+                data: $this->mapper->fromEntity($breakdown)->toArray(),
+                message: 'Breakdown created successfully'
+            );
         } catch (\Exception $exception) {
             $this->connectionService->rollback();
             return $this->errorResponse($exception->getMessage());

@@ -1430,6 +1430,9 @@
                                         },
                                         "message": {
                                             "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BreakdownViewModel"
                                         }
                                     },
                                     "type": "object"
@@ -1493,7 +1496,7 @@
                     {
                         "name": "plan_uuid",
                         "in": "query",
-                        "description": "Filter by plan UUID",
+                        "description": "Filter by plan UUID (required if date is not provided)",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -1503,7 +1506,7 @@
                     {
                         "name": "date",
                         "in": "query",
-                        "description": "Filter by date",
+                        "description": "Filter by date (required if plan_uuid is not provided)",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -1620,6 +1623,9 @@
                                         },
                                         "message": {
                                             "type": "string"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/BreakdownViewModel"
                                         }
                                     },
                                     "type": "object"
@@ -3588,19 +3594,12 @@
                     "application/json": {
                         "schema": {
                             "required": [
-                                "plan_uuid",
                                 "date",
                                 "meals"
                             ],
                             "properties": {
-                                "plan_uuid": {
-                                    "description": "The UUID of the plan this breakdown belongs to.",
-                                    "type": "string",
-                                    "format": "uuid",
-                                    "example": "f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5"
-                                },
                                 "date": {
-                                    "description": "The date for this breakdown (must be within plan date range).",
+                                    "description": "The date for this breakdown (must be within plan date range). Plan will be automatically selected as the latest active plan for the authenticated user.",
                                     "type": "string",
                                     "format": "date",
                                     "example": "2025-04-01"

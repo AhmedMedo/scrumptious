@@ -13,3 +13,4 @@ interface BreakdownQueryInterface
 
     public function paginate(?string $planUuid = null, ?string $date = null): LengthAwarePaginator;
 }
+

@@ -40,3 +40,4 @@ class MealPlanBreakdownEntity extends Model
         return $this->hasMany(MealEntity::class, 'breakdown_uuid', 'uuid');
     }
 }
+

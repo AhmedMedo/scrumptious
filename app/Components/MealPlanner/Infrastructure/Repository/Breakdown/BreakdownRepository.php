@@ -15,7 +15,7 @@ class BreakdownRepository implements BreakdownRepositoryInterface
     {
     }
 
-    public function create(array $data): void
+    public function create(array $data): MealPlanBreakdownEntity
     {
         $planUuid = Arr::get($data, 'plan_uuid');
         
@@ -32,9 +32,21 @@ class BreakdownRepository implements BreakdownRepositoryInterface
 
             $mealEntity->recipes()->attach(Arr::get($meal, 'recipes'));
         }
+
+        // Reload with relationships
+        $breakdown->refresh();
+        $breakdown->load([
+            'meals',
+            'meals.recipes',
+            'meals.recipes.ingredients',
+            'meals.recipes.instructions',
+            'meals.recipes.categories',
+            'plan',
+        ]);
+        return $breakdown;
     }
 
-    public function update(string $uuid, array $data): void
+    public function update(string $uuid, array $data): MealPlanBreakdownEntity
     {
         $breakdown = $this->query->findBy(['uuid' => $uuid]);
         $planUuid = $breakdown->plan_uuid; // Get plan_uuid from breakdown
@@ -53,6 +65,18 @@ class BreakdownRepository implements BreakdownRepositoryInterface
 
             $mealEntity->recipes()->attach(Arr::get($meal, 'recipes'));
         }
+
+        // Reload with relationships
+        $breakdown->refresh();
+        $breakdown->load([
+            'meals',
+            'meals.recipes',
+            'meals.recipes.ingredients',
+            'meals.recipes.instructions',
+            'meals.recipes.categories',
+            'plan',
+        ]);
+        return $breakdown;
     }
 
     public function delete(string $uuid): void
@@ -62,3 +86,4 @@ class BreakdownRepository implements BreakdownRepositoryInterface
         $breakdown->delete();
     }
 }
+

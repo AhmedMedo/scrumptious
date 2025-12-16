@@ -7,9 +7,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 interface BreakdownServiceInterface
 {
-    public function store(array $data): void;
+    public function store(array $data, string $userUuid): MealPlanBreakdownEntity;
 
-    public function update(string $uuid, array $data): void;
+    public function update(string $uuid, array $data): MealPlanBreakdownEntity;
 
     public function delete(string $uuid): void;
 
@@ -17,3 +17,4 @@ interface BreakdownServiceInterface
 
     public function paginate(?string $planUuid = null, ?string $date = null): LengthAwarePaginator;
 }
+

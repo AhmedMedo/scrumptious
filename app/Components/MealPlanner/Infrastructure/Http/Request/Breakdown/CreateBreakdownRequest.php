@@ -11,18 +11,11 @@ use OpenApi\Attributes as OA;
     request: 'CreateBreakdownRequest',
     required: true,
     content: new OA\JsonContent(
-        required: ['plan_uuid', 'date', 'meals'],
+        required: ['date', 'meals'],
         properties: [
             new OA\Property(
-                property: 'plan_uuid',
-                description: 'The UUID of the plan this breakdown belongs to.',
-                type: 'string',
-                format: 'uuid',
-                example: 'f5f5f5f5-f5f5-f5f5-f5f5-f5f5f5f5f5f5'
-            ),
-            new OA\Property(
                 property: 'date',
-                description: 'The date for this breakdown (must be within plan date range).',
+                description: 'The date for this breakdown (must be within plan date range). Plan will be automatically selected as the latest active plan for the authenticated user.',
                 type: 'string',
                 format: 'date',
                 example: '2025-04-01'
@@ -62,23 +55,9 @@ class CreateBreakdownRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'plan_uuid' => [
-                'required',
-                'uuid',
-                'exists:plans,uuid',
-            ],
             'date' => [
                 'required',
                 'date',
-                function ($attribute, $value, $fail) {
-                    $plan = PlanEntity::find($this->plan_uuid);
-                    if (!$plan) {
-                        return;
-                    }
-                    if ($value < $plan->start_date || $value > $plan->end_date) {
-                        $fail('The date must be within the plan\'s start date and end date.');
-                    }
-                },
             ],
             'meals' => [
                 'required',
@@ -101,3 +80,4 @@ class CreateBreakdownRequest extends FormRequest
         ];
     }
 }
+

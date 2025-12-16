@@ -62,3 +62,4 @@ class BreakdownQuery implements BreakdownQueryInterface
         return $query->latest()->paginate();
     }
 }
+
