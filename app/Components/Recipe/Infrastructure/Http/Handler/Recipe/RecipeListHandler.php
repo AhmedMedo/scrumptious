@@ -114,7 +114,8 @@ class RecipeListHandler extends Handler
             $userUuid = $user->uuid();
         }
         $recipes = $this->recipeService->paginated(
-            userUuid: $userUuid
+            userUuid: $userUuid,
+            withAdminRecipes: true,
         );
         return $this->successResponseWithDataAndMeta(
             data: $recipes->map(fn (RecipeEntity $recipe) => $this->recipeViewModelMapper->fromEntity($recipe)->toArray())->toArray(),

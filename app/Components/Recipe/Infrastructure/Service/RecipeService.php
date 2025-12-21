@@ -43,9 +43,9 @@ class RecipeService implements RecipeServiceInterface
         return $this->recipeQuery->findByUuid($uuid);
     }
 
-    public function paginated(?string $userUuid = null): LengthAwarePaginator
+    public function paginated(?string $userUuid = null, bool $withAdminRecipes = false): LengthAwarePaginator
     {
-        return $this->recipeQuery->paginated($userUuid);
+        return $this->recipeQuery->paginated($userUuid, $withAdminRecipes);
     }
 
     public function toggleFavourite(string $uuid): void
