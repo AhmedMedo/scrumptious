@@ -110,7 +110,7 @@ class RecipeListHandler extends Handler
     {
         $userUuid = null;
         $needFullRecipes = $request->has('full_recipes') || $request->has('fullRecipes');
-        if (($this->userService->isAuthenticated() && !$request->query('is_favorite') && !$request->query('is_admin')) || $needFullRecipes ) {
+        if (($this->userService->isAuthenticated() && !$request->query('is_favorite') && !$request->query('is_admin'))) {
             $user = $this->userService->user();
             $userUuid = $user->uuid();
         }
