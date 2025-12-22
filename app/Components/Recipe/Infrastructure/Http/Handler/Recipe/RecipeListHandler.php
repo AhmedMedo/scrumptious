@@ -109,13 +109,13 @@ class RecipeListHandler extends Handler
     public function __invoke(Request $request): \Illuminate\Http\JsonResponse
     {
         $userUuid = null;
-        if ($this->userService->isAuthenticated() && !$request->query('is_favorite') && !$request->query('is_admin')) {
+        if (($this->userService->isAuthenticated() && !$request->query('is_favorite') && !$request->query('is_admin')) || $request->query('full_recipes') ) {
             $user = $this->userService->user();
             $userUuid = $user->uuid();
         }
         $recipes = $this->recipeService->paginated(
             userUuid: $userUuid,
-            withAdminRecipes: true,
+            withAdminRecipes: $request->has('full_recipes') && $request->query('full_recipes'),
         );
         return $this->successResponseWithDataAndMeta(
             data: $recipes->map(fn (RecipeEntity $recipe) => $this->recipeViewModelMapper->fromEntity($recipe)->toArray())->toArray(),
