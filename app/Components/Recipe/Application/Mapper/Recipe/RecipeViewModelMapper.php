@@ -27,11 +27,13 @@ class RecipeViewModelMapper
             description: $recipeEntity->description,
             instructions: $recipeEntity?->instructions->map(fn(InstructionEntity $instruction) => [
                 'uuid' => $instruction->getKey(),
-                'content' => $instruction->content
+                'content' => $instruction->content,
+                'image' => $instruction->getFirstMediaUrl('image'),
             ])?->toArray(),
             ingredients: $recipeEntity?->ingredients?->map(fn(IngredientEntity $ingredient) => [
                 'uuid' => $ingredient->getKey(),
-                'content' => $ingredient->content
+                'content' => $ingredient->content,
+                'image' => $ingredient->getFirstMediaUrl('image'),
             ])->toArray(),
             categories: $recipeEntity?->categories?->toArray(),
             isFavorite: $user && $recipeEntity->hasBeenFavoritedBy($user),
