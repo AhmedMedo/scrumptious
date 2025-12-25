@@ -28,7 +28,6 @@ class RecipeViewModelMapper
             instructions: $recipeEntity?->instructions->map(fn(InstructionEntity $instruction) => [
                 'uuid' => $instruction->getKey(),
                 'content' => $instruction->content,
-                'image' => $instruction->getFirstMediaUrl('image'),
             ])?->toArray(),
             ingredients: $recipeEntity?->ingredients?->map(fn(IngredientEntity $ingredient) => [
                 'uuid' => $ingredient->getKey(),
