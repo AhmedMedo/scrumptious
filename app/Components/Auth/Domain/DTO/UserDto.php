@@ -11,7 +11,7 @@ class UserDto
         public readonly string $firstName,
         public readonly string $lastName,
         public readonly string $email,
-        public readonly string $phoneNumber,
+        public readonly ?string $phoneNumber = null,
         public readonly ?string $country,
         public readonly bool $isActive,
         public readonly ?string $image,
@@ -63,7 +63,7 @@ class UserDto
         return $this->email;
     }
 
-    public function PhoneNumber(): string
+    public function PhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
