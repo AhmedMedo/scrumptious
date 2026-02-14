@@ -1,0 +1,1171 @@
+{
+  "info": {
+    "_postman_id": "scrumptious-api-collection",
+    "name": "Scrumptious API Collection",
+    "description": "Complete API collection for Scrumptious application with all endpoints including Authentication, Recipes, Meal Planner, Notifications, Content, and Subscription.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8085/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string",
+      "description": "Set this after login"
+    },
+    {
+      "key": "user_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set this after login"
+    },
+    {
+      "key": "notification_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set from notification response"
+    },
+    {
+      "key": "recipe_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set from recipe response"
+    },
+    {
+      "key": "target_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set from target response"
+    },
+    {
+      "key": "plan_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set from plan response"
+    },
+    {
+      "key": "breakdown_uuid",
+      "value": "",
+      "type": "string",
+      "description": "Set from breakdown response"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"phone\": \"+1234567890\",\n    \"country_id\": \"1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('auth_token', response.token);",
+                  "    pm.collectionVariables.set('user_uuid', response.user.uuid);",
+                  "    pm.collectionVariables.set('user_name', response.user.name);",
+                  "    console.log('Token saved:', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Login as Guest",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"device_name\": \"iPhone 13\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login-as-guest",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login-as-guest"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/verify-email",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "verify-email"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/forget-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forget-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/forget-password-verification",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "forget-password-verification"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"otp\": \"123456\",\n    \"password\": \"newpassword123\",\n    \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/resend-otp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "resend-otp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend Email Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/resend-email-verification",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "resend-email-verification"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Mobile by Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\",\n    \"otp\": \"123456\",\n    \"new_phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-mobile-by-email",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-mobile-by-email"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Updated\",\n    \"phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/update-profile",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "update-profile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"current_password\": \"password123\",\n    \"password\": \"newpassword123\",\n    \"password_confirmation\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/delete-account",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "delete-account"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Email",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"newemail@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-email",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-email"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Phone",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\": \"+1234567890\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-phone",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-phone"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications (Old)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/auth/notifications",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "notifications"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication endpoints for user management"
+    },
+    {
+      "name": "🔔 Notifications",
+      "item": [
+        {
+          "name": "Register Device Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"device_token\": \"fcm_token_here_12345\",\n    \"device_type\": \"android\",\n    \"device_name\": \"Samsung Galaxy S21\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/notifications/register-device",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "register-device"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications?per_page=20&unread_only=false",
+              "host": ["{{base_url}}"],
+              "path": ["notifications"],
+              "query": [
+                {
+                  "key": "per_page",
+                  "value": "20",
+                  "description": "Number of notifications per page"
+                },
+                {
+                  "key": "unread_only",
+                  "value": "false",
+                  "description": "Filter only unread notifications"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/unread-count",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "unread-count"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/{{notification_uuid}}/read",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "{{notification_uuid}}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark All as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/read-all",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "read-all"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/notifications/{{notification_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["notifications", "{{notification_uuid}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Notification management endpoints"
+    },
+    {
+      "name": "🍳 Recipes",
+      "item": [
+        {
+          "name": "List Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/recipe/list?page=1&per_page=20",
+              "host": ["{{base_url}}"],
+              "path": ["recipe", "list"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Recipe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/recipe/{{recipe_uuid}}/show",
+              "host": ["{{base_url}}"],
+              "path": ["recipe", "{{recipe_uuid}}", "show"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Delicious Pasta\",\n    \"description\": \"A tasty pasta dish with fresh ingredients\",\n    \"instructions\": \"1. Boil pasta\\n2. Add sauce\\n3. Serve hot\",\n    \"prep_time\": 30,\n    \"cook_time\": 20,\n    \"servings\": 4,\n    \"difficulty\": \"medium\",\n    \"category_id\": \"1\",\n    \"ingredients\": [\n        {\n            \"name\": \"Pasta\",\n            \"amount\": \"200g\",\n            \"unit\": \"grams\"\n        },\n        {\n            \"name\": \"Tomato Sauce\",\n            \"amount\": \"100ml\",\n            \"unit\": \"milliliters\"\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/recipe",
+              "host": ["{{base_url}}"],
+              "path": ["recipe"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Delicious Pasta\",\n    \"description\": \"An even tastier pasta dish\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/recipe/{{recipe_uuid}}/update",
+              "host": ["{{base_url}}"],
+              "path": ["recipe", "{{recipe_uuid}}", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/recipe/{{recipe_uuid}}/delete",
+              "host": ["{{base_url}}"],
+              "path": ["recipe", "{{recipe_uuid}}", "delete"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Favorite",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/recipe/{{recipe_uuid}}/toggle-favourite",
+              "host": ["{{base_url}}"],
+              "path": ["recipe", "{{recipe_uuid}}", "toggle-favourite"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Ingredients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ingredients",
+              "host": ["{{base_url}}"],
+              "path": ["ingredients"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Groceries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/groceries",
+              "host": ["{{base_url}}"],
+              "path": ["groceries"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Recipe management endpoints"
+    },
+    {
+      "name": "🥗 Meal Planner",
+      "item": [
+        {
+          "name": "Create Target",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Lose Weight\",\n    \"description\": \"Lose 5kg in 2 months\",\n    \"target_type\": \"weight_loss\",\n    \"start_date\": \"2024-01-01\",\n    \"end_date\": \"2024-03-01\",\n    \"target_value\": \"5\",\n    \"current_value\": \"0\",\n    \"unit\": \"kg\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/target",
+              "host": ["{{base_url}}"],
+              "path": ["target"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Targets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/target/list",
+              "host": ["{{base_url}}"],
+              "path": ["target", "list"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Target",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/target/{{target_uuid}}/show",
+              "host": ["{{base_url}}"],
+              "path": ["target", "{{target_uuid}}", "show"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Target",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"current_value\": \"2.5\",\n    \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/target/{{target_uuid}}/update",
+              "host": ["{{base_url}}"],
+              "path": ["target", "{{target_uuid}}", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Target",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/target/{{target_uuid}}/delete",
+              "host": ["{{base_url}}"],
+              "path": ["target", "{{target_uuid}}", "delete"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Weekly Meal Plan\",\n    \"description\": \"Balanced meal plan for weight loss\",\n    \"start_date\": \"2024-01-01\",\n    \"end_date\": \"2024-01-07\",\n    \"target_uuid\": \"{{target_uuid}}\",\n    \"meals\": [\n        {\n            \"day\": \"Monday\",\n            \"breakfast\": \"Oatmeal with fruits\",\n            \"lunch\": \"Grilled chicken salad\",\n            \"dinner\": \"Vegetable stir-fry\",\n            \"snack\": \"Greek yogurt\"\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/plans",
+              "host": ["{{base_url}}"],
+              "path": ["plans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/plans/list",
+              "host": ["{{base_url}}"],
+              "path": ["plans", "list"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Plan",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/plans/{{plan_uuid}}/show",
+              "host": ["{{base_url}}"],
+              "path": ["plans", "{{plan_uuid}}", "show"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Plan",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Weekly Meal Plan\",\n    \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/plans/{{plan_uuid}}/update",
+              "host": ["{{base_url}}"],
+              "path": ["plans", "{{plan_uuid}}", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/plans/{{plan_uuid}}/delete",
+              "host": ["{{base_url}}"],
+              "path": ["plans", "{{plan_uuid}}", "delete"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Breakdown",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"plan_uuid\": \"{{plan_uuid}}\",\n    \"day\": \"Monday\",\n    \"meal_type\": \"breakfast\",\n    \"recipe_uuid\": \"{{recipe_uuid}}\",\n    \"calories\": 350,\n    \"protein\": 25,\n    \"carbs\": 45,\n    \"fat\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/breakdowns",
+              "host": ["{{base_url}}"],
+              "path": ["breakdowns"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Breakdowns",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/breakdowns/list?plan_uuid={{plan_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["breakdowns", "list"],
+              "query": [
+                {
+                  "key": "plan_uuid",
+                  "value": "{{plan_uuid}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show Breakdown",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/breakdowns/{{breakdown_uuid}}/show",
+              "host": ["{{base_url}}"],
+              "path": ["breakdowns", "{{breakdown_uuid}}", "show"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Breakdown",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"calories\": 400,\n    \"protein\": 30\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/breakdowns/{{breakdown_uuid}}/update",
+              "host": ["{{base_url}}"],
+              "path": ["breakdowns", "{{breakdown_uuid}}", "update"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Breakdown",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/breakdowns/{{breakdown_uuid}}/delete",
+              "host": ["{{base_url}}"],
+              "path": ["breakdowns", "{{breakdown_uuid}}", "delete"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Meal planning and target management endpoints"
+    },
+    {
+      "name": "📄 Content",
+      "item": [
+        {
+          "name": "Get Countries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/countries",
+              "host": ["{{base_url}}"],
+              "path": ["content", "countries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/categories",
+              "host": ["{{base_url}}"],
+              "path": ["content", "categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Grocery Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/grocery-categories",
+              "host": ["{{base_url}}"],
+              "path": ["content", "grocery-categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get FAQ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/faq",
+              "host": ["{{base_url}}"],
+              "path": ["content", "faq"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/config",
+              "host": ["{{base_url}}"],
+              "path": ["content", "config"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Policies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/content/policies",
+              "host": ["{{base_url}}"],
+              "path": ["content", "policies"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Media",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "type",
+                  "value": "image",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/content/upload-media",
+              "host": ["{{base_url}}"],
+              "path": ["content", "upload-media"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Customer Support",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"subject\": \"Help Needed\",\n    \"message\": \"I need help with my account\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/customer-support",
+              "host": ["{{base_url}}"],
+              "path": ["customer-support"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Newsletter Subscribe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"john@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/newsletter",
+              "host": ["{{base_url}}"],
+              "path": ["newsletter"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Content and static data endpoints"
+    },
+    {
+      "name": "💳 Subscription",
+      "item": [
+        {
+          "name": "Get Subscription Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/subscription/plans",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "plans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"plan_id\": \"premium_monthly\",\n    \"payment_method\": \"stripe\",\n    \"amount\": 9.99,\n    \"currency\": \"USD\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/subscription/payment",
+              "host": ["{{base_url}}"],
+              "path": ["subscription", "payment"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Subscription and payment endpoints"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-set base URL based on environment",
+          "if (!pm.collectionVariables.get('base_url')) {",
+          "    pm.collectionVariables.set('base_url', 'http://localhost:8085/api');",
+          "}"
+        ]
+      }
+    }
+  ]
+}

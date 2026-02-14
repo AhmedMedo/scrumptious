@@ -3,6 +3,7 @@
 namespace App\Components\Recipe\Infrastructure\Service;
 
 use App\Components\Auth\Application\Service\UserServiceInterface;
+use App\Components\Notification\Infrastructure\Events\NewRecipeUploadedEvent;
 use App\Components\Recipe\Application\Query\RecipeQueryInterface;
 use App\Components\Recipe\Application\Repository\RecipeRepositoryInterface;
 use App\Components\Recipe\Application\Service\RecipeServiceInterface;
@@ -25,7 +26,16 @@ class RecipeService implements RecipeServiceInterface
 
     public function store(array $data): \App\Components\Recipe\Data\Entity\RecipeEntity
     {
-        return $this->recipeRepository->create($data);
+        $recipe = $this->recipeRepository->create($data);
+        
+        NewRecipeUploadedEvent::dispatch(
+            recipeUuid: $recipe->uuid,
+            recipeName: $recipe->name,
+            recipeDescription: $recipe->description,
+            categories: []
+        );
+        
+        return $recipe;
     }
 
     public function update(string $uuid, array $data):void

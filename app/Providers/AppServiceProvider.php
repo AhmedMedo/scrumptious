@@ -23,6 +23,24 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\Event::listen(
+            \App\Components\Notification\Infrastructure\Events\MealPlanCustomizedEvent::class,
+            \App\Components\Notification\Infrastructure\Listeners\SendMealPlanCustomizedNotification::class
+        );
+
+        \Illuminate\Support\Facades\Event::listen(
+            \App\Components\Notification\Infrastructure\Events\TargetReminderEvent::class,
+            \App\Components\Notification\Infrastructure\Listeners\SendTargetReminderNotification::class
+        );
+
+        \Illuminate\Support\Facades\Event::listen(
+            \App\Components\Notification\Infrastructure\Events\NewRecipeUploadedEvent::class,
+            \App\Components\Notification\Infrastructure\Listeners\SendNewRecipeNotification::class
+        );
+
+        \Illuminate\Support\Facades\Event::listen(
+            \App\Components\Notification\Infrastructure\Events\AdminBroadcastEvent::class,
+            \App\Components\Notification\Infrastructure\Listeners\SendAdminBroadcastNotification::class
+        );
     }
 }
