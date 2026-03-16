@@ -14,3 +14,15 @@ Route::any('paymob/callback/response', [ScrumptiousPaymobController::class, 'res
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/about-us', function () {
+    return view('about-us');
+})->name('about-us');
+
+Route::get('/privacy-policy', function () {
+    return view('privacy-policy');
+})->name('privacy-policy');
+
+Route::get('/terms-and-conditions', function () {
+    return view('terms-and-conditions');
+})->name('terms-and-conditions');
