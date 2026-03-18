@@ -15,14 +15,19 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/about-us', function () {
-    return view('about-us');
-})->name('about-us');
+Route::withoutMiddleware(['web'])->group(function () {
+    Route::get('/about-us', function () {
+        return response(view('about-us'))
+            ->header('Cache-Control', 'public, max-age=86400');
+    })->name('about-us');
 
-Route::get('/privacy-policy', function () {
-    return view('privacy-policy');
-})->name('privacy-policy');
+    Route::get('/privacy-policy', function () {
+        return response(view('privacy-policy'))
+            ->header('Cache-Control', 'public, max-age=86400');
+    })->name('privacy-policy');
 
-Route::get('/terms-and-conditions', function () {
-    return view('terms-and-conditions');
-})->name('terms-and-conditions');
+    Route::get('/terms-and-conditions', function () {
+        return response(view('terms-and-conditions'))
+            ->header('Cache-Control', 'public, max-age=86400');
+    })->name('terms-and-conditions');
+});
