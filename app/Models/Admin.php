@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Libraries\Base\Model\HasUuid\HasUuidTrait;
-use Illuminate\Database\Eloquent\Model;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class Admin  extends Authenticatable
+class Admin extends Authenticatable implements FilamentUser
 {
     use HasUuidTrait;
     use HasRoles;
@@ -31,5 +32,10 @@ class Admin  extends Authenticatable
     public function getNameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }
