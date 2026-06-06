@@ -31,6 +31,25 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     }
 
     /**
+     * Configure the Telescope authorization services.
+     *
+     * Telescope resolves the user from the default ("web") guard, but operators
+     * authenticate through the Filament admin panel ("admin" guard). Evaluate the
+     * viewTelescope gate against that guard's user so logged-in admins are allowed.
+     */
+    protected function authorization(): void
+    {
+        $this->gate();
+
+        Telescope::auth(function ($request) {
+            $user = $request->user('admin') ?? $request->user();
+
+            return $this->app->environment('local') ||
+                   ($user && Gate::forUser($user)->check('viewTelescope'));
+        });
+    }
+
+    /**
      * Prevent sensitive request details from being logged by Telescope.
      */
     protected function hideSensitiveRequestDetails(): void
