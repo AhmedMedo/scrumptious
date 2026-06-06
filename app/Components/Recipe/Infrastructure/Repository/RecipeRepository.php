@@ -26,6 +26,7 @@ class RecipeRepository implements RecipeRepositoryInterface
             'user_uuid' => Arr::get($data, 'user_uuid'),
             'title' => Arr::get($data, 'title'),
             'cooking_minutes' => Arr::get($data, 'cooking_minutes'),
+            'preparing_minutes' => Arr::get($data, 'preparing_minutes'),
             'total_carbs' => Arr::get($data, 'total_carbs'),
             'total_proteins' => Arr::get($data, 'total_proteins'),
             'total_fats' => Arr::get($data, 'total_fats'),
@@ -76,6 +77,7 @@ class RecipeRepository implements RecipeRepositoryInterface
         $recipe->update([
             'title' => Arr::get($data, 'title'),
             'cooking_minutes' => Arr::get($data, 'cooking_minutes'),
+            'preparing_minutes' => Arr::get($data, 'preparing_minutes'),
             'total_carbs' => Arr::get($data, 'total_carbs'),
             'total_proteins' => Arr::get($data, 'total_proteins'),
             'total_fats' => Arr::get($data, 'total_fats'),

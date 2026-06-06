@@ -18,6 +18,7 @@ class RecipeViewModelMapper
             uuid: $recipeEntity->getKey(),
             title: $recipeEntity->title,
             cookingMinutes: $recipeEntity->cooking_minutes,
+            preparingMinutes: $recipeEntity->preparing_minutes,
             totalCarbs: $recipeEntity->total_carbs,
             totalProteins: $recipeEntity->total_proteins,
             totalFats: $recipeEntity->total_fats,

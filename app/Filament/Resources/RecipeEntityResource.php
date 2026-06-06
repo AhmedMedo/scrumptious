@@ -74,6 +74,9 @@ class RecipeEntityResource extends Resource
                 Forms\Components\TextInput::make('cooking_minutes')
                     ->numeric()
                     ->label('Cooking Time (minutes)'),
+                Forms\Components\TextInput::make('preparing_minutes')
+                    ->numeric()
+                    ->label('Preparation Time (minutes)'),
                 Forms\Components\TextInput::make('total_carbs')
                     ->numeric()
                     ->label('Total Carbs'),

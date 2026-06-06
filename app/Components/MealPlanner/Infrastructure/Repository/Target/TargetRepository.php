@@ -11,9 +11,9 @@ class TargetRepository implements TargetRepositoryInterface
 
     public function create(array $data): TargetEntity
     {
-        $data = array_merge($data , [
-            'end_date' => Carbon::parse($data['start_date'])->addDays(7)->toDateString()
-        ]);
+        if (empty($data['end_date'])) {
+            $data['end_date'] = Carbon::parse($data['start_date'])->addDays(7)->toDateString();
+        }
         return TargetEntity::create($data);
     }
 

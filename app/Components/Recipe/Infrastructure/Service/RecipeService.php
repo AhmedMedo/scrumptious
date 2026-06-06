@@ -29,10 +29,10 @@ class RecipeService implements RecipeServiceInterface
         $recipe = $this->recipeRepository->create($data);
         
         NewRecipeUploadedEvent::dispatch(
-            recipeUuid: $recipe->uuid,
-            recipeName: $recipe->name,
-            recipeDescription: $recipe->description,
-            categories: []
+            $recipe->uuid,
+            $recipe->name,
+            $recipe->description,
+            []
         );
         
         return $recipe;

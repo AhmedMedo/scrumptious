@@ -20,6 +20,7 @@ use OpenApi\Attributes as OA;
         properties: [
             new OA\Property(property: 'title', description: 'The title of the recipe.', type: 'string', example: 'Spaghetti Carbonara'),
             new OA\Property(property: 'cooking_minutes', description: 'The cooking time in minutes.', type: 'integer', example: 30),
+            new OA\Property(property: 'preparing_minutes', description: 'The preparation time in minutes.', type: 'integer', example: 15),
             new OA\Property(property: 'total_carbs', description: 'Total carbohydrates in the recipe.', type: 'integer', example: 50),
             new OA\Property(property: 'total_proteins', description: 'Total proteins in the recipe.', type: 'integer', example: 20),
             new OA\Property(property: 'total_fats', description: 'Total fats in the recipe.', type: 'integer', example: 15),
@@ -83,6 +84,7 @@ class CreateRecipeRequest extends FormRequest
         return [
             'title' => 'required|string',
             'cooking_minutes' => 'nullable|integer',
+            'preparing_minutes' => 'nullable|integer',
             'total_carbs' => 'nullable|integer',
             'total_proteins' => 'nullable|integer',
             'total_fats' => 'nullable|integer',

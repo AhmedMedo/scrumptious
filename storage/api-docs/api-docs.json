@@ -3223,6 +3223,9 @@
                     "cooking_minutes": {
                         "type": "integer"
                     },
+                    "preparing_minutes": {
+                        "type": "integer"
+                    },
                     "total_carbs": {
                         "type": "integer"
                     },
@@ -4128,6 +4131,13 @@
                                     "format": "date",
                                     "example": "2025-04-01"
                                 },
+                                "end_date": {
+                                    "description": "The end date for the target (optional). Defaults to 7 days after the start date when omitted.",
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2025-04-08",
+                                    "nullable": true
+                                },
                                 "timeframe": {
                                     "description": "The timeframe for the target (e.g., \"monthly\", \"quarterly\").",
                                     "type": "string",
@@ -4163,6 +4173,11 @@
                                     "description": "The cooking time in minutes.",
                                     "type": "integer",
                                     "example": 30
+                                },
+                                "preparing_minutes": {
+                                    "description": "The preparation time in minutes.",
+                                    "type": "integer",
+                                    "example": 15
                                 },
                                 "total_carbs": {
                                     "description": "Total carbohydrates in the recipe.",

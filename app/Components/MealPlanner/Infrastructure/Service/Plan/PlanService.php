@@ -31,10 +31,10 @@ class PlanService implements PlanServiceInterface
         $plan = $this->planQuery->findBy(['uuid' => $uuid]);
         if ($plan && $plan->user_uuid) {
             MealPlanCustomizedEvent::dispatch(
-                userUuid: $plan->user_uuid,
-                planUuid: $plan->uuid,
-                planName: $plan->name ?? 'Your Meal Plan',
-                customizationDetails: $data
+                $plan->user_uuid,
+                $plan->uuid,
+                $plan->name ?? 'Your Meal Plan',
+                $data
             );
         }
     }
