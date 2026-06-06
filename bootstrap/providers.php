@@ -7,6 +7,7 @@ return [
     App\Components\Notification\Infrastructure\ServiceProvider\NotificationServiceProvider::class,
     App\Components\Recipe\Infrastructure\ServiceProvider\RecipeServiceProvider::class,
     App\Providers\AppServiceProvider::class,
+    App\Providers\TelescopeServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
     EloquentFilter\ServiceProvider::class,
     \App\Components\Subscription\Infrastructure\ServiceProvider\SubscriptionServiceProvider::class,
