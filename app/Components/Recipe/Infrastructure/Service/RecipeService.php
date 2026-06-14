@@ -30,7 +30,7 @@ class RecipeService implements RecipeServiceInterface
         
         NewRecipeUploadedEvent::dispatch(
             $recipe->uuid,
-            $recipe->name,
+            $recipe->title,
             $recipe->description,
             []
         );
